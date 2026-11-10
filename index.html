@@ -170,6 +170,30 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 @media (max-width:380px){.opts{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
+/* analog details */
+.datestamp{align-self:flex-start;font-size:calc(.72rem*var(--ks));letter-spacing:.16em;text-transform:uppercase;color:var(--sage-ink);border:1px solid var(--sage-ink);padding:2px 8px;transform:rotate(-1.5deg);opacity:.8;filter:url(#ink)}
+.taped{margin-top:8px}
+.taped::after{content:"";position:absolute;top:-10px;left:50%;width:86px;height:20px;transform:translateX(-50%) rotate(-2.5deg);background:color-mix(in srgb,var(--sage) 60%,transparent);clip-path:polygon(0 8%,4% 0,9% 10%,14% 0,100% 0,96% 12%,100% 25%,96% 40%,100% 55%,96% 70%,100% 85%,96% 100%,0 100%,4% 88%,0 74%,4% 60%,0 46%,4% 32%,0 18%);pointer-events:none}
+.stack{box-shadow:4px 4px 0 -1px var(--sheet),4px 4px 0 0 color-mix(in srgb,var(--pencil) 30%,transparent)}
+.tally{display:inline-flex;gap:4px;align-items:center}
+.tally svg{fill:none;stroke:var(--pencil);stroke-width:1.2;stroke-linecap:square;filter:url(#pencil)}
+.fc{perspective:1200px;width:100%;max-width:440px;align-self:center;aspect-ratio:5/3;cursor:pointer}
+.fc-in{position:relative;width:100%;height:100%;transition:transform .5s cubic-bezier(.3,.7,.3,1);transform-style:preserve-3d}
+.fc.on .fc-in{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;display:flex;flex-direction:column;-webkit-backface-visibility:hidden;backface-visibility:hidden;background:repeating-linear-gradient(to bottom,transparent 0 23px,color-mix(in srgb,var(--sky) 55%,transparent) 23px 24px) 0 38px/100% calc(100% - 38px) no-repeat,var(--sheet);box-shadow:4px 4px 0 -1px var(--sheet),4px 4px 0 0 color-mix(in srgb,var(--pencil) 30%,transparent)}
+.fc-face::before{content:"";position:absolute;inset:0;border:1px solid var(--pencil);opacity:.42;pointer-events:none;filter:url(#pencil)}
+.fc-back{transform:rotateY(180deg)}
+.fc-head{display:flex;justify-content:space-between;align-items:center;height:38px;padding:0 14px;border-bottom:1px solid color-mix(in srgb,var(--sage-ink) 55%,transparent);font-size:calc(.72rem*var(--ks));letter-spacing:.1em;color:var(--muted)}
+.fc-head .lat{--ks:1;font-size:.72rem}
+.fc .big{font-size:calc(2.3rem*var(--ks));line-height:1.15;overflow-wrap:anywhere}
+.fc .meaning{font-size:calc(1.5rem*var(--ks))}
+.fc-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;text-align:center}
+.stamp{display:flex;flex-direction:column;align-items:center;gap:2px;margin:10px 0 6px;padding:10px 20px;border:2px solid var(--sage-ink);outline:1px solid var(--sage-ink);outline-offset:3px;color:var(--sage-ink);text-transform:uppercase;letter-spacing:.14em;transform:rotate(-6deg);opacity:.85;filter:url(#ink);animation:stamp .35s cubic-bezier(.2,.9,.3,1.2) both}
+.stamp b{font-weight:400;font-size:1.5rem}
+.stamp span{font-size:.72rem;letter-spacing:.12em}
+@keyframes stamp{from{transform:rotate(-6deg) scale(1.5);opacity:0}to{transform:rotate(-6deg) scale(1);opacity:.85}}
+@media (prefers-reduced-motion:reduce){.stamp{animation:none}.fc-in{transition:none}}
+
 /* A4 print */
 @media print{
   @page{size:A4;margin:14mm}
@@ -181,7 +205,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
   .list > *{break-inside:avoid}
 }
 </style>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="pencil" x="-2%" y="-2%" width="104%" height="104%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.4" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="pencil" x="-2%" y="-2%" width="104%" height="104%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.4" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="ink" x="-5%" y="-10%" width="110%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" seed="7" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.8 1.4" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in" result="c"/><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="1" seed="2" result="w"/><feDisplacementMap in="c" in2="w" scale="1.6" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
 
 <div class="app">
   <nav class="side" aria-label="메뉴">
@@ -215,7 +239,11 @@ const UNITS = [
   {t:'끝의 o · e', d:'단어 끝의 o는 "우", e는 "이"로 약하게.', ex:[['obrigado','오브리가두','고마워요'],['nome','노미','이름'],['grande','그란지','큰']]},
   {t:'끝의 l', d:'음절 끝의 l은 "우"처럼 발음해요.', ex:[['Brasil','브라지우','브라질'],['sal','싸우','소금'],['futebol','푸치보우','축구']]},
   {t:'ç · s', d:'ç는 "ㅆ", 모음 사이의 s는 "ㅈ"에 가까운 소리.', ex:[['açúcar','아쑤까르','설탕'],['casa','까자','집'],['mesa','메자','탁자']]},
-  {t:'em · im · om · um', d:'끝의 m은 입을 닫지 않고 코로 "ㅇ" 받침처럼.', ex:[['bem','벵','잘'],['sim','씽','네'],['bom','봉','좋은']]}
+  {t:'em · im · om · um', d:'끝의 m은 입을 닫지 않고 코로 "ㅇ" 받침처럼.', ex:[['bem','벵','잘'],['sim','씽','네'],['bom','봉','좋은']]},
+  {t:'õe', d:'코로 내는 "옹이". 복수형 -ões에 자주 나와요.', ex:[['põe','뽕이','놓다'],['lições','리쏭이스','수업들'],['limões','리몽이스','레몬들']]},
+  {t:'ch · x', d:'ch와 대부분의 x는 "시" 소리.', ex:[['chave','샤비','열쇠'],['chuva','슈바','비'],['xícara','시까라','찻잔']]},
+  {t:'g · j', d:'e, i 앞의 g와 모든 j는 부드러운 "ㅈ" 소리.', ex:[['gente','젠치','사람들'],['girafa','지라파','기린'],['janela','자넬라','창문']]},
+  {t:'qu · gu', d:'e, i 앞의 qu와 gu에서 u는 보통 소리 내지 않아요.', ex:[['queijo','께이주','치즈'],['quilo','낄루','킬로그램'],['guerra','게하','전쟁']]}
  ]},
  {n:1, ko:'인사·소개', pt:'Cumprimentos', c:'sage', words:[
   ['olá','안녕하세요','올라'],['oi','안녕 (친근하게)','오이'],['bom dia','좋은 아침이에요','봉 지아'],
@@ -291,18 +319,168 @@ const UNITS = [
   ['Sem açúcar, por favor.','설탕은 빼 주세요.','쎙 아쑤까르, 뽀르 파보르'],
   ['Eu não como carne.','저는 고기를 안 먹어요.','에우 나웅 꼬무 까르니'],
   ['Quanto é?','얼마예요?','꽌뚜 에?']
+ ]},
+ {n:5, ko:'장소·길 찾기', pt:'Lugares e direções', c:'sky', words:[
+  ['rua','길 · 거리','후아','f'],['casa','집','까자','f'],['banco','은행','방꾸','m'],['farmácia','약국','파르마씨아','f'],
+  ['hospital','병원','오스삐따우','m'],['mercado','시장 · 마트','메르까두','m'],['restaurante','식당','헤스따우란치','m'],
+  ['hotel','호텔','오떼우','m'],['estação','역','이스따싸웅','f'],['praia','해변','쁘라이아','f'],['igreja','교회 · 성당','이그레자','f'],
+  ['banheiro','화장실','반녜이루','m'],['onde','어디','온지'],['aqui','여기','아끼'],['ali','저기','알리'],
+  ['perto','가까운 · 가까이','뻬르뚜'],['longe','먼 · 멀리','롱지'],['direita','오른쪽','지레이따','f'],['esquerda','왼쪽','이스께르다','f'],
+  ['em frente','앞으로 · 맞은편','엥 프렌치'],['virar','돌다 · 꺾다','비라르'],['seguir','따라가다 · 계속 가다','쎄기르'],
+  ['esquina','모퉁이','이스끼나','f'],['quarteirão','블록 · 구역','꽈르떼이라웅','m']
+ ], sents:[
+  ['Onde fica o banheiro?','화장실이 어디예요?','온지 피까 우 반녜이루?'],
+  ['Fica perto daqui?','여기서 가까워요?','피까 뻬르뚜 다끼?'],
+  ['Siga em frente.','앞으로 쭉 가세요.','씨가 엥 프렌치'],
+  ['Vire à direita na esquina.','모퉁이에서 오른쪽으로 도세요.','비리 아 지레이따 나 이스끼나'],
+  ['É longe?','멀어요?','에 롱지?'],
+  ['A farmácia fica ao lado do banco.','약국은 은행 옆에 있어요.','아 파르마씨아 피까 아우 라두 두 방꾸'],
+  ['Estou perdido.','길을 잃었어요. (남성)','이스또우 뻬르지두'],
+  ['Pode me ajudar?','도와주실 수 있어요?','뽀지 미 아주다르?']
+ ]},
+ {n:6, ko:'쇼핑', pt:'Compras', c:'lav', words:[
+  ['loja','가게','로자','f'],['preço','가격','쁘레쑤','m'],['dinheiro','돈','진녜이루','m'],['cartão','카드','까르따웅','m'],
+  ['caro','비싼','까루'],['barato','싼','바라뚜'],['roupa','옷','호우빠','f'],['camisa','셔츠','까미자','f'],
+  ['calça','바지','까우싸','f'],['sapato','신발','싸빠뚜','m'],['vestido','원피스','베스치두','m'],['bolsa','가방','보우싸','f'],
+  ['tamanho','사이즈','따마뉴','m'],['grande','큰','그란지'],['pequeno','작은','뻬께누'],['cor','색','꼬르','f'],
+  ['preto','검은','쁘레뚜'],['branco','흰','브랑꾸'],['azul','파란','아주우'],['vermelho','빨간','베르멜류'],
+  ['comprar','사다','꼼쁘라르'],['pagar','지불하다','빠가르'],['custar','값이 ~이다','꾸스따르'],['desconto','할인','지스꼰뚜','m']
+ ], sents:[
+  ['Quanto custa esta camisa?','이 셔츠 얼마예요?','꽌뚜 꾸스따 에스따 까미자?'],
+  ['Está muito caro.','너무 비싸요.','이스따 무이뚜 까루'],
+  ['Tem um tamanho menor?','더 작은 사이즈 있어요?','뗑 웅 따마뉴 메노르?'],
+  ['Posso experimentar?','입어 봐도 돼요?','뽀쑤 이스뻬리멘따르?'],
+  ['Vou levar este.','이걸로 할게요.','보우 레바르 에스치'],
+  ['Aceita cartão?','카드 돼요?','아쎄이따 까르따웅?'],
+  ['Tem desconto?','할인 돼요?','뗑 지스꼰뚜?'],
+  ['Só estou olhando.','그냥 구경하는 중이에요.','쏘 이스또우 올랸두']
+ ]},
+ {n:7, ko:'일상 루틴', pt:'Rotina', c:'sage', words:[
+  ['acordar','잠에서 깨다','아꼬르다르'],['levantar','(자리에서) 일어나다','레반따르'],['tomar banho','샤워하다','또마르 바뉴'],
+  ['escovar os dentes','이를 닦다','이스꼬바르 우스 덴치스'],['tomar café da manhã','아침을 먹다','또마르 까페 다 마냥'],
+  ['almoçar','점심을 먹다','아우모싸르'],['jantar','저녁을 먹다','장따르'],['trabalhar','일하다','뜨라바랴르'],
+  ['estudar','공부하다','이스뚜다르'],['dormir','자다','도르미르'],['sair','나가다','싸이르'],['voltar','돌아오다','보우따르'],
+  ['cedo','일찍','쎄두'],['depois','나중에 · 후에','지뽀이스'],['sempre','항상','쎙쁘리'],['às vezes','가끔','아스 베지스'],
+  ['nunca','절대 ~않다','눙까'],['todo dia','매일','또두 지아'],['manhã','아침 · 오전','마냥','f'],['tarde','오후','따르지','f'],
+  ['noite','밤 · 저녁','노이치','f'],['fim de semana','주말','핑 지 쎄마나','m'],['cansado','피곤한','깐싸두'],['ocupado','바쁜','오꾸빠두']
+ ], sents:[
+  ['Eu acordo às sete.','저는 7시에 일어나요.','에우 아꼬르두 아스 쎄치'],
+  ['Eu tomo banho de manhã.','저는 아침에 샤워해요.','에우 또무 바뉴 지 마냥'],
+  ['Eu trabalho de segunda a sexta.','저는 월요일부터 금요일까지 일해요.','에우 뜨라바류 지 쎄군다 아 쎄스따'],
+  ['A que horas você almoça?','몇 시에 점심 먹어요?','아 끼 오라스 보쎄 아우모싸?'],
+  ['Eu sempre estudo à noite.','저는 항상 밤에 공부해요.','에우 쎙쁘리 이스뚜두 아 노이치'],
+  ['Às vezes eu durmo tarde.','가끔 늦게 자요.','아스 베지스 에우 두르무 따르지'],
+  ['Hoje estou muito ocupada.','오늘 너무 바빠요. (여성)','오지 이스또우 무이뚜 오꾸빠다'],
+  ['No fim de semana eu descanso.','주말에는 쉬어요.','누 핑 지 쎄마나 에우 지스깡쑤']
+ ]},
+ {n:8, ko:'날씨·계절', pt:'Tempo e estações', c:'sand', words:[
+  ['tempo','날씨','뗑뿌','m'],['sol','해 · 햇빛','쏘우','m'],['chuva','비','슈바','f'],['vento','바람','벤뚜','m'],
+  ['nuvem','구름','누벵','f'],['calor','더위','깔로르','m'],['frio','추위','프리우','m'],['ensolarado','화창한','잉쏠라라두'],
+  ['nublado','흐린','누블라두'],['chover','비가 오다','쇼베르'],['verão','여름','베라웅','m'],['inverno','겨울','잉베르누','m'],
+  ['primavera','봄','쁘리마베라','f'],['outono','가을','오우또누','m'],['temperatura','기온','뗑뻬라뚜라','f'],['grau','도 (온도)','그라우','m'],
+  ['guarda-chuva','우산','과르다 슈바','m'],['céu','하늘','쎄우','m'],['neve','눈 (날씨)','네비','f'],['seco','건조한','쎄꾸'],
+  ['úmido','습한','우미두'],['agradável','쾌적한','아그라다베우'],['fresco','선선한','프레스꾸'],['previsão do tempo','일기예보','쁘레비자웅 두 뗑뿌','f']
+ ], sents:[
+  ['Como está o tempo hoje?','오늘 날씨 어때요?','꼬무 이스따 우 뗑뿌 오지?'],
+  ['Está fazendo calor.','더워요.','이스따 파젠두 깔로르'],
+  ['Está frio hoje.','오늘 추워요.','이스따 프리우 오지'],
+  ['Vai chover amanhã.','내일 비가 올 거예요.','바이 쇼베르 아마냥'],
+  ['Hoje faz trinta graus.','오늘 30도예요.','오지 파스 뜨린따 그라우스'],
+  ['Leve um guarda-chuva.','우산 챙기세요.','레비 웅 과르다 슈바'],
+  ['Eu gosto do verão.','저는 여름이 좋아요.','에우 고스뚜 두 베라웅'],
+  ['No Brasil quase não neva.','브라질에는 눈이 거의 안 와요.','누 브라지우 꽈지 나웅 네바']
+ ]},
+ {n:9, ko:'교통·여행', pt:'Transporte e viagem', c:'peach', words:[
+  ['ônibus','버스','오니부스','m'],['metrô','지하철','메뜨로','m'],['táxi','택시','따끼씨','m'],['avião','비행기','아비아웅','m'],
+  ['aeroporto','공항','아에로뽀르뚜','m'],['passagem','표 · 항공권','빠싸젱','f'],['passaporte','여권','빠싸뽀르치','m'],['mala','여행 가방','말라','f'],
+  ['viagem','여행','비아젱','f'],['viajar','여행하다','비아자르'],['chegar','도착하다','셰가르'],['partir','출발하다','빠르치르'],
+  ['reserva','예약','헤제르바','f'],['quarto','방 · 객실','꽈르뚜','m'],['ida e volta','왕복','이다 이 보우따'],['só ida','편도','쏘 이다'],
+  ['mapa','지도','마빠','m'],['ponto de ônibus','버스 정류장','뽄뚜 지 오니부스','m'],['bilhete','승차권','빌례치','m'],['horário','시간표','오라리우','m'],
+  ['atrasado','늦은 · 지연된','아뜨라자두'],['voo','항공편','보우','m'],['pegar','(교통수단을) 타다','뻬가르'],['descer','내리다','지쎄르']
+ ], sents:[
+  ['Onde fica o ponto de ônibus?','버스 정류장이 어디예요?','온지 피까 우 뽄뚜 지 오니부스?'],
+  ['Uma passagem para o Rio, por favor.','리우행 표 한 장 주세요.','우마 빠싸젱 빠라 우 히우, 뽀르 파보르'],
+  ['A que horas sai o ônibus?','버스는 몇 시에 출발해요?','아 끼 오라스 싸이 우 오니부스?'],
+  ['Eu tenho uma reserva.','예약했어요.','에우 떼뉴 우마 헤제르바'],
+  ['O voo está atrasado.','비행기가 지연됐어요.','우 보우 이스따 아뜨라자두'],
+  ['Vou pegar um táxi.','택시를 탈 거예요.','보우 뻬가르 웅 따끼씨'],
+  ['Quero descer aqui.','여기서 내릴게요.','께루 지쎄르 아끼'],
+  ['Boa viagem!','좋은 여행 되세요!','보아 비아젱']
+ ]},
+ {n:10, ko:'건강', pt:'Saúde', c:'sky', words:[
+  ['saúde','건강','싸우지','f'],['médico','의사','메지꾸','m'],['remédio','약','헤메지우','m'],['dor','통증','도르','f'],
+  ['cabeça','머리','까베싸','f'],['barriga','배','바히가','f'],['garganta','목구멍','가르간따','f'],['dente','이 · 치아','덴치','m'],
+  ['costas','등','꼬스따스','fp'],['olho','눈 (신체)','올류','m'],['mão','손','마웅','f'],['pé','발','뻬','m'],
+  ['febre','열','페브리','f'],['gripe','감기 · 독감','그리삐','f'],['tosse','기침','또씨','f'],['doente','아픈','도엔치'],
+  ['melhor','더 나은','멜료르'],['descansar','쉬다','지스깡싸르'],['consulta','진료 예약','꽁쑤우따','f'],['alergia','알레르기','알레르지아','f'],
+  ['sentir','느끼다','쎈치르'],['machucar','다치게 하다','마슈까르'],['emergência','응급','이메르젱씨아','f'],['ambulância','구급차','암불란씨아','f']
+ ], sents:[
+  ['Estou com dor de cabeça.','머리가 아파요.','이스또우 꽁 도르 지 까베싸'],
+  ['Eu estou doente.','저 아파요.','에우 이스또우 도엔치'],
+  ['Estou com febre.','열이 나요.','이스또우 꽁 페브리'],
+  ['Preciso de um médico.','의사가 필요해요.','쁘레씨주 지 웅 메지꾸'],
+  ['Onde tem uma farmácia?','약국이 어디 있어요?','온지 뗑 우마 파르마씨아?'],
+  ['Tenho alergia a amendoim.','땅콩 알레르기가 있어요.','떼뉴 알레르지아 아 아멘도잉'],
+  ['Melhoras!','빨리 나으세요!','멜료라스'],
+  ['Já estou melhor.','이제 좀 나아졌어요.','자 이스또우 멜료르']
+ ]},
+ {n:11, ko:'과거 이야기', pt:'O passado', c:'lav', words:[
+  ['semana passada','지난주','쎄마나 빠싸다','f'],['ano passado','작년','아누 빠싸두','m'],['mês passado','지난달','메스 빠싸두','m'],
+  ['anteontem','그저께','안치온뗑'],['já','이미 · 벌써','자'],['ainda não','아직 ~않다','아인다 나웅'],['antes','전에','안치스'],
+  ['fui','갔다 · ~였다 (eu)','푸이'],['foi','갔다 · ~였다 (ele)','포이'],['fiz','했다 (eu)','피스'],['tive','가졌다 (eu)','치비'],
+  ['comi','먹었다 (eu)','꼬미'],['bebi','마셨다 (eu)','베비'],['falei','말했다 (eu)','팔레이'],['estudei','공부했다 (eu)','이스뚜데이'],
+  ['trabalhei','일했다 (eu)','뜨라바례이'],['dormi','잤다 (eu)','도르미'],['vi','봤다 (eu)','비'],['conheci','알게 됐다 (eu)','꼬녜씨'],
+  ['morei','살았다 (eu)','모레이'],['gostei','좋았다 (eu)','고스떼이'],['aconteceu','(일이) 일어났다','아꼰떼쎄우'],['quando','언제 · ~할 때','꽌두'],
+  ['lembrar','기억하다','렝브라르']
+ ], sents:[
+  ['Ontem eu fui à praia.','어제 해변에 갔어요.','온뗑 에우 푸이 아 쁘라이아'],
+  ['O que você fez no fim de semana?','주말에 뭐 했어요?','우 끼 보쎄 페스 누 핑 지 쎄마나?'],
+  ['Eu comi feijoada.','페이조아다를 먹었어요.','에우 꼬미 페이조아다'],
+  ['Eu morei em Lisboa por um ano.','리스본에서 1년 살았어요.','에우 모레이 엥 리스보아 뽀르 웅 아누'],
+  ['Gostei muito!','정말 좋았어요!','고스떼이 무이뚜'],
+  ['Eu já comi, obrigado.','이미 먹었어요, 고마워요.','에우 자 꼬미, 오브리가두'],
+  ['O que aconteceu?','무슨 일이에요?','우 끼 아꼰떼쎄우?'],
+  ['Eu ainda não vi esse filme.','그 영화 아직 못 봤어요.','에우 아인다 나웅 비 에씨 피우미']
+ ]},
+ {n:12, ko:'계획·미래', pt:'Planos e futuro', c:'sage', words:[
+  ['próximo','다음의','쁘로씨무'],['semana que vem','다음 주','쎄마나 끼 벵','f'],['ano que vem','내년','아누 끼 벵','m'],
+  ['depois de amanhã','모레','지뽀이스 지 아마냥'],['plano','계획','쁠라누','m'],['sonho','꿈','쏘뉴','m'],['férias','휴가','페리아스','fp'],
+  ['futuro','미래','푸뚜루','m'],['vou viajar','여행 갈 거예요','보우 비아자르'],['vou estudar','공부할 거예요','보우 이스뚜다르'],
+  ['pretender','~할 생각이다','쁘레뗀데르'],['esperar','기다리다 · 바라다','이스뻬라르'],['aprender','배우다','아쁘렌데르'],
+  ['começar','시작하다','꼬메싸르'],['terminar','끝내다','떼르미나르'],['mudar','바꾸다 · 이사하다','무다르'],['talvez','아마도','따우베스'],
+  ['com certeza','물론 · 확실히','꽁 쎄르떼자'],['logo','곧','로구'],['um dia','언젠가','웅 지아'],['encontrar','만나다','잉꼰뜨라르'],
+  ['festa','파티','페스따','f'],['aniversário','생일','아니베르싸리우','m'],['meta','목표','메따','f']
+ ], sents:[
+  ['O que você vai fazer amanhã?','내일 뭐 할 거예요?','우 끼 보쎄 바이 파제르 아마냥?'],
+  ['Vou viajar para o Brasil.','브라질에 여행 갈 거예요.','보우 비아자르 빠라 우 브라지우'],
+  ['Nas férias eu vou descansar.','휴가 때 쉴 거예요.','나스 페리아스 에우 보우 지스깡싸르'],
+  ['Meu sonho é morar no Rio.','제 꿈은 리우에 사는 거예요.','메우 쏘뉴 에 모라르 누 히우'],
+  ['Quero aprender português.','포르투갈어를 배우고 싶어요.','께루 아쁘렌데르 뽀르뚜게스'],
+  ['Talvez na semana que vem.','아마 다음 주에요.','따우베스 나 쎄마나 끼 벵'],
+  ['Vamos nos encontrar no sábado?','토요일에 만날까요?','바무스 누스 잉꼰뜨라르 누 싸바두?'],
+  ['Com certeza!','물론이죠!','꽁 쎄르떼자']
  ]}
 ];
-const LATER = ['장소·길 찾기','쇼핑','일상 루틴','날씨·계절','교통·여행','건강','과거 이야기','계획·미래'];
 const PRON = ['eu','você · ele · ela','nós','vocês · eles · elas'];
 const PRON_SAY = ['eu','ele','nós','eles'];
 const VERBS = [
- {v:'ser', ko:'~이다', note:'변하지 않는 것: 국적·직업·성격', f:['sou','é','somos','são'], ex:['Eu sou coreana.','저는 한국 사람이에요.']},
- {v:'estar', ko:'~이다 · ~에 있다', note:'변하는 것: 기분·상태·위치', f:['estou','está','estamos','estão'], ex:['Eu estou cansado.','저는 피곤해요.']},
- {v:'ter', ko:'가지다 · 있다', note:'나이를 말할 때도 써요', f:['tenho','tem','temos','têm'], ex:['Eu tenho um irmão.','저는 남자 형제가 한 명 있어요.']},
- {v:'ir', ko:'가다', note:'ir + 동사원형 = ~할 거예요', f:['vou','vai','vamos','vão'], ex:['Nós vamos ao Brasil.','우리는 브라질에 가요.']},
- {v:'fazer', ko:'하다 · 만들다', note:'날씨·직업 질문에 자주 나와요', f:['faço','faz','fazemos','fazem'], ex:['O que você faz?','무슨 일 하세요?']},
- {v:'querer', ko:'원하다', note:'주문할 때 Eu quero…', f:['quero','quer','queremos','querem'], ex:['Eu quero um café.','커피 한 잔 주세요.']}
+ {v:'ser', ko:'~이다', note:'변하지 않는 것: 국적·직업·성격. 과거형은 ir와 같아요', f:['sou','é','somos','são'], p:['fui','foi','fomos','foram'], ex:['Eu sou coreana.','저는 한국 사람이에요.'], px:['Foi muito bom.','정말 좋았어요.']},
+ {v:'estar', ko:'~이다 · ~에 있다', note:'변하는 것: 기분·상태·위치', f:['estou','está','estamos','estão'], p:['estive','esteve','estivemos','estiveram'], ex:['Eu estou cansado.','저는 피곤해요.'], px:['Eu estive no Brasil em 2019.','2019년에 브라질에 있었어요.']},
+ {v:'ter', ko:'가지다 · 있다', note:'나이를 말할 때도 써요', f:['tenho','tem','temos','têm'], p:['tive','teve','tivemos','tiveram'], ex:['Eu tenho um irmão.','저는 남자 형제가 한 명 있어요.'], px:['Eu tive uma ideia.','좋은 생각이 났어요.']},
+ {v:'ir', ko:'가다', note:'ir + 동사원형 = ~할 거예요. 과거형은 ser와 같아요', f:['vou','vai','vamos','vão'], p:['fui','foi','fomos','foram'], ex:['Nós vamos ao Brasil.','우리는 브라질에 가요.'], px:['Nós fomos ao cinema.','우리는 영화관에 갔어요.']},
+ {v:'fazer', ko:'하다 · 만들다', note:'날씨·직업 질문에 자주 나와요', f:['faço','faz','fazemos','fazem'], p:['fiz','fez','fizemos','fizeram'], ex:['O que você faz?','무슨 일 하세요?'], px:['O que você fez ontem?','어제 뭐 했어요?']},
+ {v:'querer', ko:'원하다', note:'주문할 때 Eu quero…', f:['quero','quer','queremos','querem'], p:['quis','quis','quisemos','quiseram'], ex:['Eu quero um café.','커피 한 잔 주세요.'], px:['Eu quis ajudar.','도와주고 싶었어요.']},
+ {v:'poder', ko:'할 수 있다', note:'Posso…? = ~해도 돼요?', f:['posso','pode','podemos','podem'], p:['pude','pôde','pudemos','puderam'], ex:['Posso entrar?','들어가도 돼요?'], px:['Eu não pude ir.','저는 갈 수 없었어요.']},
+ {v:'saber', ko:'알다', note:'지식·방법을 알 때. 사람을 알 땐 conhecer', f:['sei','sabe','sabemos','sabem'], p:['soube','soube','soubemos','souberam'], ex:['Eu não sei.','모르겠어요.'], px:['Eu soube ontem.','어제 알게 됐어요.']},
+ {v:'falar', ko:'말하다', note:'-ar 규칙동사의 대표', f:['falo','fala','falamos','falam'], p:['falei','falou','falamos','falaram'], ex:['Você fala inglês?','영어 할 줄 아세요?'], px:['Eu falei com ela.','그녀와 이야기했어요.']},
+ {v:'comer', ko:'먹다', note:'-er 규칙동사의 대표', f:['como','come','comemos','comem'], p:['comi','comeu','comemos','comeram'], ex:['Nós comemos arroz e feijão.','우리는 밥과 콩을 먹어요.'], px:['Você já comeu?','밥 먹었어요?']},
+ {v:'abrir', ko:'열다', note:'-ir 규칙동사의 대표', f:['abro','abre','abrimos','abrem'], p:['abri','abriu','abrimos','abriram'], ex:['A loja abre às nove.','가게는 9시에 열어요.'], px:['Ele abriu a janela.','그가 창문을 열었어요.']},
+ {v:'dizer', ko:'말하다 · 이르다', note:'Como se diz…? = …를 뭐라고 해요?', f:['digo','diz','dizemos','dizem'], p:['disse','disse','dissemos','disseram'], ex:['Como se diz isso em português?','이건 포르투갈어로 뭐라고 해요?'], px:['Ela disse que sim.','그녀가 좋다고 했어요.']},
+ {v:'ver', ko:'보다', note:'3인칭 복수는 veem', f:['vejo','vê','vemos','veem'], p:['vi','viu','vimos','viram'], ex:['Eu vejo TV à noite.','저는 밤에 TV를 봐요.'], px:['Eu vi o mar.','바다를 봤어요.']},
+ {v:'vir', ko:'오다', note:'ir(가다)와 짝. vêm의 ^ 주의', f:['venho','vem','vimos','vêm'], p:['vim','veio','viemos','vieram'], ex:['Você vem amanhã?','내일 와요?'], px:['Eles vieram de ônibus.','그들은 버스로 왔어요.']},
+ {v:'dar', ko:'주다', note:'짧은 불규칙형이 많아요', f:['dou','dá','damos','dão'], p:['dei','deu','demos','deram'], ex:['Me dá um café?','커피 한 잔 줄래요?'], px:['Ele me deu um presente.','그가 저에게 선물을 줬어요.']},
+ {v:'sair', ko:'나가다', note:'saímos의 í 강세 주의', f:['saio','sai','saímos','saem'], p:['saí','saiu','saímos','saíram'], ex:['Eu saio de casa às oito.','저는 8시에 집을 나서요.'], px:['Ela saiu cedo.','그녀는 일찍 나갔어요.']},
+ {v:'gostar', ko:'좋아하다', note:'항상 de와 함께: gostar de…', f:['gosto','gosta','gostamos','gostam'], p:['gostei','gostou','gostamos','gostaram'], ex:['Eu gosto de música.','저는 음악을 좋아해요.'], px:['Gostei muito do filme.','영화 정말 좋았어요.']}
 ];
 const ART = {m:'o', f:'a', mp:'os', fp:'as'};
 const ALL = [];
@@ -472,7 +650,7 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden) pull
 function learned(w){ return !!S.w[w.id]; }
 function dueList(){ const t = dnum(); return ALL.filter(w => S.w[w.id] && S.w[w.id].d <= t).sort((a,b) => S.w[a.id].d - S.w[b.id].d); }
 function newList(){ return ALL.filter(w => !S.w[w.id]); }
-function curUnit(){ const w = newList()[0]; return w ? unitOf(w.u) : unitOf(4); }
+function curUnit(){ const w = newList()[0]; return w ? unitOf(w.u) : UNITS[UNITS.length - 1]; }
 function streakNow(){ if (!S.last) return 0; return S.last >= dnum() - 1 ? S.streak : 0; }
 function touchDay(n){
   const t = dnum(), k = dkey();
@@ -504,14 +682,14 @@ function vHome(){
   const due = dueList().length, nw = Math.min(newList().length, S.set.newN);
   const u = curUnit(), p = unitProg(u);
   const d = new Date();
-  const date = `${d.getMonth()+1}월 ${d.getDate()}일 ${'일월화수목금토'[d.getDay()]}요일`;
+  const date = `${['dom','seg','ter','qua','qui','sex','sáb'][d.getDay()]} · ${String(d.getDate()).padStart(2,'0')} ${['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'][d.getMonth()]} ${d.getFullYear()}`;
   const pool = UNITS.filter(x => x.sents && x.n <= u.n).flatMap(x => x.sents);
   const s = pool[(dnum()) % pool.length];
   const done = !due && !nw;
   return `
-  <div class="hero"><span class="eyebrow">${date}</span><h1 class="title lat">${greet[0]}</h1><span class="sub">${greet[1]}</span></div>
-  <section class="card today">
-    <div class="row"><span class="grow eyebrow">오늘의 학습</span><span class="chip" style="background:var(--soft);color:var(--muted)">연속 ${streakNow()}일</span></div>
+  <div class="hero"><span class="datestamp lat">${date}</span><h1 class="title lat">${greet[0]}</h1><span class="sub">${greet[1]}</span></div>
+  <section class="card today taped stack">
+    <div class="row"><span class="grow eyebrow">오늘의 학습</span><span class="row" style="gap:8px">${tally(streakNow())}<span class="sub">연속 ${streakNow()}일</span></span></div>
     ${done ? `<p>오늘 학습을 모두 마쳤어요. 내일 복습할 단어가 준비돼요.</p>
       <button class="btn ghost wide" data-a="extra">익힌 단어 추가 연습</button>`
     : `<div class="nums"><div><b>${due}</b><span>복습</span></div><div><b>${nw}</b><span>새 단어</span></div><div><b>${Math.max(2, Math.round((due*8 + nw*20)/60))}</b><span>분 예상</span></div></div>
@@ -539,9 +717,8 @@ function vUnits(){
         ${p ? `<span class="track"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></span>` : `<span class="sub lat">${u.pt}</span>`}
       </span></a>`;
   }).join('');
-  const lock = LATER.map((t,i) => `<div class="unit lock"><span class="no" style="background:var(--soft);color:var(--muted)">${i+5}</span><span class="grow">${t}</span><span class="sub">준비 중</span></div>`).join('');
   return `<div class="hero"><span class="eyebrow lat">A1 → A2</span><h1 class="title">단원</h1></div>
-  <section class="card list">${rows}${lock}</section>`;
+  <section class="card list">${rows}</section>`;
 }
 
 function vUnit(n){
@@ -576,18 +753,31 @@ function vUnit(n){
   </div>`;
 }
 
-let verbIdx = 0;
+let verbIdx = 0, verbT = 'f';
 function vVerbs(){
-  const v = VERBS[verbIdx];
-  return `<div class="hero"><span class="eyebrow">현재형 · <span class="lat">Presente</span></span><h1 class="title">동사</h1></div>
-  <div class="chips noprint">${VERBS.map((x,i) => `<button class="${i === verbIdx ? 'on' : ''}" data-a="verb" data-x="${i}">${x.v}</button>`).join('')}</div>
-  <section class="card" style="display:flex;flex-direction:column;gap:12px">
-    <div class="row">${spk(v.v)}<div class="grow"><span class="pt" style="font-size:calc(1.7rem*var(--hs))">${v.v}</span> <span class="ko">${v.ko}</span><p class="sub">${v.note}</p></div></div>
-    <div class="list">${v.f.map((f,i) => `<div class="conj"><span class="p">${PRON[i]}</span><span class="f">${f}</span>${spk(PRON_SAY[i]+' '+f)}</div>`).join('')}</div>
-    <div class="sent" style="padding-top:4px">${spk(v.ex[0])}<div class="grow"><span class="pt">${esc(v.ex[0])}</span><span class="ko">${esc(v.ex[1])}</span></div></div>
+  const v = VERBS[verbIdx], fs = v[verbT], ex = verbT === 'f' ? v.ex : v.px;
+  return `<div class="hero"><span class="eyebrow">${verbT === 'f' ? '현재형' : '과거형'} · <span class="lat">${verbT === 'f' ? 'Presente' : 'Pretérito perfeito'}</span></span><h1 class="title">동사</h1></div>
+  <div class="seg noprint"><button class="${verbT === 'f' ? 'on' : ''}" data-a="tense" data-x="f">현재</button><button class="${verbT === 'p' ? 'on' : ''}" data-a="tense" data-x="p">과거</button></div>
+  <div class="chips noprint">${VERBS.map((x,i) => `<button class="lat ${i === verbIdx ? 'on' : ''}" data-a="verb" data-x="${i}">${x.v}</button>`).join('')}</div>
+  <section class="card taped" style="display:flex;flex-direction:column;gap:12px">
+    <div class="row">${spk(v.v)}<div class="grow"><span class="pt" style="font-size:calc(1.6rem*var(--ks))">${v.v}</span> <span class="ko">${v.ko}</span><p class="sub">${v.note}</p></div></div>
+    <div class="list">${fs.map((f,i) => `<div class="conj"><span class="p">${PRON[i]}</span><span class="f">${f}</span>${spk(PRON_SAY[i]+' '+f)}</div>`).join('')}</div>
+    <div class="sent" style="padding-top:4px">${spk(ex[0])}<div class="grow"><span class="pt">${esc(ex[0])}</span><span class="ko">${esc(ex[1])}</span></div></div>
   </section>
   <p class="sub">브라질에서는 tu 대신 você를 주로 써서, você · ele · ela가 같은 형태를 써요.</p>
-  <button class="btn wide noprint" data-a="verbq">활용 퀴즈 8문제</button>`;
+  <button class="btn wide noprint" data-a="verbq">${verbT === 'f' ? '현재형' : '과거형'} 활용 퀴즈 8문제</button>`;
+}
+function tally(n){
+  if (!n) return '<span class="sub">—</span>';
+  const g = Math.min(n, 20), groups = [];
+  for (let i = 0; i < g; i += 5){
+    const c = Math.min(5, g - i);
+    let l = '';
+    for (let j = 0; j < Math.min(c, 4); j++) l += `<path d="M${3+j*5} 2.5 L${3.4+j*5} 15.5"/>`;
+    if (c === 5) l += '<path d="M0 13 L20 4.5"/>';
+    groups.push(`<svg viewBox="0 0 21 18" width="21" height="18">${l}</svg>`);
+  }
+  return `<span class="tally" aria-hidden="true">${groups.join('')}${n > 20 ? '<span class="sub">+</span>' : ''}</span>`;
 }
 
 let resetAsk = false;
@@ -651,11 +841,11 @@ function startExtra(){
 }
 function startVerbQuiz(){
   const items = [];
-  for (let i = 0; i < 8; i++) items.push({k:'verb', vi:Math.floor(Math.random()*VERBS.length), pi:Math.floor(Math.random()*4)});
+  for (let i = 0; i < 8; i++) items.push({k:'verb', t:verbT, vi:Math.floor(Math.random()*VERBS.length), pi:Math.floor(Math.random()*4)});
   openSession(items, 'verb');
 }
 function options(it){
-  if (it.k === 'verb') return shuffle(VERBS[it.vi].f.map((f,i) => ({t:f, ok:i === it.pi})));
+  if (it.k === 'verb'){ const fs = VERBS[it.vi][it.t], ans = fs[it.pi]; return shuffle([...new Set(fs)].map(f => ({t:f, h:'<span class="pt">' + f + '</span>', ok:f === ans}))); }
   const w = it.w, key = it.m === 'pt' ? 'ko' : 'pt';
   const same = shuffle(ALL.filter(x => x.u === w.u && x.id !== w.id && x[key] !== w[key]));
   const other = shuffle(ALL.filter(x => x.u !== w.u && x[key] !== w[key]));
@@ -670,17 +860,20 @@ function draw(){
   if (!it) body = drawDone();
   else if (it.k === 'learn'){
     const w = it.w, u = unitOf(w.u);
-    body = `<div class="stage"><div class="prompt">
-      <span class="chip" style="background:color-mix(in srgb,var(--${u.c}) 50%,var(--sheet));color:var(--${u.c}-ink)">새 단어 · ${u.n}단원</span>
-      <span class="big">${ptHTML(w)}</span>${S.set.pron ? `<span class="pron">${esc(w.pr)}</span>` : ''}
-      ${spk(full(w))}<span class="meaning">${esc(w.ko)}</span>
-      ${w.g ? `<span class="q">${w.g[0] === 'm' ? '남성 명사' : '여성 명사'}${w.g.length > 1 ? ' · 복수' : ''}</span>` : ''}
-    </div></div><button class="btn wide" data-a="next">다음</button>`;
+    const head = `<span class="fc-head"><span>새 단어</span><span class="lat">Nº ${String(ALL.indexOf(w)+1).padStart(3,'0')} · U${u.n}</span></span>`;
+    body = `<div class="stage">
+      <div class="fc" data-a="flip" role="button" aria-label="카드 뒤집기"><div class="fc-in">
+        <div class="fc-face">${head}<div class="fc-body"><span class="big">${ptHTML(w)}</span>${S.set.pron ? `<span class="pron">${esc(w.pr)}</span>` : ''}${spk(full(w))}</div></div>
+        <div class="fc-face fc-back">${head}<div class="fc-body"><span class="meaning">${esc(w.ko)}</span>
+          ${w.g ? `<span class="q">${w.g[0] === 'm' ? '남성 명사' : '여성 명사'}${w.g.length > 1 ? ' · 복수' : ''}</span>` : ''}<span class="pt sub">${ptHTML(w)}</span></div></div>
+      </div></div>
+      <p class="fb">카드를 눌러 뜻을 확인하세요</p>
+    </div><button class="btn wide" data-a="next">다음</button>`;
     setTimeout(() => say(full(w)), 120);
   } else {
     Q.opts = options(it); Q.answered = false;
     let prompt;
-    if (it.k === 'verb'){ const v = VERBS[it.vi]; prompt = `<span class="q">알맞은 형태를 고르세요</span><span class="big">${PRON[it.pi].split(' · ')[0]} ___</span><span class="sub">${v.v} · ${v.ko}</span>`; }
+    if (it.k === 'verb'){ const v = VERBS[it.vi]; prompt = `<span class="q">알맞은 ${it.t === 'f' ? '현재형' : '과거형'}을 고르세요</span><span class="big">${PRON[it.pi].split(' · ')[0]} ___</span><span class="sub"><span class="lat">${v.v}</span> · ${v.ko}</span>`; }
     else if (it.m === 'pt'){ prompt = `<span class="q">뜻을 고르세요</span><span class="big">${ptHTML(it.w)}</span>${S.set.pron ? `<span class="pron">${esc(it.w.pr)}</span>` : ''}${spk(full(it.w))}`; setTimeout(() => say(full(it.w)), 120); }
     else if (it.m === 'ko'){ prompt = `<span class="q">포르투갈어를 고르세요</span><span class="big ko2">${esc(it.w.ko)}</span>`; }
     else { prompt = `<span class="q">들은 단어를 고르세요</span><button class="listen" data-a="say" data-x="${esc(full(it.w))}" aria-label="다시 듣기">${ICON.spk}</button>`; setTimeout(() => say(full(it.w)), 150); }
@@ -708,12 +901,12 @@ function answer(i){
     touchDay(1); save();
   }
   if (!ok && it.k !== 'verb' && !it.retry) Q.items.push({...it, retry:true});
-  if (it.k === 'verb'){ const v = VERBS[it.vi]; say(PRON_SAY[it.pi] + ' ' + v.f[it.pi]); }
+  if (it.k === 'verb'){ const v = VERBS[it.vi]; say(PRON_SAY[it.pi] + ' ' + v[it.t][it.pi]); }
   else if (it.m !== 'pt') say(full(it.w));
   const fb = $('#fb');
   if (ok){ fb.textContent = '정답'; setTimeout(() => { if (Q && Q.answered) next(); }, 900); }
   else {
-    fb.innerHTML = it.k === 'verb' ? `정답: ${PRON_SAY[it.pi]} ${VERBS[it.vi].f[it.pi]}` : `${ptHTML(it.w)} = ${esc(it.w.ko)} · 마지막에 한 번 더 나와요`;
+    fb.innerHTML = it.k === 'verb' ? `정답: <span class="lat">${PRON_SAY[it.pi]} ${VERBS[it.vi][it.t][it.pi]}</span>` : `${ptHTML(it.w)} = ${esc(it.w.ko)} · 마지막에 한 번 더 나와요`;
     $('#nx').innerHTML = '<button class="btn wide" data-a="next">다음</button>';
   }
 }
@@ -723,7 +916,9 @@ function drawDone(){
   const ss = shuffle(u.sents).slice(0, 2);
   const pct = Q.total ? Math.round(Q.ok / Q.total * 100) : 100;
   return `<div class="stage" style="justify-content:flex-start;padding-top:24px">
-    <div class="prompt"><span class="q">${Q.mode === 'verb' ? '활용 퀴즈' : '오늘의 학습'} 완료</span><span class="big">${Q.ok} / ${Q.total}</span><span class="sub">정답률 ${pct}% · 연속 ${streakNow()}일</span></div>
+    <div class="prompt"><span class="q">${Q.mode === 'verb' ? '활용 퀴즈' : '오늘의 학습'} 완료</span>
+      <div class="stamp lat"><b>${pct >= 90 ? 'Excelente!' : pct >= 70 ? 'Muito bem!' : 'Continue!'}</b><span>${dkey().split('-').reverse().join('.')} · ${Q.ok}/${Q.total}</span></div>
+      <span class="sub">정답률 ${pct}% · 연속 ${streakNow()}일</span></div>
     ${Q.mode === 'verb' ? '' : `<section class="card" style="display:flex;flex-direction:column;gap:10px"><span class="eyebrow">문장으로 마무리 · 뜻을 눌러 확인</span>
       <div class="list">${ss.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko hide" data-a="reveal">${esc(s[1])}</span></div></div>`).join('')}</div></section>`}
   </div><button class="btn wide" data-a="close">완료</button>`;
@@ -742,6 +937,8 @@ document.addEventListener('click', e => {
   else if (a === 'close') closeSession();
   else if (a === 'reveal') b.classList.remove('hide');
   else if (a === 'verb'){ verbIdx = +x; render(); }
+  else if (a === 'tense'){ verbT = x; render(); }
+  else if (a === 'flip') b.classList.toggle('on');
   else if (a === 'set'){ const k = b.dataset.k; S.set[k] = k === 'pron' ? x === 'true' : k === 'font' ? x : +x; if (k === 'font' || k === 'size') applyTypo(); save(); render(); if (k === 'rate') say('Muito bem!'); }
   else if (a === 'reset'){ resetAsk = true; render(); }
   else if (a === 'resetNo'){ resetAsk = false; render(); }
