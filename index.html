@@ -2,11 +2,11 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Passo">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&family=Nanum+Pen+Script&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Gaegu:wght@300;400&family=Nanum+Pen+Script&display=swap">
 <style>
 /* Layout: phone = single column + bottom tabs; iPad (>=900px) = left sidebar + wide content.
-   Quiet analog notebook: one fine pencil line per object, handwriting only for Portuguese,
-   headings and numbers; a thin system face for everything that explains. Square edges. */
+   Quiet analog notebook: one fine pencil line per object, square edges.
+   Portuguese, numbers and Latin labels in a light typewriter mono; Korean in the face the user picks. */
 :root{
   color-scheme:light;
   --paper:#F4F3EE; --sheet:#FBFAF7; --line:#E4E2DA; --soft:#EEEDE7;
@@ -18,17 +18,17 @@
   --sand:#E2D8BF; --sand-ink:#77693F;
   --ok:#C9DCCF; --no:#F0D8CF;
   --ui:-apple-system,BlinkMacSystemFont,"SF Pro Text","Apple SD Gothic Neo","Helvetica Neue",sans-serif;
-  --hand:'Gaegu',var(--ui); --hw:400; --hs:1.15;
+  --lat:'IBM Plex Mono',ui-monospace,Menlo,monospace; --ko:var(--ui); --kw:300; --ks:1;
   --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .3 0 0 0 0 .27 0 0 0 .045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 [hidden]{display:none!important}
 html{font-size:14px}
 html,body{height:100%}
-body{background:var(--grain),var(--paper);color:var(--ink);font-family:var(--ui);font-weight:300;font-size:1rem;line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+body{background:var(--grain),var(--paper);color:var(--ink);font-family:var(--ko);font-weight:var(--kw);font-size:calc(1rem*var(--ks));line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
 button,input{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0;border-radius:0}
 a{color:inherit;text-decoration:none}
 button:focus-visible,a:focus-visible,label:focus-within{outline:1px solid var(--pencil);outline-offset:3px}
-h1,h2,h3{margin:0;font-weight:var(--hw);text-wrap:balance}
+h1,h2,h3{margin:0;font-weight:inherit;text-wrap:balance}
 p{margin:0}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
@@ -36,8 +36,8 @@ p{margin:0}
 .card,.stat,.opt,.btn,.listen{position:relative}
 .card::before,.stat::before,.opt::before,.btn::before,.listen::before{content:"";position:absolute;inset:0;border:1px solid var(--pencil);opacity:.42;pointer-events:none;filter:url(#pencil)}
 
-/* hand type */
-.title,.pt,.big,.meaning,.conj .f,.stat b,.today .nums b,.rule h3,.brand b,.unit .no,.sample{font-family:var(--hand);font-weight:var(--hw)}
+/* typewriter for Portuguese; Korean glyphs fall through to the chosen Korean face */
+.lat,.pt,.big:not(.ko2),.conj .f,.stat b,.today .nums b,.brand b,.unit .no,.rule h3,.cnt,.bars span,.bars em,.sample .lat{font-family:var(--lat),var(--ko);font-weight:300;letter-spacing:-.01em;--ks:1}
 
 .app{display:flex;min-height:100%}
 main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px calc(92px + env(safe-area-inset-bottom,0px))}
@@ -46,7 +46,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 /* nav */
 .side{display:none}
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;display:grid;grid-template-columns:repeat(4,1fr);background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
-.tabs a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.72rem;letter-spacing:.04em;color:var(--faint)}
+.tabs a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:calc(.72rem*var(--ks));letter-spacing:.04em;color:var(--faint)}
 .tabs a.on{color:var(--ink)}
 .tabs a span{padding-bottom:2px;border-bottom:1px solid transparent}
 .tabs a.on span{border-bottom-color:var(--ink)}
@@ -55,30 +55,30 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
   .tabs{display:none}
   .side{display:flex;flex-direction:column;gap:2px;width:210px;flex:none;position:sticky;top:0;height:100vh;padding:36px 20px;padding-left:max(20px,env(safe-area-inset-left,0px));border-right:1px solid var(--line)}
   .side .brand{padding:0 0 28px}
-  .side a{display:flex;align-items:center;gap:12px;padding:9px 0;color:var(--muted);font-size:.93rem}
+  .side a{display:flex;align-items:center;gap:12px;padding:9px 0;color:var(--muted);font-size:calc(.93rem*var(--ks))}
   .side a.on{color:var(--ink);font-weight:400}
   .side a.on svg{color:var(--sage-ink)}
-  .side .foot{margin-top:auto;font-size:.75rem;color:var(--faint)}
+  .side .foot{margin-top:auto;font-size:calc(.75rem*var(--ks));color:var(--faint)}
   main{padding-block:44px 48px;padding-left:44px;padding-right:max(44px,env(safe-area-inset-right,0px))}
 }
-.brand b{display:block;font-size:calc(1.35rem*var(--hs));line-height:1.2}
-.brand span{font-size:.75rem;color:var(--muted);letter-spacing:.04em}
+.brand b{display:block;font-size:calc(1.35rem*var(--ks));line-height:1.2}
+.brand span{font-size:calc(.75rem*var(--ks));color:var(--muted);letter-spacing:.04em}
 
 /* common */
-.eyebrow{font-size:.72rem;color:var(--muted);letter-spacing:.12em;font-weight:400}
-.title{font-size:calc(2rem*var(--hs));line-height:1.15;align-self:flex-start;padding:0 4px 0 1px;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--sage) 55%,transparent) 62% 88%,transparent 88%)}
-.sub{color:var(--muted);font-size:.86rem}
+.eyebrow{font-size:calc(.72rem*var(--ks));color:var(--muted);letter-spacing:.12em;font-weight:400}
+.title{font-size:calc(2rem*var(--ks));line-height:1.15;align-self:flex-start;padding:0 4px 0 1px;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--sage) 55%,transparent) 62% 88%,transparent 88%)}
+.sub{color:var(--muted);font-size:calc(.86rem*var(--ks))}
 .card{background:var(--sheet);padding:20px}
 .row{display:flex;align-items:center;gap:12px;min-width:0}
 .grow{flex:1;min-width:0}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:48px;padding:0 22px;font-size:.93rem;font-weight:400;letter-spacing:.06em;color:var(--sheet);background:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:48px;padding:0 22px;font-size:calc(.93rem*var(--ks));font-weight:400;letter-spacing:.06em;color:var(--sheet);background:var(--ink)}
 .btn::before{opacity:0}
 .btn.ghost{background:transparent;color:var(--ink);font-weight:300}
 .btn.ghost::before{opacity:.5}
 .btn.wide{width:100%}
-.btn.sm{height:34px;padding:0 14px;font-size:.82rem;letter-spacing:.03em}
+.btn.sm{height:34px;padding:0 14px;font-size:calc(.82rem*var(--ks));letter-spacing:.03em}
 .btn:active,.opt:active{transform:translateY(1px)}
-.chip{display:inline-flex;align-items:center;height:22px;padding:0 9px;font-size:.72rem;letter-spacing:.06em;font-weight:400;white-space:nowrap}
+.chip{display:inline-flex;align-items:center;height:22px;padding:0 9px;font-size:calc(.72rem*var(--ks));letter-spacing:.06em;font-weight:400;white-space:nowrap}
 .spk{flex:none;width:32px;height:32px;display:grid;place-items:center;color:var(--pencil);border:1px solid var(--line);background:var(--sheet)}
 .spk svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:square}
 .spk:active{background:var(--soft)}
@@ -88,81 +88,82 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 .list > *{border-top:1px solid var(--line);padding-block:13px}
 .list > *:first-child{border-top:0;padding-top:2px}
 .list > *:last-child{padding-bottom:2px}
-.pt{font-size:calc(1.12rem*var(--hs));line-height:1.3;overflow-wrap:anywhere}
-.pron{color:var(--muted);font-size:.8rem;letter-spacing:.02em}
-.ko{font-size:.93rem}
+.pt{font-size:calc(1.12rem*var(--ks));line-height:1.3;overflow-wrap:break-word}
+.pron{color:var(--muted);font-size:calc(.8rem*var(--ks));letter-spacing:.02em}
+.ko{font-size:calc(.93rem*var(--ks))}
+.art{font-weight:400}
 .art.m{color:var(--sky-ink)} .art.f{color:var(--peach-ink)}
 .dots{display:flex;gap:3px;flex:none}
 .dots i{width:5px;height:5px;border:1px solid var(--faint)}
 .dots i.on{background:var(--sage-ink);border-color:var(--sage-ink)}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px;align-items:start}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:20px;align-items:start}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .stat{background:var(--sheet);padding:14px 16px}
-.stat b{display:block;font-size:calc(2.1rem*var(--hs));line-height:1.05}
-.stat span{font-size:.75rem;color:var(--muted);letter-spacing:.04em}
-.legend{display:flex;gap:14px;font-size:.78rem;color:var(--muted)}
-.empty{color:var(--muted);font-size:.9rem;padding:6px 0}
+.stat b{display:block;font-size:calc(2.1rem*var(--ks));line-height:1.05}
+.stat span{font-size:calc(.75rem*var(--ks));color:var(--muted);letter-spacing:.04em}
+.legend{display:flex;gap:14px;font-size:calc(.78rem*var(--ks));color:var(--muted)}
+.empty{color:var(--muted);font-size:calc(.9rem*var(--ks));padding:6px 0}
 
 /* home */
 .hero{display:flex;flex-direction:column;gap:6px;padding:4px 0 4px}
-.hero .title{font-size:calc(2.5rem*var(--hs))}
+.hero .title{font-size:calc(2.5rem*var(--ks))}
 .today{display:flex;flex-direction:column;gap:20px}
 .today .nums{display:flex;gap:32px}
-.today .nums b{display:block;font-size:calc(2.4rem*var(--hs));line-height:1}
-.today .nums span{font-size:.75rem;color:var(--muted);letter-spacing:.06em}
+.today .nums b{display:block;font-size:calc(2.4rem*var(--ks));line-height:1}
+.today .nums span{font-size:calc(.75rem*var(--ks));color:var(--muted);letter-spacing:.06em}
 
 /* units */
 .unit{display:flex;align-items:center;gap:14px}
-.unit .no{flex:none;width:34px;height:34px;display:grid;place-items:center;font-size:calc(1.15rem*var(--hs))}
+.unit .no{flex:none;width:34px;height:34px;display:grid;place-items:center;font-size:calc(1.15rem*var(--ks))}
 .unit.lock{opacity:.45}
 .rule{display:flex;flex-direction:column;gap:10px}
-.rule h3{font-size:calc(1.45rem*var(--hs));line-height:1.2}
+.rule h3{font-size:calc(1.45rem*var(--ks));line-height:1.2}
 .ex{display:flex;align-items:center;gap:12px}
 
 /* verbs */
 .chips{display:flex;flex-wrap:wrap;gap:6px}
-.chips button{height:34px;padding:0 15px;font-size:.9rem;border:1px solid var(--line);background:var(--sheet);color:var(--muted)}
+.chips button{height:34px;padding:0 15px;font-size:calc(.9rem*var(--ks));border:1px solid var(--line);background:var(--sheet);color:var(--muted)}
 .chips button.on{border-color:var(--ink);color:var(--ink);font-weight:400}
 .conj{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:14px}
-.conj .p{color:var(--muted);font-size:.86rem}
-.conj .f{font-size:calc(1.35rem*var(--hs))}
+.conj .p{color:var(--muted);font-size:calc(.86rem*var(--ks))}
+.conj .f{font-size:calc(1.35rem*var(--ks))}
 
 /* record */
 .bars{display:grid;grid-template-columns:repeat(14,1fr);gap:5px;align-items:end;height:120px}
 .bars div{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:100%;min-width:0}
 .bars i{display:block;width:100%;max-width:16px;border:1px solid color-mix(in srgb,var(--pencil) 55%,transparent);border-bottom:0;background:repeating-linear-gradient(-58deg,var(--sage-ink) 0 1.2px,transparent 1.2px 3.6px);min-height:2px}
 .bars i.z{border:0;border-bottom:1px solid var(--line);background:none;min-height:1px}
-.bars span{font-size:.66rem;color:var(--faint);font-variant-numeric:tabular-nums}
-.bars em{font-style:normal;font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.bars span{font-size:calc(.66rem*var(--ks));color:var(--faint);font-variant-numeric:tabular-nums}
+.bars em{font-style:normal;font-size:calc(.68rem*var(--ks));color:var(--muted);font-variant-numeric:tabular-nums}
 .seg{display:inline-flex;gap:14px;flex-wrap:wrap}
-.seg button{height:30px;font-size:.86rem;color:var(--faint);border-bottom:1px solid transparent}
+.seg button{height:30px;font-size:calc(.86rem*var(--ks));color:var(--faint);border-bottom:1px solid transparent}
 .seg button.on{color:var(--ink);font-weight:400;border-bottom-color:var(--ink)}
 .set{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.sample{font-size:calc(1.2rem*var(--hs));padding:14px 0 2px;color:var(--ink)}
+.sample{font-size:calc(1.2rem*var(--ks));padding:14px 0 2px;color:var(--ink)}
 
 /* study overlay */
 .ov{position:fixed;inset:0;z-index:30;background:var(--grain),var(--paper);display:flex;justify-content:center;overflow-y:auto;padding:calc(14px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .ov-in{width:100%;max-width:520px;display:flex;flex-direction:column;gap:20px;min-height:100%}
 .ov-top{display:flex;align-items:center;gap:14px}
 .ov-top .track{flex:1}
-.ov-top .cnt{font-size:.78rem;color:var(--muted);min-width:44px;text-align:right;font-variant-numeric:tabular-nums}
+.ov-top .cnt{font-size:calc(.78rem*var(--ks));color:var(--muted);min-width:44px;text-align:right;font-variant-numeric:tabular-nums}
 .x{width:32px;height:32px;display:grid;place-items:center;color:var(--muted)}
 .x svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.3;fill:none;stroke-linecap:square}
 .stage{flex:1;display:flex;flex-direction:column;justify-content:center;gap:28px;padding-block:8px}
 .prompt{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
-.prompt .big{font-size:calc(2.7rem*var(--hs));line-height:1.15;overflow-wrap:anywhere}
-.prompt .big.ko2{font-size:calc(2rem*var(--hs))}
-.prompt .q{font-size:.72rem;color:var(--muted);letter-spacing:.12em}
-.prompt .meaning{font-size:calc(1.4rem*var(--hs));margin-top:2px}
+.prompt .big{font-size:calc(2.7rem*var(--ks));line-height:1.15;overflow-wrap:anywhere}
+.prompt .big.ko2{font-size:calc(2rem*var(--ks))}
+.prompt .q{font-size:calc(.72rem*var(--ks));color:var(--muted);letter-spacing:.12em}
+.prompt .meaning{font-size:calc(1.4rem*var(--ks));margin-top:2px}
 .listen{width:84px;height:84px;display:grid;place-items:center;background:var(--sheet);color:var(--ink)}
 .listen svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.2;stroke-linecap:square}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.opt{min-height:60px;padding:12px;background:var(--sheet);font-size:.98rem;text-align:center;overflow-wrap:anywhere;min-width:0;transition:background .2s}
+.opt{min-height:60px;padding:12px;background:var(--sheet);font-size:calc(.98rem*var(--ks));text-align:center;overflow-wrap:anywhere;min-width:0;transition:background .2s}
 .opt.ok{background:var(--ok)}
 .opt.no{background:var(--no);color:var(--muted)}
 .opt:disabled{cursor:default;color:var(--ink)}
 .opt.no:disabled{color:var(--muted)}
-.fb{text-align:center;font-size:.86rem;color:var(--muted);min-height:22px}
+.fb{text-align:center;font-size:calc(.86rem*var(--ks));color:var(--muted);min-height:22px}
 .sent{display:flex;gap:12px;align-items:flex-start}
 .sent .grow{display:flex;flex-direction:column;gap:3px}
 .hide{filter:blur(5px);user-select:none;cursor:pointer}
@@ -341,7 +342,7 @@ function say(t){
 
 /* ---------- state & storage ---------- */
 const LS = 'passo-a-passo-v1';
-const DEF = () => ({v:1, t:0, w:{}, days:{}, streak:0, last:null, seen0:false, set:{pron:true, rate:0.9, newN:5, font:'pencil', size:1, fontName:'', fontId:'', fontAsset:''}});
+const DEF = () => ({v:1, t:0, w:{}, days:{}, streak:0, last:null, seen0:false, set:{pron:true, rate:0.9, newN:5, font:'basic', size:1, fontName:'', fontId:'', fontAsset:''}});
 function norm(o){ const d = DEF(); o = o && typeof o === 'object' ? o : {}; return {...d, ...o, set:{...d.set, ...(o.set||{})}, w:o.w||{}, days:o.days||{}}; }
 let S = DEF();
 try{ S = norm(JSON.parse(localStorage.getItem(LS))); }catch(e){}
@@ -385,7 +386,7 @@ async function initCloud(){
 }
 /* ---------- fonts ---------- */
 const FALLBACK = '-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif';
-const FONTS = {pencil:{fam:"'Gaegu'", scale:1.15, wt:400}, pen:{fam:"'Nanum Pen Script'", scale:1.4, wt:400}, basic:{fam:'', scale:.9, wt:300}, user:{fam:'', scale:1, wt:400}};
+const FONTS = {basic:{fam:'', scale:1, wt:300}, pencil:{fam:"'Gaegu'", scale:1.2, wt:400}, pen:{fam:"'Nanum Pen Script'", scale:1.45, wt:400}, user:{fam:'', scale:1, wt:'normal'}};
 const FTYPES = {ttf:'font/ttf', otf:'font/otf', woff:'font/woff', woff2:'font/woff2'};
 let userFam = '', userFamId = '', fontMsg = '';
 const idb = {
@@ -418,13 +419,13 @@ async function loadUserFont(){
   applyTypo(true);
 }
 function applyTypo(noLoad){
-  const want = S.set.font, k = want === 'user' && !userFam ? 'pencil' : want;
-  const f = FONTS[k] || FONTS.pencil;
+  const want = S.set.font, k = want === 'user' && !userFam ? 'basic' : want;
+  const f = FONTS[k] || FONTS.basic;
   const fam = k === 'user' ? `'${userFam}'` : f.fam;
   const r = document.documentElement.style;
-  r.setProperty('--hand', (fam ? fam + ',' : '') + FALLBACK);
-  r.setProperty('--hw', f.wt);
-  r.setProperty('--hs', f.scale);
+  r.setProperty('--ko', (fam ? fam + ',' : '') + FALLBACK);
+  r.setProperty('--kw', f.wt);
+  r.setProperty('--ks', f.scale);
   r.fontSize = (14 * (S.set.size || 1)).toFixed(2) + 'px';
   if (want === 'user' && !userFam && !noLoad) loadUserFont();
 }
@@ -457,7 +458,7 @@ async function onFontFile(file){
 }
 async function removeFont(){
   const old = S.set.fontAsset;
-  Object.assign(S.set, {font:'pencil', fontName:'', fontId:'', fontAsset:''});
+  Object.assign(S.set, {font:'basic', fontName:'', fontId:'', fontAsset:''});
   userFam = ''; userFamId = ''; fontMsg = '';
   await idb.del('font');
   applyTypo(); save(); render();
@@ -508,7 +509,7 @@ function vHome(){
   const s = pool[(dnum()) % pool.length];
   const done = !due && !nw;
   return `
-  <div class="hero"><span class="eyebrow">${date}</span><h1 class="title">${greet[0]}</h1><span class="sub">${greet[1]}</span></div>
+  <div class="hero"><span class="eyebrow">${date}</span><h1 class="title lat">${greet[0]}</h1><span class="sub">${greet[1]}</span></div>
   <section class="card today">
     <div class="row"><span class="grow eyebrow">오늘의 학습</span><span class="chip" style="background:var(--soft);color:var(--muted)">연속 ${streakNow()}일</span></div>
     ${done ? `<p>오늘 학습을 모두 마쳤어요. 내일 복습할 단어가 준비돼요.</p>
@@ -519,7 +520,7 @@ function vHome(){
   ${!S.seen0 ? `<a class="card row" href="#unit-0"><span class="chip" style="background:color-mix(in srgb,var(--sand) 55%,var(--sheet));color:var(--sand-ink)">0단원</span><span class="grow">처음이라면 발음 규칙부터 들어보세요</span><span class="sub">›</span></a>` : ''}
   <a class="card" href="#unit-${u.n}" style="display:flex;flex-direction:column;gap:10px">
     <div class="row"><span class="eyebrow grow">지금 배우는 단원</span><span class="sub">${p.l} / ${p.n}</span></div>
-    <div class="row"><b class="pt" style="font-size:calc(1.3rem*var(--hs))">${u.n}. ${u.ko}</b><span class="sub">${u.pt}</span></div>
+    <div class="row"><b style="font-weight:400;font-size:calc(1.2rem*var(--ks))">${u.n}. ${u.ko}</b><span class="sub lat">${u.pt}</span></div>
     <div class="track"><i style="width:${p.n ? p.l/p.n*100 : 0}%;--c:var(--${u.c}-ink)"></i></div>
   </a>
   <section class="card sent">
@@ -535,11 +536,11 @@ function vUnits(){
       <span class="no" style="background:color-mix(in srgb,var(--${u.c}) 50%,var(--sheet));color:var(--${u.c}-ink)">${u.n}</span>
       <span class="grow" style="display:flex;flex-direction:column;gap:5px">
         <span class="row"><span class="grow" style="font-weight:400">${u.ko}</span><span class="sub">${p ? p.l+' / '+p.n : (S.seen0 ? '봤어요' : '규칙 '+u.rules.length+'개')}</span></span>
-        ${p ? `<span class="track"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></span>` : `<span class="sub">${u.pt}</span>`}
+        ${p ? `<span class="track"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></span>` : `<span class="sub lat">${u.pt}</span>`}
       </span></a>`;
   }).join('');
   const lock = LATER.map((t,i) => `<div class="unit lock"><span class="no" style="background:var(--soft);color:var(--muted)">${i+5}</span><span class="grow">${t}</span><span class="sub">준비 중</span></div>`).join('');
-  return `<div class="hero"><span class="eyebrow">A1 → A2</span><h1 class="title">단원</h1></div>
+  return `<div class="hero"><span class="eyebrow lat">A1 → A2</span><h1 class="title">단원</h1></div>
   <section class="card list">${rows}${lock}</section>`;
 }
 
@@ -547,7 +548,7 @@ function vUnit(n){
   const u = unitOf(n);
   if (!u) return vUnits();
   const head = `<a class="sub noprint" href="#units">‹ 단원</a>
-   <div class="hero"><span class="eyebrow">${u.n}단원 · ${u.pt}</span><h1 class="title">${u.ko}</h1></div>`;
+   <div class="hero"><span class="eyebrow">${u.n}단원 · <span class="lat">${u.pt}</span></span><h1 class="title">${u.ko}</h1></div>`;
   if (u.rules){
     if (!S.seen0){ S.seen0 = true; save(); }
     return head + `<p class="sub">스피커를 눌러 예시 단어를 들어보세요. 한글 표기는 비슷한 소리일 뿐이니 꼭 소리로 확인하세요.</p>
@@ -578,7 +579,7 @@ function vUnit(n){
 let verbIdx = 0;
 function vVerbs(){
   const v = VERBS[verbIdx];
-  return `<div class="hero"><span class="eyebrow">현재형 · Presente</span><h1 class="title">동사</h1></div>
+  return `<div class="hero"><span class="eyebrow">현재형 · <span class="lat">Presente</span></span><h1 class="title">동사</h1></div>
   <div class="chips noprint">${VERBS.map((x,i) => `<button class="${i === verbIdx ? 'on' : ''}" data-a="verb" data-x="${i}">${x.v}</button>`).join('')}</div>
   <section class="card" style="display:flex;flex-direction:column;gap:12px">
     <div class="row">${spk(v.v)}<div class="grow"><span class="pt" style="font-size:calc(1.7rem*var(--hs))">${v.v}</span> <span class="ko">${v.ko}</span><p class="sub">${v.note}</p></div></div>
@@ -596,7 +597,7 @@ function vRecord(){
   for (let i = 13; i >= 0; i--){ const x = new Date(d.getFullYear(), d.getMonth(), d.getDate() - i); days.push([x.getDate(), S.days[dkey(x)] || 0]); }
   const max = Math.max(10, ...days.map(x => x[1]));
   const seg = (k, vals, labels) => `<div class="seg">${vals.map((v,i) => `<button class="${S.set[k] === v ? 'on' : ''}" data-a="set" data-k="${k}" data-x="${v}">${labels[i]}</button>`).join('')}</div>`;
-  return `<div class="hero"><span class="eyebrow">Progresso</span><h1 class="title">기록</h1></div>
+  return `<div class="hero"><span class="eyebrow lat">Progresso</span><h1 class="title">기록</h1></div>
   <div class="stats">
     <div class="stat"><b>${streakNow()}</b><span>연속 학습일</span></div>
     <div class="stat"><b>${learnedN}</b><span>학습한 단어</span></div>
@@ -608,12 +609,13 @@ function vRecord(){
   </section>
   <section class="card list">${UNITS.filter(u => u.words).map(u => { const p = unitProg(u); return `<div style="display:flex;flex-direction:column;gap:6px"><div class="row"><span class="grow">${u.n}. ${u.ko}</span><span class="sub">익힘 ${p.m} · 학습 ${p.l} / ${p.n}</span></div><div class="track"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></div></div>`; }).join('')}</section>
   <section class="card list noprint">
-    <div class="set"><span>글씨체</span>${seg('font', ['pencil','pen','basic'].concat(S.set.fontName ? ['user'] : []), ['연필','펜','기본'].concat(S.set.fontName ? ['내 폰트'] : []))}</div>
+    <div class="set"><span>포르투갈어 글씨체</span><span class="sub lat">IBM Plex Mono Light</span></div>
+    <div class="set"><span>한글 글씨체</span>${seg('font', ['basic','pencil','pen'].concat(S.set.fontName ? ['user'] : []), ['기본','연필','펜'].concat(S.set.fontName ? ['내 폰트'] : []))}</div>
     <div class="set"><span>글씨 크기</span>${seg('size',[0.9,1,1.15],['작게','보통','크게'])}</div>
-    <div class="set"><span class="grow" style="display:flex;flex-direction:column"><span>내 폰트</span><span class="sub">${S.set.fontName ? esc(S.set.fontName) : 'ttf · otf · woff · woff2 파일'}</span></span>
+    <div class="set"><span class="grow" style="display:flex;flex-direction:column"><span>내 한글 폰트</span><span class="sub">${S.set.fontName ? esc(S.set.fontName) : 'ttf · otf · woff · woff2 파일'}</span></span>
       <span class="row"><label class="btn sm ghost" for="fontFile">파일 올리기</label>${S.set.fontName ? '<button class="btn sm ghost" data-a="fontDel">지우기</button>' : ''}<input type="file" id="fontFile" class="vh"></span></div>
     ${fontMsg ? `<p class="sub">${esc(fontMsg)}</p>` : ''}
-    <div><p class="sample">Olá! Tudo bem? · pão, açúcar, você · 안녕하세요</p></div>
+    <div class="sample" style="display:flex;flex-direction:column;gap:4px"><span class="lat" style="font-size:calc(1.15rem*var(--ks))">Olá! Tudo bem? Pão, açúcar, você.</span><span style="font-size:calc(1.15rem*var(--ks))">안녕하세요, 잘 지내요?</span></div>
   </section>
   <section class="card list noprint">
     <div class="set"><span>한글 발음 표시</span>${seg('pron',[true,false],['켜기','끄기'])}</div>

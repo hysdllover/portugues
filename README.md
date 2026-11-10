@@ -7,4 +7,4 @@
 - 핵심 동사 6개 현재형 활용표 + 퀴즈
 - 기록: 연속 학습일, 14일 학습량, 단원별 진도, 설정(한글 발음 표시·말하기 속도·하루 새 단어 수)
 - 발음은 기기 음성(pt-BR) 사용, 진도는 claude.ai 아티팩트에서는 계정에 동기화되고 그 외에는 기기(localStorage)에 저장
-- 아날로그 연필 테마(Gaegu·Nanum Pen Script), 기록 탭에서 내 폰트 파일(ttf·otf·woff·woff2) 업로드 가능
+- 포르투갈어는 타자기체(IBM Plex Mono Light) 고정, 한글은 기본·연필·펜 또는 직접 올린 폰트(ttf·otf·woff·woff2) 중 선택
