@@ -264,7 +264,8 @@ const UNITS = [
   {t:'õe', d:'코로 내는 "옹이". 복수형 -ões에 자주 나와요.', ex:[['põe','뽕이','놓다'],['lições','리쏭이스','수업들'],['limões','리몽이스','레몬들']]},
   {t:'ch · x', d:'ch와 대부분의 x는 "시" 소리.', ex:[['chave','샤비','열쇠'],['chuva','슈바','비'],['xícara','시까라','찻잔']]},
   {t:'g · j', d:'e, i 앞의 g와 모든 j는 부드러운 "ㅈ" 소리.', ex:[['gente','젠치','사람들'],['girafa','지라파','기린'],['janela','자넬라','창문']]},
-  {t:'qu · gu', d:'e, i 앞의 qu와 gu에서 u는 보통 소리 내지 않아요.', ex:[['queijo','께이주','치즈'],['quilo','낄루','킬로그램'],['guerra','게하','전쟁']]}
+  {t:'qu · gu', d:'e, i 앞의 qu와 gu에서 u는 보통 소리 내지 않아요.', ex:[['queijo','께이주','치즈'],['quilo','낄루','킬로그램'],['guerra','게하','전쟁']]},
+  {t:'구어 줄임말', d:'브라질 일상 대화에서는 줄여서 말해요. 글은 원래 형태로 써요.', ex:[['tô','또','estou · 나 ~야'],['tá','따','está · ~야'],['pra','쁘라','para · ~로, ~에게'],['cadê','까데','어디 있어?']]}
  ]},
  {n:1, ko:'인사·소개', pt:'Cumprimentos', c:'sage', words:[
   ['olá','안녕하세요','올라'],['oi','안녕 (친근하게)','오이'],['bom dia','좋은 아침이에요','봉 지아'],
@@ -276,26 +277,26 @@ const UNITS = [
   ['ele','그 (남자)','엘리'],['ela','그녀','엘라'],['nome','이름','노미','m'],['amigo','친구 (남자)','아미구','m'],
   ['amiga','친구 (여자)','아미가','f'],['Coreia','한국','꼬레이아','f'],['Brasil','브라질','브라지우','m'],
   ['coreano','한국 사람 (남자)','꼬레아누'],['coreana','한국 사람 (여자)','꼬레아나'],['brasileiro','브라질 사람 (남자)','브라질레이루'],
-  ['Japão','일본','자빠웅','m'],['México','멕시코','메시꾸','m'],['ser de','~ 출신이다','쎄르 지']
+  ['Japão','일본','자빠웅','m'],['México','멕시코','메시꾸','m'],['ser de','~ 출신이다','쎄르 지'],
+  ['valeu','고마워 (친근하게)','발레우'],['até mais','또 봐요','아떼 마이스']
  ], sents:[
   ['Oi, tudo bem?','안녕, 잘 지내?','오이, 뚜두 벵?'],
-  ['Tudo bem, e você?','잘 지내, 너는?','뚜두 벵, 이 보쎄?'],
+  ['Tudo, e você?','응, 너는?','뚜두, 이 보쎄?'],
   ['Como você se chama?','이름이 뭐예요?','꼬무 보쎄 시 샤마?'],
   ['Meu nome é Ana.','제 이름은 아나예요.','메우 노미 에 아나'],
-  ['Muito prazer!','만나서 정말 반가워요!','무이뚜 쁘라제르'],
-  ['De onde você é?','어디에서 오셨어요?','지 온지 보쎄 에?'],
-  ['Eu sou da Coreia.','저는 한국에서 왔어요.','에우 쏘우 다 꼬레이아'],
-  ['Muito obrigada!','정말 고마워요! (여성)','무이뚜 오브리가다'],
-  ['Até amanhã!','내일 봐요!','아떼 아마냥'],
-  ['Oi, eu sou o João!','안녕, 나는 주앙이야!','오이, 에우 쏘우 우 주아웅',1],
-  ['Bom dia, eu sou a Ana.','좋은 아침이에요, 저는 아나예요.','봉 지아, 에우 쏘우 아 아나',1],
-  ['Muito prazer, até logo!','반가워요, 또 봐요!','무이뚜 쁘라제르, 아떼 로구',1],
-  ['Até logo, obrigado.','또 봐요, 고마워요.','아떼 로구, 오브리가두',1],
-  ['Sim, eu sou do Brasil.','네, 저는 브라질 사람이에요.','씽, 에우 쏘우 두 브라지우',1],
-  ['A minha mãe é do Japão.','제 어머니는 일본 분이에요.','아 미냐 망이 에 두 자빠웅',1],
-  ['O Tiago é do Brasil.','치아구는 브라질 사람이에요.','우 치아구 에 두 브라지우',1],
-  ['Ela é do México.','그녀는 멕시코 사람이에요.','엘라 에 두 메시꾸',1],
-  ['Eu sou do Japão, muito prazer.','저는 일본에서 왔어요, 반가워요.','에우 쏘우 두 자빠웅, 무이뚜 쁘라제르',1]
+  ['Oi! Sou o João.','안녕! 난 주앙이야.','오이! 쏘우 우 주아웅',1],
+  ['Bom dia! Eu sou a Ana.','좋은 아침이에요! 저는 아나예요.','봉 지아! 에우 쏘우 아 아나',1],
+  ['Prazer! Até mais!','반가워요! 또 봐요!','쁘라제르! 아떼 마이스!',1],
+  ['Valeu, até mais!','고마워, 또 봐!','발레우, 아떼 마이스!',1],
+  ['De onde você é?','어디 출신이에요?','지 온지 보쎄 에?'],
+  ['Sou da Coreia.','한국에서 왔어요.','쏘우 다 꼬레이아'],
+  ['Sou brasileiro, sim.','네, 브라질 사람이에요.','쏘우 브라질레이루, 씽',1],
+  ['Minha mãe é japonesa.','우리 엄마는 일본 사람이에요.','미냐 망이 에 자뽀네자',1],
+  ['O Tiago é brasileiro.','치아구는 브라질 사람이에요.','우 치아구 에 브라질레이루',1],
+  ['Ela é mexicana.','그녀는 멕시코 사람이에요.','엘라 에 메시까나',1],
+  ['Sou do Japão. Prazer!','일본에서 왔어요. 반가워요!','쏘우 두 자빠웅. 쁘라제르!',1],
+  ['Obrigada, viu!','고마워요! (여성)','오브리가다, 비우!'],
+  ['Até amanhã!','내일 봐요!','아떼 아마냥!']
  ]},
  {n:2, ko:'숫자·시간', pt:'Números e horas', c:'sky', words:[
   ['zero','0','제루'],['um','1','웅'],['dois','2','도이스'],['três','3','뜨레스'],['quatro','4','꽈뜨루'],
@@ -308,12 +309,13 @@ const UNITS = [
  ], sents:[
   ['Que horas são?','몇 시예요?','끼 오라스 싸웅?'],
   ['São três horas.','3시예요.','싸웅 뜨레스 오라스'],
-  ['É uma hora.','1시예요.','에 우마 오라'],
-  ['Hoje é sábado.','오늘은 토요일이에요.','오지 에 싸바두'],
+  ['É meio-dia.','12시 정오예요.','에 메이우 지아'],
+  ['Hoje é sábado!','오늘 토요일이다!','오지 에 싸바두!'],
   ['Quantos anos você tem?','몇 살이에요?','꽌뚜스 아누스 보쎄 뗑?'],
-  ['Eu tenho trinta anos.','저는 서른 살이에요.','에우 떼뉴 뜨린따 아누스'],
+  ['Tenho trinta anos.','서른 살이에요.','떼뉴 뜨린따 아누스'],
   ['Quanto custa?','얼마예요?','꽌뚜 꾸스따?'],
-  ['Até segunda!','월요일에 봐요!','아떼 쎄군다']
+  ['A gente se vê na segunda!','월요일에 봐!','아 젠치 시 베 나 쎄군다!'],
+  ['Chego em cinco minutos.','5분 뒤에 도착해요.','셰구 엥 씽꾸 미누뚜스']
  ]},
  {n:3, ko:'가족', pt:'Família', c:'lav', words:[
   ['família','가족','파밀리아','f'],['pai','아버지','빠이','m'],['mãe','어머니','망이','f'],['pais','부모님','빠이스','mp'],
@@ -324,19 +326,18 @@ const UNITS = [
   ['casado','결혼한 (남자)','까자두'],['solteiro','미혼인 (남자)','쏘우떼이루'],['mais velho','나이가 더 많은','마이스 벨류'],
   ['mais novo','나이가 더 어린','마이스 노부'],['ter','가지다 · 있다','떼르'],['morar','살다','모라르'],['gostar de','~을 좋아하다','고스따르 지']
  ], sents:[
-  ['Esta é a minha mãe.','이분은 제 어머니예요.','에스따 에 아 미냐 망이'],
-  ['Este é o meu pai.','이분은 제 아버지예요.','에스치 에 우 메우 빠이'],
-  ['Eu tenho dois irmãos.','저는 형제가 둘 있어요.','에우 떼뉴 도이스 이르마웅스'],
-  ['Você tem filhos?','자녀가 있어요?','보쎄 뗑 필류스?'],
-  ['Eu sou casada.','저는 결혼했어요. (여성)','에우 쏘우 까자다'],
-  ['Minha irmã mora em São Paulo.','제 언니는 상파울루에 살아요.','미냐 이르망 모라 엥 싸웅 빠울루'],
-  ['Meu avô tem oitenta anos.','할아버지는 여든 살이세요.','메우 아보 뗑 오이뗀따 아누스'],
-  ['Eu gosto da minha família.','저는 제 가족이 좋아요.','에우 고스뚜 다 미냐 파밀리아'],
-  ['Eu tenho uma tia.','저는 이모가 한 명 있어요.','에우 떼뉴 우마 치아',1],
-  ['Ela é a minha irmã.','그녀는 제 자매예요.','엘라 에 아 미냐 이르망',1],
-  ['O meu filho quer um sanduíche.','제 아들은 샌드위치를 원해요.','우 메우 필류 께르 웅 상두이시',1],
-  ['Sim, eu tenho uma filha!','네, 저는 딸이 하나 있어요!','씽, 에우 떼뉴 우마 필랴',1],
-  ['O Pedro é o meu tio!','페드루는 제 삼촌이에요!','우 뻬드루 에 우 메우 치우',1]
+  ['Essa é minha mãe.','이분이 우리 엄마예요.','에싸 에 미냐 망이'],
+  ['Esse é meu pai.','이분이 우리 아빠예요.','에씨 에 메우 빠이'],
+  ['Tenho dois irmãos.','형제가 두 명 있어요.','떼뉴 도이스 이르마웅스'],
+  ['Você tem filhos?','자녀 있어요?','보쎄 뗑 필류스?'],
+  ['Sou casada.','결혼했어요. (여성)','쏘우 까자다'],
+  ['Minha irmã mora em São Paulo.','언니는 상파울루에 살아요.','미냐 이르망 모라 엥 싸웅 빠울루'],
+  ['Tenho uma tia que mora no Rio.','리우에 사는 이모가 있어요.','떼뉴 우마 치아 끼 모라 누 히우',1],
+  ['Essa aqui é minha irmã.','얘가 제 동생이에요.','에싸 아끼 에 미냐 이르망',1],
+  ['Meu filho quer um sanduíche.','아들이 샌드위치 먹고 싶대요.','메우 필류 께르 웅 상두이시',1],
+  ['Tenho, sim! Tenho uma filha.','네, 있어요! 딸이 하나 있어요.','떼뉴, 씽! 떼뉴 우마 필랴',1],
+  ['O Pedro é meu tio.','페드루는 우리 삼촌이에요.','우 뻬드루 에 메우 치우',1],
+  ['Adoro minha família.','우리 가족이 너무 좋아요.','아도루 미냐 파밀리아']
  ]},
  {n:4, ko:'음식·카페', pt:'Comida e café', c:'peach', words:[
   ['café','커피','까페','m'],['água','물','아구아','f'],['suco','주스','쑤꾸','m'],['leite','우유','레이치','m'],
@@ -347,20 +348,20 @@ const UNITS = [
   ['gostoso','맛있는','고스또주'],['quente','뜨거운','껭치'],['gelado','차가운','젤라두'],
   ['querer','원하다','께레르'],['comer','먹다','꼬메르'],['beber','마시다','베베르'],
   ['gelo','얼음','젤루','m'],['chá','차','샤','m'],['sanduíche','샌드위치','상두이시','m'],['pastel','파스텔 (브라질식 튀김 파이)','빠스떼우','m'],
-  ['ou','또는','오우'],['com','~와 함께 · ~을 넣은','꽁'],['sem','~ 없이','쎙']
+  ['ou','또는','오우'],['com','~와 함께 · ~을 넣은','꽁'],['sem','~ 없이','쎙'],
+  ['delícia','맛있는 것 · 별미','델리씨아','f'],['me vê','~ 주세요 (주문)','미 베'],['vou querer','~로 할게요','보우 께레르']
  ], sents:[
-  ['Um café, por favor.','커피 한 잔 주세요.','웅 까페, 뽀르 파보르',1],
-  ['Eu quero uma água.','물 하나 주세요.','에우 께루 우마 아구아'],
-  ['O cardápio, por favor.','메뉴판 주세요.','우 까르다삐우, 뽀르 파보르'],
-  ['A conta, por favor.','계산서 주세요.','아 꼰따, 뽀르 파보르'],
-  ['Está muito gostoso!','정말 맛있어요!','이스따 무이뚜 고스또주'],
+  ['Me vê um café, por favor.','커피 한 잔 주세요.','미 베 웅 까페, 뽀르 파보르',1],
+  ['Uma água com gelo, por favor.','얼음물 한 잔 주세요.','우마 아구아 꽁 젤루, 뽀르 파보르',1],
+  ['Vou querer um pastel e um suco.','파스텔 하나랑 주스 하나 주세요.','보우 께레르 웅 빠스떼우 이 웅 쑤꾸',1],
+  ['Vai ser chá ou café?','차로 하실래요, 커피로 하실래요?','바이 쎄르 샤 오우 까페?',1],
+  ['Pode pôr gelo?','얼음 넣어 줄래요?','뽀지 뽀르 젤루?',1],
+  ['Tem cardápio?','메뉴판 있어요?','뗑 까르다삐우?'],
+  ['Tá uma delícia!','진짜 맛있어요!','따 우마 델리씨아!'],
   ['Sem açúcar, por favor.','설탕은 빼 주세요.','쎙 아쑤까르, 뽀르 파보르'],
-  ['Eu não como carne.','저는 고기를 안 먹어요.','에우 나웅 꼬무 까르니'],
-  ['Quanto é?','얼마예요?','꽌뚜 에?'],
-  ['Água com gelo, por favor.','얼음물 주세요.','아구아 꽁 젤루, 뽀르 파보르',1],
-  ['Um sanduíche e um pastel.','샌드위치 하나랑 파스텔 하나요.','웅 상두이시 이 웅 빠스떼우',1],
-  ['Um chá ou um café?','차 드릴까요, 커피 드릴까요?','웅 샤 오우 웅 까페?',1],
-  ['Com gelo, por favor!','얼음 넣어 주세요!','꽁 젤루, 뽀르 파보르',1]
+  ['Não como carne.','고기는 안 먹어요.','나웅 꼬무 까르니'],
+  ['A conta, por favor.','계산서 주세요.','아 꼰따, 뽀르 파보르'],
+  ['Quanto deu?','얼마 나왔어요?','꽌뚜 데우?']
  ]},
  {n:5, ko:'장소·길 찾기', pt:'Lugares e direções', c:'sky', words:[
   ['rua','길 · 거리','후아','f'],['casa','집','까자','f'],['banco','은행','방꾸','m'],['farmácia','약국','파르마씨아','f'],
@@ -370,21 +371,22 @@ const UNITS = [
   ['perto','가까운 · 가까이','뻬르뚜'],['longe','먼 · 멀리','롱지'],['direita','오른쪽','지레이따','f'],['esquerda','왼쪽','이스께르다','f'],
   ['em frente','앞으로 · 맞은편','엥 프렌치'],['virar','돌다 · 꺾다','비라르'],['seguir','따라가다 · 계속 가다','쎄기르'],
   ['esquina','모퉁이','이스끼나','f'],['quarteirão','블록 · 구역','꽈르떼이라웅','m'],
-  ['cidade','도시','씨다지','f'],['parque','공원','빠르끼','m'],['livraria','서점','리브라리아','f'],['museu','박물관','무제우','m'],['teatro','극장','치아뜨루','m'],['olha','봐 · 저기','올랴']
+  ['cidade','도시','씨다지','f'],['parque','공원','빠르끼','m'],['livraria','서점','리브라리아','f'],['museu','박물관','무제우','m'],['teatro','극장','치아뜨루','m'],['olha','봐 · 저기','올랴'],
+  ['reto','똑바로','헤뚜'],['fica','(위치가) ~에 있다','피까'],['aqui perto','이 근처','아끼 뻬르뚜']
  ], sents:[
-  ['Onde fica o banheiro?','화장실이 어디예요?','온지 피까 우 반녜이루?'],
-  ['Fica perto daqui?','여기서 가까워요?','피까 뻬르뚜 다끼?'],
-  ['Siga em frente.','앞으로 쭉 가세요.','씨가 엥 프렌치'],
-  ['Vire à direita na esquina.','모퉁이에서 오른쪽으로 도세요.','비리 아 지레이따 나 이스끼나'],
+  ['Onde fica o banheiro?','화장실 어디예요?','온지 피까 우 반녜이루?'],
+  ['É perto daqui?','여기서 가까워요?','에 뻬르뚜 다끼?'],
+  ['Segue reto.','쭉 가세요.','쎄기 헤뚜'],
+  ['Vira à direita na esquina.','모퉁이에서 오른쪽으로 꺾으세요.','비라 아 지레이따 나 이스끼나'],
   ['É longe?','멀어요?','에 롱지?'],
-  ['A farmácia fica ao lado do banco.','약국은 은행 옆에 있어요.','아 파르마씨아 피까 아우 라두 두 방꾸'],
-  ['Estou perdido.','길을 잃었어요. (남성)','이스또우 뻬르지두'],
-  ['Pode me ajudar?','도와주실 수 있어요?','뽀지 미 아주다르?'],
-  ['Tem um mercado e um parque perto daqui.','이 근처에 시장과 공원이 있어요.','뗑 웅 메르까두 이 웅 빠르끼 뻬르뚜 다끼',1],
-  ['Não tem parque na minha cidade.','우리 도시에는 공원이 없어요.','나웅 뗑 빠르끼 나 미냐 씨다지',1],
-  ['Olha, tem uma livraria e um museu.','봐, 서점이랑 박물관이 있어.','올랴, 뗑 우마 리브라리아 이 웅 무제우',1],
-  ['Tem um hotel na minha cidade.','우리 도시에 호텔이 있어요.','뗑 웅 오떼우 나 미냐 씨다지',1],
-  ['Tem um teatro na minha cidade!','우리 도시에 극장이 있어요!','뗑 웅 치아뜨루 나 미냐 씨다지',1]
+  ['A farmácia fica do lado do banco.','약국은 은행 옆이에요.','아 파르마씨아 피까 두 라두 두 방꾸'],
+  ['Tô perdido.','길을 잃었어요. (남성)','또 뻬르지두'],
+  ['Pode me ajudar?','좀 도와주실래요?','뽀지 미 아주다르?'],
+  ['Tem um mercado e um parque aqui perto.','이 근처에 마트랑 공원이 있어요.','뗑 웅 메르까두 이 웅 빠르끼 아끼 뻬르뚜',1],
+  ['Na minha cidade não tem parque.','우리 동네엔 공원이 없어요.','나 미냐 씨다지 나웅 뗑 빠르끼',1],
+  ['Olha, tem uma livraria e um museu ali.','봐, 저기 서점이랑 박물관 있어.','올랴, 뗑 우마 리브라리아 이 웅 무제우 알리',1],
+  ['Tem hotel por aqui?','이 근처에 호텔 있어요?','뗑 오떼우 뽀르 아끼?',1],
+  ['Tem um teatro muito legal na minha cidade.','우리 도시에 엄청 좋은 극장이 있어요.','뗑 웅 치아뜨루 무이뚜 레가우 나 미냐 씨다지',1]
  ]},
  {n:6, ko:'쇼핑', pt:'Compras', c:'lav', words:[
   ['loja','가게','로자','f'],['preço','가격','쁘레쑤','m'],['dinheiro','돈','진녜이루','m'],['cartão','카드','까르따웅','m'],
@@ -392,16 +394,18 @@ const UNITS = [
   ['calça','바지','까우싸','f'],['sapato','신발','싸빠뚜','m'],['vestido','원피스','베스치두','m'],['bolsa','가방','보우싸','f'],
   ['tamanho','사이즈','따마뉴','m'],['grande','큰','그란지'],['pequeno','작은','뻬께누'],['cor','색','꼬르','f'],
   ['preto','검은','쁘레뚜'],['branco','흰','브랑꾸'],['azul','파란','아주우'],['vermelho','빨간','베르멜류'],
-  ['comprar','사다','꼼쁘라르'],['pagar','지불하다','빠가르'],['custar','값이 ~이다','꾸스따르'],['desconto','할인','지스꼰뚜','m']
+  ['comprar','사다','꼼쁘라르'],['pagar','지불하다','빠가르'],['custar','값이 ~이다','꾸스따르'],['desconto','할인','지스꼰뚜','m'],
+  ['provar','입어 보다 · 맛보다','쁘로바르'],['Pix','Pix (브라질 즉시 송금)','삐스','m']
  ], sents:[
-  ['Quanto custa esta camisa?','이 셔츠 얼마예요?','꽌뚜 꾸스따 에스따 까미자?'],
-  ['Está muito caro.','너무 비싸요.','이스따 무이뚜 까루'],
-  ['Tem um tamanho menor?','더 작은 사이즈 있어요?','뗑 웅 따마뉴 메노르?'],
-  ['Posso experimentar?','입어 봐도 돼요?','뽀쑤 이스뻬리멘따르?'],
-  ['Vou levar este.','이걸로 할게요.','보우 레바르 에스치'],
+  ['Quanto custa essa camisa?','이 셔츠 얼마예요?','꽌뚜 꾸스따 에싸 까미자?'],
+  ['Tá muito caro.','너무 비싸요.','따 무이뚜 까루'],
+  ['Tem num tamanho menor?','더 작은 사이즈 있어요?','뗑 눙 따마뉴 메노르?'],
+  ['Posso provar?','입어 봐도 돼요?','뽀쑤 쁘로바르?'],
+  ['Vou levar essa.','이걸로 할게요.','보우 레바르 에싸'],
   ['Aceita cartão?','카드 돼요?','아쎄이따 까르따웅?'],
-  ['Tem desconto?','할인 돼요?','뗑 지스꼰뚜?'],
-  ['Só estou olhando.','그냥 구경하는 중이에요.','쏘 이스또우 올랸두']
+  ['Pode ser no Pix?','Pix로 보내도 돼요?','뽀지 쎄르 누 삐스?'],
+  ['Dá pra fazer um desconto?','좀 깎아 주실 수 있어요?','다 쁘라 파제르 웅 지스꼰뚜?'],
+  ['Só tô dando uma olhada.','그냥 구경하는 중이에요.','쏘 또 단두 우마 올랴다']
  ]},
  {n:7, ko:'일상 루틴', pt:'Rotina', c:'sage', words:[
   ['acordar','잠에서 깨다','아꼬르다르'],['levantar','(자리에서) 일어나다','레반따르'],['tomar banho','샤워하다','또마르 바뉴'],
@@ -412,14 +416,15 @@ const UNITS = [
   ['nunca','절대 ~않다','눙까'],['todo dia','매일','또두 지아'],['manhã','아침 · 오전','마냥','f'],['tarde','오후','따르지','f'],
   ['noite','밤 · 저녁','노이치','f'],['fim de semana','주말','핑 지 쎄마나','m'],['cansado','피곤한','깐싸두'],['ocupado','바쁜','오꾸빠두']
  ], sents:[
-  ['Eu acordo às sete.','저는 7시에 일어나요.','에우 아꼬르두 아스 쎄치'],
-  ['Eu tomo banho de manhã.','저는 아침에 샤워해요.','에우 또무 바뉴 지 마냥'],
-  ['Eu trabalho de segunda a sexta.','저는 월요일부터 금요일까지 일해요.','에우 뜨라바류 지 쎄군다 아 쎄스따'],
-  ['A que horas você almoça?','몇 시에 점심 먹어요?','아 끼 오라스 보쎄 아우모싸?'],
-  ['Eu sempre estudo à noite.','저는 항상 밤에 공부해요.','에우 쎙쁘리 이스뚜두 아 노이치'],
-  ['Às vezes eu durmo tarde.','가끔 늦게 자요.','아스 베지스 에우 두르무 따르지'],
-  ['Hoje estou muito ocupada.','오늘 너무 바빠요. (여성)','오지 이스또우 무이뚜 오꾸빠다'],
-  ['No fim de semana eu descanso.','주말에는 쉬어요.','누 핑 지 쎄마나 에우 지스깡쑤']
+  ['Acordo às sete.','7시에 일어나요.','아꼬르두 아스 쎄치'],
+  ['Tomo banho de manhã.','아침에 샤워해요.','또무 바뉴 지 마냥'],
+  ['Trabalho de segunda a sexta.','월요일부터 금요일까지 일해요.','뜨라바류 지 쎄군다 아 쎄스따'],
+  ['Que horas você almoça?','몇 시에 점심 먹어요?','끼 오라스 보쎄 아우모싸?'],
+  ['Sempre estudo à noite.','항상 밤에 공부해요.','쎙쁘리 이스뚜두 아 노이치'],
+  ['Às vezes durmo tarde.','가끔 늦게 자요.','아스 베지스 두르무 따르지'],
+  ['Hoje tô muito ocupada.','오늘 너무 바빠요. (여성)','오지 또 무이뚜 오꾸빠다'],
+  ['No fim de semana eu só descanso.','주말엔 그냥 쉬어요.','누 핑 지 쎄마나 에우 쏘 지스깡쑤'],
+  ['Tô morto de cansaço.','피곤해 죽겠어요.','또 모르뚜 지 깐싸쑤']
  ]},
  {n:8, ko:'날씨·계절', pt:'Tempo e estações', c:'sand', words:[
   ['tempo','날씨','뗑뿌','m'],['sol','해 · 햇빛','쏘우','m'],['chuva','비','슈바','f'],['vento','바람','벤뚜','m'],
@@ -430,19 +435,19 @@ const UNITS = [
   ['úmido','습한','우미두'],['agradável','쾌적한','아그라다베우'],['fresco','선선한','프레스꾸'],['previsão do tempo','일기예보','쁘레비자웅 두 뗑뿌','f'],
   ['fazer sol','해가 나다','파제르 쏘우'],['tempo bom','좋은 날씨','뗑뿌 봉','m'],['outubro','10월','오우뚜브루']
  ], sents:[
-  ['Como está o tempo hoje?','오늘 날씨 어때요?','꼬무 이스따 우 뗑뿌 오지?'],
-  ['Está fazendo calor.','더워요.','이스따 파젠두 깔로르'],
-  ['Está frio hoje.','오늘 추워요.','이스따 프리우 오지'],
-  ['Vai chover amanhã.','내일 비가 올 거예요.','바이 쇼베르 아마냥'],
-  ['Hoje faz trinta graus.','오늘 30도예요.','오지 파스 뜨린따 그라우스'],
-  ['Leve um guarda-chuva.','우산 챙기세요.','레비 웅 과르다 슈바'],
-  ['Eu gosto do verão.','저는 여름이 좋아요.','에우 고스뚜 두 베라웅'],
-  ['No Brasil quase não neva.','브라질에는 눈이 거의 안 와요.','누 브라지우 꽈지 나웅 네바'],
-  ['Faz sol.','해가 나요.','파스 쏘우',1],
-  ['Faz frio no inverno.','겨울에는 추워요.','파스 프리우 누 잉베르누',1],
-  ['Sim, faz calor no verão.','네, 여름에는 더워요.','씽, 파스 깔로르 누 베라웅',1],
-  ['Faz tempo bom em outubro?','10월에는 날씨가 좋아요?','파스 뗑뿌 봉 엥 오우뚜브루?',1],
-  ['Não, não faz muito frio no inverno.','아니요, 겨울에 그렇게 춥지 않아요.','나웅, 나웅 파스 무이뚜 프리우 누 잉베르누',1]
+  ['Como tá o tempo hoje?','오늘 날씨 어때요?','꼬무 따 우 뗑뿌 오지?'],
+  ['Tá fazendo um calor!','엄청 덥네요!','따 파젠두 웅 깔로르!'],
+  ['Hoje tá frio.','오늘 추워요.','오지 따 프리우'],
+  ['Vai chover amanhã.','내일 비 온대요.','바이 쇼베르 아마냥'],
+  ['Tá fazendo trinta graus.','지금 30도예요.','따 파젠두 뜨린따 그라우스'],
+  ['Leva um guarda-chuva.','우산 챙겨 가요.','레바 웅 과르다 슈바'],
+  ['Adoro o verão.','여름 정말 좋아요.','아도루 우 베라웅'],
+  ['Aqui quase não neva.','여기는 눈이 거의 안 와요.','아끼 꽈지 나웅 네바'],
+  ['Hoje tá fazendo sol.','오늘 해가 쨍쨍해요.','오지 따 파젠두 쏘우',1],
+  ['No inverno faz frio.','겨울엔 추워요.','누 잉베르누 파스 프리우',1],
+  ['No verão faz um calor!','여름엔 엄청 더워요!','누 베라웅 파스 웅 깔로르!',1],
+  ['Em outubro o tempo é bom?','10월엔 날씨 좋아요?','엥 오우뚜브루 우 뗑뿌 에 봉?',1],
+  ['Não, no inverno não faz tanto frio.','아니요, 겨울에 그렇게 춥진 않아요.','나웅, 누 잉베르누 나웅 파스 딴뚜 프리우',1]
  ]},
  {n:9, ko:'교통·여행', pt:'Transporte e viagem', c:'peach', words:[
   ['ônibus','버스','오니부스','m'],['metrô','지하철','메뜨로','m'],['táxi','택시','따끼씨','m'],['avião','비행기','아비아웅','m'],
@@ -452,14 +457,15 @@ const UNITS = [
   ['mapa','지도','마빠','m'],['ponto de ônibus','버스 정류장','뽄뚜 지 오니부스','m'],['bilhete','승차권','빌례치','m'],['horário','시간표','오라리우','m'],
   ['atrasado','늦은 · 지연된','아뜨라자두'],['voo','항공편','보우','m'],['pegar','(교통수단을) 타다','뻬가르'],['descer','내리다','지쎄르']
  ], sents:[
-  ['Onde fica o ponto de ônibus?','버스 정류장이 어디예요?','온지 피까 우 뽄뚜 지 오니부스?'],
-  ['Uma passagem para o Rio, por favor.','리우행 표 한 장 주세요.','우마 빠싸젱 빠라 우 히우, 뽀르 파보르'],
-  ['A que horas sai o ônibus?','버스는 몇 시에 출발해요?','아 끼 오라스 싸이 우 오니부스?'],
-  ['Eu tenho uma reserva.','예약했어요.','에우 떼뉴 우마 헤제르바'],
-  ['O voo está atrasado.','비행기가 지연됐어요.','우 보우 이스따 아뜨라자두'],
-  ['Vou pegar um táxi.','택시를 탈 거예요.','보우 뻬가르 웅 따끼씨'],
-  ['Quero descer aqui.','여기서 내릴게요.','께루 지쎄르 아끼'],
-  ['Boa viagem!','좋은 여행 되세요!','보아 비아젱']
+  ['Onde fica o ponto de ônibus?','버스 정류장 어디예요?','온지 피까 우 뽄뚜 지 오니부스?'],
+  ['Uma passagem pro Rio, por favor.','리우행 표 한 장 주세요.','우마 빠싸젱 쁘루 히우, 뽀르 파보르'],
+  ['Que horas sai o ônibus?','버스 몇 시에 출발해요?','끼 오라스 싸이 우 오니부스?'],
+  ['Tenho uma reserva.','예약했어요.','떼뉴 우마 헤제르바'],
+  ['O voo atrasou.','비행기가 지연됐어요.','우 보우 아뜨라조우'],
+  ['Vou pegar um Uber.','우버 타고 갈게요.','보우 뻬가르 웅 우베르'],
+  ['Pode parar aqui, por favor.','여기 세워 주세요.','뽀지 빠라르 아끼, 뽀르 파보르'],
+  ['Esse ônibus passa no centro?','이 버스 시내 가요?','에씨 오니부스 빠싸 누 쎈뜨루?'],
+  ['Boa viagem!','여행 잘 다녀와요!','보아 비아젱!']
  ]},
  {n:10, ko:'건강', pt:'Saúde', c:'sky', words:[
   ['saúde','건강','싸우지','f'],['médico','의사','메지꾸','m'],['remédio','약','헤메지우','m'],['dor','통증','도르','f'],
@@ -467,16 +473,18 @@ const UNITS = [
   ['costas','등','꼬스따스','fp'],['olho','눈 (신체)','올류','m'],['mão','손','마웅','f'],['pé','발','뻬','m'],
   ['febre','열','페브리','f'],['gripe','감기 · 독감','그리삐','f'],['tosse','기침','또씨','f'],['doente','아픈','도엔치'],
   ['melhor','더 나은','멜료르'],['descansar','쉬다','지스깡싸르'],['consulta','진료 예약','꽁쑤우따','f'],['alergia','알레르기','알레르지아','f'],
-  ['sentir','느끼다','쎈치르'],['machucar','다치게 하다','마슈까르'],['emergência','응급','이메르젱씨아','f'],['ambulância','구급차','암불란씨아','f']
+  ['sentir','느끼다','쎈치르'],['machucar','다치게 하다','마슈까르'],['emergência','응급','이메르젱씨아','f'],['ambulância','구급차','암불란씨아','f'],
+  ['passar mal','몸이 안 좋다','빠싸르 마우']
  ], sents:[
-  ['Estou com dor de cabeça.','머리가 아파요.','이스또우 꽁 도르 지 까베싸'],
-  ['Eu estou doente.','저 아파요.','에우 이스또우 도엔치'],
-  ['Estou com febre.','열이 나요.','이스또우 꽁 페브리'],
-  ['Preciso de um médico.','의사가 필요해요.','쁘레씨주 지 웅 메지꾸'],
-  ['Onde tem uma farmácia?','약국이 어디 있어요?','온지 뗑 우마 파르마씨아?'],
-  ['Tenho alergia a amendoim.','땅콩 알레르기가 있어요.','떼뉴 알레르지아 아 아멘도잉'],
-  ['Melhoras!','빨리 나으세요!','멜료라스'],
-  ['Já estou melhor.','이제 좀 나아졌어요.','자 이스또우 멜료르']
+  ['Tô com dor de cabeça.','머리가 아파요.','또 꽁 도르 지 까베싸'],
+  ['Tô passando mal.','몸이 안 좋아요.','또 빠싼두 마우'],
+  ['Tô com febre.','열이 나요.','또 꽁 페브리'],
+  ['Preciso ir ao médico.','병원에 가야 해요.','쁘레씨주 이르 아우 메지꾸'],
+  ['Tem uma farmácia aqui perto?','이 근처에 약국 있어요?','뗑 우마 파르마씨아 아끼 뻬르뚜?'],
+  ['Tenho alergia a amendoim.','땅콩 알레르기 있어요.','떼뉴 알레르지아 아 아멘도잉'],
+  ['Melhoras!','빨리 나아요!','멜료라스!'],
+  ['Já tô melhor.','이제 좀 나았어요.','자 또 멜료르'],
+  ['Chama uma ambulância!','구급차 불러 주세요!','샤마 우마 암불란씨아!']
  ]},
  {n:11, ko:'과거 이야기', pt:'O passado', c:'lav', words:[
   ['semana passada','지난주','쎄마나 빠싸다','f'],['ano passado','작년','아누 빠싸두','m'],['mês passado','지난달','메스 빠싸두','m'],
@@ -485,16 +493,18 @@ const UNITS = [
   ['comi','먹었다 (eu)','꼬미'],['bebi','마셨다 (eu)','베비'],['falei','말했다 (eu)','팔레이'],['estudei','공부했다 (eu)','이스뚜데이'],
   ['trabalhei','일했다 (eu)','뜨라바례이'],['dormi','잤다 (eu)','도르미'],['vi','봤다 (eu)','비'],['conheci','알게 됐다 (eu)','꼬녜씨'],
   ['morei','살았다 (eu)','모레이'],['gostei','좋았다 (eu)','고스떼이'],['aconteceu','(일이) 일어났다','아꼰떼쎄우'],['quando','언제 · ~할 때','꽌두'],
-  ['lembrar','기억하다','렝브라르']
+  ['lembrar','기억하다','렝브라르'],
+  ['nossa','와 · 세상에','노싸']
  ], sents:[
-  ['Ontem eu fui à praia.','어제 해변에 갔어요.','온뗑 에우 푸이 아 쁘라이아'],
+  ['Ontem fui à praia.','어제 해변에 갔어요.','온뗑 푸이 아 쁘라이아'],
   ['O que você fez no fim de semana?','주말에 뭐 했어요?','우 끼 보쎄 페스 누 핑 지 쎄마나?'],
-  ['Eu comi feijoada.','페이조아다를 먹었어요.','에우 꼬미 페이조아다'],
-  ['Eu morei em Lisboa por um ano.','리스본에서 1년 살았어요.','에우 모레이 엥 리스보아 뽀르 웅 아누'],
-  ['Gostei muito!','정말 좋았어요!','고스떼이 무이뚜'],
-  ['Eu já comi, obrigado.','이미 먹었어요, 고마워요.','에우 자 꼬미, 오브리가두'],
-  ['O que aconteceu?','무슨 일이에요?','우 끼 아꼰떼쎄우?'],
-  ['Eu ainda não vi esse filme.','그 영화 아직 못 봤어요.','에우 아인다 나웅 비 에씨 피우미']
+  ['Comi uma feijoada.','페이조아다 먹었어요.','꼬미 우마 페이조아다'],
+  ['Morei um ano em Lisboa.','리스본에서 1년 살았어요.','모레이 웅 아누 엥 리스보아'],
+  ['Gostei muito!','정말 좋았어요!','고스떼이 무이뚜!'],
+  ['Já comi, valeu.','벌써 먹었어, 고마워.','자 꼬미, 발레우'],
+  ['O que aconteceu?','무슨 일 있었어요?','우 끼 아꼰떼쎄우?'],
+  ['Ainda não vi esse filme.','그 영화 아직 못 봤어요.','아인다 나웅 비 에씨 피우미'],
+  ['Nossa, que dia!','와, 무슨 날이 이래!','노싸, 끼 지아!']
  ]},
  {n:12, ko:'계획·미래', pt:'Planos e futuro', c:'sage', words:[
   ['próximo','다음의','쁘로씨무'],['semana que vem','다음 주','쎄마나 끼 벵','f'],['ano que vem','내년','아누 끼 벵','m'],
@@ -503,16 +513,18 @@ const UNITS = [
   ['pretender','~할 생각이다','쁘레뗀데르'],['esperar','기다리다 · 바라다','이스뻬라르'],['aprender','배우다','아쁘렌데르'],
   ['começar','시작하다','꼬메싸르'],['terminar','끝내다','떼르미나르'],['mudar','바꾸다 · 이사하다','무다르'],['talvez','아마도','따우베스'],
   ['com certeza','물론 · 확실히','꽁 쎄르떼자'],['logo','곧','로구'],['um dia','언젠가','웅 지아'],['encontrar','만나다','잉꼰뜨라르'],
-  ['festa','파티','페스따','f'],['aniversário','생일','아니베르싸리우','m'],['meta','목표','메따','f']
+  ['festa','파티','페스따','f'],['aniversário','생일','아니베르싸리우','m'],['meta','목표','메따','f'],
+  ['bora','가자 · 하자','보라'],['a gente','우리 (구어)','아 젠치']
  ], sents:[
-  ['O que você vai fazer amanhã?','내일 뭐 할 거예요?','우 끼 보쎄 바이 파제르 아마냥?'],
-  ['Vou viajar para o Brasil.','브라질에 여행 갈 거예요.','보우 비아자르 빠라 우 브라지우'],
-  ['Nas férias eu vou descansar.','휴가 때 쉴 거예요.','나스 페리아스 에우 보우 지스깡싸르'],
-  ['Meu sonho é morar no Rio.','제 꿈은 리우에 사는 거예요.','메우 쏘뉴 에 모라르 누 히우'],
-  ['Quero aprender português.','포르투갈어를 배우고 싶어요.','께루 아쁘렌데르 뽀르뚜게스'],
-  ['Talvez na semana que vem.','아마 다음 주에요.','따우베스 나 쎄마나 끼 벵'],
-  ['Vamos nos encontrar no sábado?','토요일에 만날까요?','바무스 누스 잉꼰뜨라르 누 싸바두?'],
-  ['Com certeza!','물론이죠!','꽁 쎄르떼자']
+  ['O que você vai fazer amanhã?','내일 뭐 해요?','우 끼 보쎄 바이 파제르 아마냥?'],
+  ['Vou viajar pro Brasil.','브라질로 여행 가요.','보우 비아자르 쁘루 브라지우'],
+  ['Nas férias vou descansar.','휴가 땐 좀 쉬려고요.','나스 페리아스 보우 지스깡싸르'],
+  ['Meu sonho é morar no Rio.','제 꿈은 리우에서 사는 거예요.','메우 쏘뉴 에 모라르 누 히우'],
+  ['Quero aprender português.','포르투갈어 배우고 싶어요.','께루 아쁘렌데르 뽀르뚜게스'],
+  ['Talvez semana que vem.','아마 다음 주쯤요.','따우베스 쎄마나 끼 벵'],
+  ['Bora se encontrar no sábado?','토요일에 만날래?','보라 시 잉꼰뜨라르 누 싸바두?'],
+  ['Com certeza!','당연하죠!','꽁 쎄르떼자!'],
+  ['Vamos ver.','두고 봐야죠.','바무스 베르']
  ]},
  {n:13, ko:'성격 묘사', pt:'Personalidade', c:'peach', words:[
   ['namorado','남자친구','나모라두','m'],['namorada','여자친구','나모라다','f'],['sério','진지한','쎄리우'],['tímido','수줍음 많은','치미두'],
@@ -520,34 +532,37 @@ const UNITS = [
   ['gentil','친절한 · 상냥한','젠치우'],['inteligente','똑똑한','잉뗄리젠치'],['bonito','잘생긴 · 예쁜','보니뚜'],['legal','멋진 · 괜찮은','레가우'],
   ['chato','지루한 · 짜증 나는','샤뚜'],['preguiçoso','게으른','쁘레기쏘주'],['trabalhador','성실한','뜨라바랴도르'],['nervoso','긴장한 · 예민한','네르보주'],
   ['feliz','행복한','펠리스'],['triste','슬픈','뜨리스치'],['divertido','즐거운 · 유쾌한','지베르치두'],['educado','예의 바른','이두까두'],
-  ['mas','하지만','마스'],['também','~도 · 또한','땀벵'],['né?','그렇지?','네'],['muito','아주 · 많이','무이뚜']
+  ['mas','하지만','마스'],['também','~도 · 또한','땀벵'],['né?','그렇지?','네'],['muito','아주 · 많이','무이뚜'],
+  ['gente boa','좋은 사람','젠치 보아'],['meio','좀 · 약간','메이우'],['super','엄청','쑤뻬르'],['só que','근데 · 다만','쏘 끼']
  ], sents:[
-  ['O meu namorado é sério.','제 남자친구는 진지해요.','우 메우 나모라두 에 쎄리우',1],
-  ['A sua namorada é tímida.','당신 여자친구는 수줍음이 많아요.','아 쑤아 나모라다 에 치미다',1],
-  ['O meu pai é sério, mas ele é simpático.','아버지는 진지하지만 다정하세요.','우 메우 빠이 에 쎄리우, 마스 엘리 에 씽빠치꾸',1],
-  ['A minha amiga é simpática, mas ela é tímida.','제 친구는 다정하지만 수줍음이 많아요.','아 미냐 아미가 에 씽빠치까, 마스 엘라 에 치미다',1],
-  ['O Tiago é engraçado, né?','치아구는 재밌어, 그렇지?','우 치아구 에 잉그라싸두, 네?',1],
-  ['Ela é muito alegre.','그녀는 아주 명랑해요.','엘라 에 무이뚜 알레그리'],
-  ['Você é muito gentil.','정말 친절하시네요.','보쎄 에 무이뚜 젠치우'],
-  ['Ele é inteligente e calmo.','그는 똑똑하고 차분해요.','엘리 에 잉뗄리젠치 이 까우무']
+  ['Meu namorado é meio sério.','제 남자친구는 좀 진지한 편이에요.','메우 나모라두 에 메이우 쎄리우',1],
+  ['Sua namorada é tímida, né?','여자친구분 수줍음 많죠?','쑤아 나모라다 에 치미다, 네?',1],
+  ['Meu pai é sério, mas é gente boa.','아빠는 진지하지만 좋은 사람이에요.','메우 빠이 에 쎄리우, 마스 에 젠치 보아',1],
+  ['Minha amiga é super simpática, só que é tímida.','제 친구는 엄청 다정한데 좀 수줍어해요.','미냐 아미가 에 쑤뻬르 씽빠치까, 쏘 끼 에 치미다',1],
+  ['O Tiago é muito engraçado, né?','치아구 진짜 웃기지?','우 치아구 에 무이뚜 잉그라싸두, 네?',1],
+  ['Ela é muito legal.','그 사람 진짜 괜찮아요.','엘라 에 무이뚜 레가우'],
+  ['Que chato!','짜증 나! · 아쉽다!','끼 샤뚜!'],
+  ['Você é um amor!','정말 다정하시네요!','보쎄 에 웅 아모르!']
  ]},
  {n:14, ko:'소지품 찾기', pt:'Meus objetos', c:'sand', words:[
-  ['carteira','지갑','까르떼이라','f'],['suéter','스웨터','쑤에떼르','m'],['tablet','태블릿','따블레치','m'],['celular','휴대폰','쎌룰라르','m'],
+  ['carteira','지갑','까르떼이라','f'],['moletom','후드티 · 맨투맨','몰레똥','m'],['tablet','태블릿','따블레치','m'],['celular','휴대폰','쎌룰라르','m'],
   ['chave','열쇠','샤비','f'],['óculos','안경','오꿀루스','mp'],['livro','책','리브루','m'],['caneta','펜','까네따','f'],
   ['relógio','시계','헬로지우','m'],['mochila','배낭','모실라','f'],['computador','컴퓨터','꼼뿌따도르','m'],['casaco','외투','까자꾸','m'],
   ['boné','야구 모자','보네','m'],['fone de ouvido','이어폰','포니 지 오우비두','m'],['documento','서류 · 신분증','도꾸멘뚜','m'],
   ['meu · minha','나의','메우 · 미냐'],['seu · sua','당신의','쎄우 · 쑤아'],['estar com','~을 갖고 있다','이스따르 꽁'],
   ['perdi','잃어버렸어요','뻬르지'],['procurar','찾아다니다','쁘로꾸라르'],['achar','찾아내다 · 생각하다','아샤르'],
-  ['aqui está','여기 있어요','아끼 이스따'],['isso','그것','이쑤'],['aff','아휴 (짜증)','아프']
+  ['aqui está','여기 있어요','아끼 이스따'],['isso','그것','이쑤'],['aff','아휴 (짜증)','아프'],
+  ['cadê','어디 있어?','까데'],['tô','나 ~이야 (estou)','또'],['tá','~이야 (está)','따']
  ], sents:[
-  ['Onde está a minha carteira?','제 지갑 어디 있어요?','온지 이스따 아 미냐 까르떼이라?',1],
-  ['Eu estou com o seu passaporte.','당신 여권 제가 갖고 있어요.','에우 이스또우 꽁 우 쎄우 빠싸뽀르치',1],
-  ['Sim, a minha mala está aqui.','네, 제 가방 여기 있어요.','씽, 아 미냐 말라 이스따 아끼',1],
-  ['Aff, onde está o meu suéter?','아휴, 내 스웨터 어디 있지?','아프, 온지 이스따 우 메우 쑤에떼르?',1],
-  ['A Júlia quer o seu tablet, por favor.','줄리아가 당신 태블릿을 달래요.','아 줄리아 께르 우 쎄우 따블레치, 뽀르 파보르',1],
-  ['Você viu as minhas chaves?','제 열쇠 봤어요?','보쎄 비우 아스 미냐스 샤비스?'],
-  ['O celular está na mochila.','휴대폰은 배낭 안에 있어요.','우 쎌룰라르 이스따 나 모실라'],
-  ['Esse livro é seu?','그 책 당신 거예요?','에씨 리브루 에 쎄우?']
+  ['Cadê minha carteira?','내 지갑 어디 갔지?','까데 미냐 까르떼이라?',1],
+  ['Tô com seu passaporte.','네 여권 내가 갖고 있어.','또 꽁 쎄우 빠싸뽀르치',1],
+  ['Minha mala tá aqui.','내 가방 여기 있어.','미냐 말라 따 아끼',1],
+  ['Aff, cadê meu moletom?','아휴, 내 후드티 어디 있지?','아프, 까데 메우 몰레똥?',1],
+  ['A Júlia tá pedindo seu tablet.','줄리아가 네 태블릿 좀 달래.','아 줄리아 따 뻬진두 쎄우 따블레치',1],
+  ['Você viu minhas chaves?','내 열쇠 봤어?','보쎄 비우 미냐스 샤비스?'],
+  ['O celular tá na mochila.','휴대폰은 배낭에 있어.','우 쎌룰라르 따 나 모실라'],
+  ['Esse livro é seu?','그 책 네 거야?','에씨 리브루 에 쎄우?'],
+  ['Perdi meu fone.','이어폰 잃어버렸어.','뻬르지 메우 포니']
  ]},
  {n:15, ko:'언어·공부', pt:'Idiomas e estudos', c:'lav', words:[
   ['português','포르투갈어','뽀르뚜게스','m'],['inglês','영어','잉글레스','m'],['francês','프랑스어','프랑세스','m'],['espanhol','스페인어','이스빠뇨우','m'],
@@ -555,16 +570,18 @@ const UNITS = [
   ['professor','선생님 (남자)','쁘로페쏘르','m'],['professora','선생님 (여자)','쁘로페쏘라','f'],['aluno','학생 (남자)','알루누','m'],
   ['palavra','단어','빨라브라','f'],['frase','문장','프라지','f'],['um pouco','조금','웅 뽀우꾸'],['difícil','어려운','지피씨우'],
   ['fácil','쉬운','파씨우'],['devagar','천천히','지바가르'],['entender','이해하다','잉뗀데르'],['ler','읽다','레르'],
-  ['escrever','쓰다','이스끄레베르'],['repetir','반복하다','헤뻬치르'],['perguntar','묻다','뻬르군따르'],['responder','대답하다','헤스뽄데르']
+  ['escrever','쓰다','이스끄레베르'],['repetir','반복하다','헤뻬치르'],['perguntar','묻다','뻬르군따르'],['responder','대답하다','헤스뽄데르'],
+  ['um pouquinho','아주 조금','웅 뽀우낑뉴'],['entendi','알아들었어','잉뗀지']
  ], sents:[
-  ['Eu estudo português na escola.','저는 학교에서 포르투갈어를 공부해요.','에우 이스뚜두 뽀르뚜게스 나 이스꼴라',1],
-  ['Eu falo inglês e francês.','저는 영어와 프랑스어를 해요.','에우 팔루 잉글레스 이 프랑세스',1],
-  ['Você fala espanhol também, né?','스페인어도 하시죠, 그렇죠?','보쎄 팔라 이스빠뇨우 땀벵, 네?',1],
-  ['Eu estudo espanhol na minha cidade.','저는 제 도시에서 스페인어를 공부해요.','에우 이스뚜두 이스빠뇨우 나 미냐 씨다지',1],
-  ['Sim, eu falo um pouco de português.','네, 포르투갈어를 조금 해요.','씽, 에우 팔루 웅 뽀우꾸 지 뽀르뚜게스',1],
-  ['Pode repetir, por favor?','다시 말씀해 주시겠어요?','뽀지 헤뻬치르, 뽀르 파보르?'],
+  ['Estudo português na escola.','학교에서 포르투갈어 배워요.','이스뚜두 뽀르뚜게스 나 이스꼴라',1],
+  ['Falo inglês e um pouco de francês.','영어랑 프랑스어 조금 해요.','팔루 잉글레스 이 웅 뽀우꾸 지 프랑세스',1],
+  ['E espanhol, você fala?','스페인어는요, 할 줄 알아요?','이 이스빠뇨우, 보쎄 팔라?',1],
+  ['Tô estudando espanhol.','스페인어 공부하는 중이에요.','또 이스뚜단두 이스빠뇨우',1],
+  ['Falo um pouquinho de português.','포르투갈어 아주 조금 해요.','팔루 웅 뽀우낑뉴 지 뽀르뚜게스',1],
+  ['Como é que fala isso em português?','이거 포르투갈어로 뭐라고 해요?','꼬무 에 끼 팔라 이쑤 엥 뽀르뚜게스?'],
+  ['Pode repetir?','다시 한 번 말해 줄래요?','뽀지 헤뻬치르?'],
   ['Mais devagar, por favor.','좀 더 천천히요.','마이스 지바가르, 뽀르 파보르'],
-  ['Eu não entendo.','이해가 안 돼요.','에우 나웅 잉뗀두']
+  ['Não entendi.','못 알아들었어요.','나웅 잉뗀지']
  ]}
 ];
 // learning order (ids stay fixed, display numbers follow this order)
@@ -574,23 +591,23 @@ const uno = u => UNITS.indexOf(u);
 const PRON = ['eu','você · ele · ela','nós','vocês · eles · elas'];
 const PRON_SAY = ['eu','ele','nós','eles'];
 const VERBS = [
- {v:'ser', ko:'~이다', note:'변하지 않는 것: 국적·직업·성격. 과거형은 ir와 같아요', f:['sou','é','somos','são'], p:['fui','foi','fomos','foram'], ex:['Eu sou coreana.','저는 한국 사람이에요.'], px:['Foi muito bom.','정말 좋았어요.']},
- {v:'estar', ko:'~이다 · ~에 있다', note:'변하는 것: 기분·상태·위치', f:['estou','está','estamos','estão'], p:['estive','esteve','estivemos','estiveram'], ex:['Eu estou cansado.','저는 피곤해요.'], px:['Eu estive no Brasil em 2019.','2019년에 브라질에 있었어요.']},
- {v:'ter', ko:'가지다 · 있다', note:'나이를 말할 때도 써요', f:['tenho','tem','temos','têm'], p:['tive','teve','tivemos','tiveram'], ex:['Eu tenho um irmão.','저는 남자 형제가 한 명 있어요.'], px:['Eu tive uma ideia.','좋은 생각이 났어요.']},
- {v:'ir', ko:'가다', note:'ir + 동사원형 = ~할 거예요. 과거형은 ser와 같아요', f:['vou','vai','vamos','vão'], p:['fui','foi','fomos','foram'], ex:['Nós vamos ao Brasil.','우리는 브라질에 가요.'], px:['Nós fomos ao cinema.','우리는 영화관에 갔어요.']},
- {v:'fazer', ko:'하다 · 만들다', note:'날씨·직업 질문에 자주 나와요', f:['faço','faz','fazemos','fazem'], p:['fiz','fez','fizemos','fizeram'], ex:['O que você faz?','무슨 일 하세요?'], px:['O que você fez ontem?','어제 뭐 했어요?']},
- {v:'querer', ko:'원하다', note:'주문할 때 Eu quero…', f:['quero','quer','queremos','querem'], p:['quis','quis','quisemos','quiseram'], ex:['Eu quero um café.','커피 한 잔 주세요.'], px:['Eu quis ajudar.','도와주고 싶었어요.']},
- {v:'poder', ko:'할 수 있다', note:'Posso…? = ~해도 돼요?', f:['posso','pode','podemos','podem'], p:['pude','pôde','pudemos','puderam'], ex:['Posso entrar?','들어가도 돼요?'], px:['Eu não pude ir.','저는 갈 수 없었어요.']},
- {v:'saber', ko:'알다', note:'지식·방법을 알 때. 사람을 알 땐 conhecer', f:['sei','sabe','sabemos','sabem'], p:['soube','soube','soubemos','souberam'], ex:['Eu não sei.','모르겠어요.'], px:['Eu soube ontem.','어제 알게 됐어요.']},
- {v:'falar', ko:'말하다', note:'-ar 규칙동사의 대표', f:['falo','fala','falamos','falam'], p:['falei','falou','falamos','falaram'], ex:['Você fala inglês?','영어 할 줄 아세요?'], px:['Eu falei com ela.','그녀와 이야기했어요.']},
+ {v:'ser', ko:'~이다', note:'변하지 않는 것: 국적·직업·성격. 과거형은 ir와 같아요', f:['sou','é','somos','são'], p:['fui','foi','fomos','foram'], ex:['Sou coreana.','저 한국 사람이에요.'], px:['Foi muito bom.','정말 좋았어요.']},
+ {v:'estar', ko:'~이다 · ~에 있다', note:'변하는 것: 기분·상태·위치', f:['estou','está','estamos','estão'], p:['estive','esteve','estivemos','estiveram'], ex:['Estou cansado hoje.','오늘 피곤해요.'], px:['Estive no Brasil ano passado.','작년에 브라질에 있었어요.']},
+ {v:'ter', ko:'가지다 · 있다', note:'나이를 말할 때도 써요', f:['tenho','tem','temos','têm'], p:['tive','teve','tivemos','tiveram'], ex:['Tenho um irmão mais velho.','오빠가 한 명 있어요.'], px:['Tive uma ideia!','좋은 생각 났어!']},
+ {v:'ir', ko:'가다', note:'ir + 동사원형 = ~할 거예요. 과거형은 ser와 같아요', f:['vou','vai','vamos','vão'], p:['fui','foi','fomos','foram'], ex:['Nós vamos pro Brasil em julho.','우리 7월에 브라질 가요.'], px:['Fomos ao cinema ontem.','어제 영화 보러 갔어요.']},
+ {v:'fazer', ko:'하다 · 만들다', note:'날씨·직업 질문에 자주 나와요', f:['faço','faz','fazemos','fazem'], p:['fiz','fez','fizemos','fizeram'], ex:['O que você faz da vida?','무슨 일 하세요?'], px:['O que você fez ontem?','어제 뭐 했어요?']},
+ {v:'querer', ko:'원하다', note:'주문할 때 Eu quero…', f:['quero','quer','queremos','querem'], p:['quis','quis','quisemos','quiseram'], ex:['Quero um café.','커피 한 잔 주세요.'], px:['Eu quis ajudar.','도와주고 싶었어요.']},
+ {v:'poder', ko:'할 수 있다', note:'Posso…? = ~해도 돼요?', f:['posso','pode','podemos','podem'], p:['pude','pôde','pudemos','puderam'], ex:['Posso entrar?','들어가도 돼요?'], px:['Não pude ir, foi mal.','못 갔어, 미안.']},
+ {v:'saber', ko:'알다', note:'지식·방법을 알 때. 사람을 알 땐 conhecer', f:['sei','sabe','sabemos','sabem'], p:['soube','soube','soubemos','souberam'], ex:['Não sei.','모르겠어요.'], px:['Soube da notícia ontem.','어제 그 소식 들었어요.']},
+ {v:'falar', ko:'말하다', note:'-ar 규칙동사의 대표', f:['falo','fala','falamos','falam'], p:['falei','falou','falamos','falaram'], ex:['Você fala inglês?','영어 할 줄 아세요?'], px:['Falei com ela ontem.','어제 그 사람이랑 얘기했어요.']},
  {v:'comer', ko:'먹다', note:'-er 규칙동사의 대표', f:['como','come','comemos','comem'], p:['comi','comeu','comemos','comeram'], ex:['Nós comemos arroz e feijão.','우리는 밥과 콩을 먹어요.'], px:['Você já comeu?','밥 먹었어요?']},
  {v:'abrir', ko:'열다', note:'-ir 규칙동사의 대표', f:['abro','abre','abrimos','abrem'], p:['abri','abriu','abrimos','abriram'], ex:['A loja abre às nove.','가게는 9시에 열어요.'], px:['Ele abriu a janela.','그가 창문을 열었어요.']},
  {v:'dizer', ko:'말하다 · 이르다', note:'Como se diz…? = …를 뭐라고 해요?', f:['digo','diz','dizemos','dizem'], p:['disse','disse','dissemos','disseram'], ex:['Como se diz isso em português?','이건 포르투갈어로 뭐라고 해요?'], px:['Ela disse que sim.','그녀가 좋다고 했어요.']},
- {v:'ver', ko:'보다', note:'3인칭 복수는 veem', f:['vejo','vê','vemos','veem'], p:['vi','viu','vimos','viram'], ex:['Eu vejo TV à noite.','저는 밤에 TV를 봐요.'], px:['Eu vi o mar.','바다를 봤어요.']},
+ {v:'ver', ko:'보다', note:'3인칭 복수는 veem', f:['vejo','vê','vemos','veem'], p:['vi','viu','vimos','viram'], ex:['Vejo série à noite.','밤에 드라마 봐요.'], px:['Vi o mar pela primeira vez.','처음으로 바다를 봤어요.']},
  {v:'vir', ko:'오다', note:'ir(가다)와 짝. vêm의 ^ 주의', f:['venho','vem','vimos','vêm'], p:['vim','veio','viemos','vieram'], ex:['Você vem amanhã?','내일 와요?'], px:['Eles vieram de ônibus.','그들은 버스로 왔어요.']},
  {v:'dar', ko:'주다', note:'짧은 불규칙형이 많아요', f:['dou','dá','damos','dão'], p:['dei','deu','demos','deram'], ex:['Me dá um café?','커피 한 잔 줄래요?'], px:['Ele me deu um presente.','그가 저에게 선물을 줬어요.']},
- {v:'sair', ko:'나가다', note:'saímos의 í 강세 주의', f:['saio','sai','saímos','saem'], p:['saí','saiu','saímos','saíram'], ex:['Eu saio de casa às oito.','저는 8시에 집을 나서요.'], px:['Ela saiu cedo.','그녀는 일찍 나갔어요.']},
- {v:'gostar', ko:'좋아하다', note:'항상 de와 함께: gostar de…', f:['gosto','gosta','gostamos','gostam'], p:['gostei','gostou','gostamos','gostaram'], ex:['Eu gosto de música.','저는 음악을 좋아해요.'], px:['Gostei muito do filme.','영화 정말 좋았어요.']}
+ {v:'sair', ko:'나가다', note:'saímos의 í 강세 주의', f:['saio','sai','saímos','saem'], p:['saí','saiu','saímos','saíram'], ex:['Saio de casa às oito.','8시에 집에서 나와요.'], px:['Ela saiu cedo.','그녀는 일찍 나갔어요.']},
+ {v:'gostar', ko:'좋아하다', note:'항상 de와 함께: gostar de…', f:['gosto','gosta','gostamos','gostam'], p:['gostei','gostou','gostamos','gostaram'], ex:['Gosto muito de música.','음악 정말 좋아해요.'], px:['Gostei muito do filme.','영화 정말 좋았어요.']}
 ];
 const ART = {m:'o', f:'a', mp:'os', fp:'as'};
 const ALL = [];
