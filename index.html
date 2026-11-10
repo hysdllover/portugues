@@ -2,175 +2,196 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Passo">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&family=Nanum+Pen+Script&display=swap">
 <style>
-/* Layout: phone = single column + bottom tabs; iPad (>=900px) = left sidebar + wide content. Quiet, low-saturation pastels, thin system type. */
+/* Layout: phone = single column + bottom tabs; iPad (>=900px) = left sidebar + wide content.
+   Analog notebook: graphite pencil on faint ruled paper, pastel color-pencil hatching for accents. */
 :root{
-  --bg:#F3F5F2; --surface:#FFFFFF; --soft:#ECEFEB; --line:#E0E4DE;
-  --ink:#3B413E; --muted:#848B87; --faint:#B0B6B2;
+  --paper:#F5F3EC; --sheet:#FBFAF5; --rule:#E6E3DA; --soft:#EDEBE3;
+  --ink:#4B4B46; --muted:#8A8980; --faint:#B7B5AB; --pencil:#686760;
   --sage:#A9C2B2; --sage-ink:#4E6C5A;
   --sky:#BFD3E0;  --sky-ink:#4A6880;
   --lav:#C8C4DD;  --lav-ink:#5F5985;
   --peach:#E9CBBE;--peach-ink:#8C5C48;
   --sand:#E2D8BF; --sand-ink:#77693F;
-  --ok:#8DB59A; --no:#D6A193;
-  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Apple SD Gothic Neo","Helvetica Neue",sans-serif;
-  --r:12px;
+  --ok:#9DC2A8; --no:#E3AE9F;
+  --font:'Gaegu',-apple-system,"Apple SD Gothic Neo",sans-serif; --wt:400;
+  --r1:14px 5px 12px 6px / 6px 12px 5px 14px;
+  --r2:6px 13px 5px 12px / 12px 5px 13px 6px;
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .3 0 0 0 0 .27 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#191C1B; --surface:#222625; --soft:#2A2F2D; --line:#323836;
-  --ink:#E2E6E3; --muted:#939A96; --faint:#5F6662;
-  --sage:#56705F; --sage-ink:#B6CFBF; --sky:#4F6878; --sky-ink:#BBD1E0;
-  --lav:#5E5A7C; --lav-ink:#CDC8E6; --peach:#7C5F53; --peach-ink:#EECDBF;
-  --sand:#6F6750; --sand-ink:#E2D8BE; --ok:#6E9A7C; --no:#B57F72; color-scheme:dark}}
+  --paper:#20211D; --sheet:#262722; --rule:#2F302B; --soft:#2D2E29;
+  --ink:#DAD7CC; --muted:#9A988D; --faint:#5F5E57; --pencil:#B5B2A6;
+  --sage:#5D7766; --sage-ink:#B6CFBF; --sky:#566F7F; --sky-ink:#BBD1E0;
+  --lav:#625E80; --lav-ink:#CDC8E6; --peach:#80645A; --peach-ink:#EECDBF;
+  --sand:#736B55; --sand-ink:#E2D8BE; --ok:#6E9A7C; --no:#B57F72;
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .9 0 0 0 0 .9 0 0 0 0 .85 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#191C1B; --surface:#222625; --soft:#2A2F2D; --line:#323836;
-  --ink:#E2E6E3; --muted:#939A96; --faint:#5F6662;
-  --sage:#56705F; --sage-ink:#B6CFBF; --sky:#4F6878; --sky-ink:#BBD1E0;
-  --lav:#5E5A7C; --lav-ink:#CDC8E6; --peach:#7C5F53; --peach-ink:#EECDBF;
-  --sand:#6F6750; --sand-ink:#E2D8BE; --ok:#6E9A7C; --no:#B57F72; color-scheme:dark}
+  --paper:#20211D; --sheet:#262722; --rule:#2F302B; --soft:#2D2E29;
+  --ink:#DAD7CC; --muted:#9A988D; --faint:#5F5E57; --pencil:#B5B2A6;
+  --sage:#5D7766; --sage-ink:#B6CFBF; --sky:#566F7F; --sky-ink:#BBD1E0;
+  --lav:#625E80; --lav-ink:#CDC8E6; --peach:#80645A; --peach-ink:#EECDBF;
+  --sand:#736B55; --sand-ink:#E2D8BE; --ok:#6E9A7C; --no:#B57F72;
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .9 0 0 0 0 .9 0 0 0 0 .85 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  color-scheme:dark}
 
 [hidden]{display:none!important}
+html{font-size:15.5px}
 html,body{height:100%}
-body{background:var(--bg);color:var(--ink);font:300 14px/1.55 var(--font);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+body{background:var(--grain),repeating-linear-gradient(to bottom,transparent 0 31px,var(--rule) 31px 32px),var(--paper);background-attachment:fixed;color:var(--ink);font-family:var(--font);font-weight:var(--wt);font-size:1rem;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;text-shadow:0 0 .4px color-mix(in srgb,var(--ink) 60%,transparent)}
+button,input{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
 a{color:inherit;text-decoration:none}
-button:focus-visible,a:focus-visible{outline:2px solid var(--sky);outline-offset:2px;border-radius:8px}
-h1,h2,h3{font-weight:400;margin:0;text-wrap:balance}
+button:focus-visible,a:focus-visible,label:focus-within{outline:1.5px dashed var(--pencil);outline-offset:3px;border-radius:8px}
+h1,h2,h3{font-weight:var(--wt);margin:0;text-wrap:balance}
 p{margin:0}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* pencil strokes: a wobbly main line + a faint second pass */
+.card,.stat,.opt,.btn,.listen,.seg,.chips button{position:relative;border:0;border-radius:var(--r1)}
+.card::before,.stat::before,.opt::before,.btn::before,.listen::before,.seg::before,.chips button::before{content:"";position:absolute;inset:0;border:1.3px solid var(--pencil);border-radius:var(--r1);opacity:.7;pointer-events:none;filter:url(#pencil)}
+.card::after,.stat::after,.opt::after,.btn::after{content:"";position:absolute;inset:2px -1px -1px 2px;border:1px solid var(--pencil);border-radius:var(--r2);opacity:.22;pointer-events:none;transform:rotate(-.35deg)}
+.hatch{background:repeating-linear-gradient(-58deg,var(--c,var(--sage)) 0 1.8px,transparent 1.8px 4.6px)}
 
 .app{display:flex;min-height:100%}
-main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px calc(84px + env(safe-area-inset-bottom,0px))}
-.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px calc(88px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
 
 /* nav */
 .side{display:none}
-.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;display:grid;grid-template-columns:repeat(4,1fr);background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
-.tabs a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:var(--faint);padding:4px 0}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;display:grid;grid-template-columns:repeat(4,1fr);background:var(--grain),color-mix(in srgb,var(--paper) 96%,transparent);border-top:1.3px solid color-mix(in srgb,var(--pencil) 45%,transparent);padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+.tabs a{display:flex;flex-direction:column;align-items:center;gap:1px;font-size:.8rem;color:var(--faint);padding:4px 0}
 .tabs a.on{color:var(--ink)}
-.tabs svg,.side svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.tabs a.on span{background:linear-gradient(transparent 58%,color-mix(in srgb,var(--sage) 70%,transparent) 58% 92%,transparent 92%);padding:0 4px}
+.tabs svg,.side svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;filter:url(#pencil)}
 @media (min-width:900px){
   .tabs{display:none}
-  .side{display:flex;flex-direction:column;gap:4px;width:220px;flex:none;position:sticky;top:0;height:100vh;padding:28px 14px;padding-left:max(14px,env(safe-area-inset-left,0px));border-right:1px solid var(--line);background:var(--surface)}
+  .side{display:flex;flex-direction:column;gap:4px;width:220px;flex:none;position:sticky;top:0;height:100vh;padding:28px 14px;padding-left:max(14px,env(safe-area-inset-left,0px));border-right:1.3px solid color-mix(in srgb,var(--pencil) 40%,transparent)}
   .side .brand{padding:0 10px 18px}
-  .side a{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;color:var(--muted)}
-  .side a.on{background:var(--soft);color:var(--ink)}
-  .side .foot{margin-top:auto;padding:0 10px;font-size:11px;color:var(--faint)}
+  .side a{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--r1);color:var(--muted)}
+  .side a.on{color:var(--ink);background:repeating-linear-gradient(-58deg,color-mix(in srgb,var(--sage) 55%,transparent) 0 1.6px,transparent 1.6px 5px)}
+  .side .foot{margin-top:auto;padding:0 10px;font-size:.78rem;color:var(--faint)}
   main{padding-block:32px 40px;padding-left:32px;padding-right:max(32px,env(safe-area-inset-right,0px))}
 }
-.brand b{display:block;font-weight:500;font-size:15px;letter-spacing:.01em}
-.brand span{font-size:11px;color:var(--muted)}
+.brand b{display:block;font-weight:700;font-size:1.15rem}
+.brand span{font-size:.8rem;color:var(--muted)}
 
 /* common */
-.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.06em}
-.title{font-size:22px;font-weight:300;letter-spacing:-.01em}
-.sub{color:var(--muted);font-size:12.5px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.eyebrow{font-size:.82rem;color:var(--muted);letter-spacing:.03em}
+.title{font-size:1.75rem;line-height:1.25;align-self:flex-start;padding:0 6px 0 2px;background:linear-gradient(transparent 60%,color-mix(in srgb,var(--sage) 60%,transparent) 60% 90%,transparent 90%)}
+.sub{color:var(--muted);font-size:.88rem}
+.card{background:var(--sheet);padding:16px}
 .row{display:flex;align-items:center;gap:10px;min-width:0}
 .grow{flex:1;min-width:0}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:42px;padding:0 18px;border-radius:21px;background:var(--ink);color:var(--bg);font-weight:400;font-size:13.5px}
-.btn.ghost{background:var(--soft);color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:46px;padding:0 20px;font-weight:700;font-size:1.05rem;color:var(--ink);background:repeating-linear-gradient(-58deg,color-mix(in srgb,var(--sage) 60%,transparent) 0 1.8px,transparent 1.8px 5px),var(--sheet)}
+.btn.ghost{background:var(--sheet);font-weight:var(--wt)}
 .btn.wide{width:100%}
-.btn.sm{height:32px;padding:0 13px;font-size:12.5px}
-.chip{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:11px;font-size:11px;font-weight:400;white-space:nowrap}
-.spk{flex:none;width:32px;height:32px;border-radius:16px;display:grid;place-items:center;background:var(--soft);color:var(--muted)}
-.spk svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.spk:active{transform:scale(.94)}
-.track{height:4px;border-radius:2px;background:var(--soft);overflow:hidden}
-.track i{display:block;height:100%;border-radius:2px;background:var(--sage)}
+.btn.sm{height:34px;padding:0 14px;font-size:.92rem}
+.btn:active,.opt:active,.spk:active{transform:translateY(1px)}
+.chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px 9px 12px 8px;font-size:.82rem;white-space:nowrap;border:1px solid color-mix(in srgb,var(--pencil) 50%,transparent)}
+.spk{flex:none;width:34px;height:34px;border-radius:52% 48% 50% 46%;display:grid;place-items:center;color:var(--pencil);border:1.2px solid color-mix(in srgb,var(--pencil) 55%,transparent)}
+.spk svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.track{height:9px;border-radius:4px 2px 5px 2px;border:1.1px solid color-mix(in srgb,var(--pencil) 55%,transparent);overflow:hidden;padding:1px}
+.track i{display:block;height:100%;border-radius:2px;background:repeating-linear-gradient(-58deg,var(--c,var(--sage-ink)) 0 1.6px,transparent 1.6px 4px);opacity:.85}
 .list{display:flex;flex-direction:column}
-.list > *{border-top:1px solid var(--line);padding-block:11px}
+.list > *{border-top:1px dashed color-mix(in srgb,var(--pencil) 35%,transparent);padding-block:11px}
 .list > *:first-child{border-top:0;padding-top:2px}
 .list > *:last-child{padding-bottom:2px}
-.pt{font-weight:400;font-size:15px;overflow-wrap:anywhere}
-.pron{color:var(--muted);font-size:12px}
-.ko{font-size:13px}
+.pt{font-weight:700;font-size:1.14rem;overflow-wrap:anywhere}
+.pron{color:var(--muted);font-size:.88rem}
+.ko{font-size:1rem}
+.art{font-weight:700}
 .art.m{color:var(--sky-ink)} .art.f{color:var(--peach-ink)}
-.art{font-weight:400}
 .dots{display:flex;gap:3px;flex:none}
-.dots i{width:5px;height:5px;border-radius:50%;background:var(--line)}
-.dots i.on{background:var(--sage)}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px;align-items:start}
+.dots i{width:7px;height:7px;border-radius:50% 42% 52% 45%;border:1px solid var(--faint)}
+.dots i.on{background:var(--pencil);border-color:var(--pencil)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px;align-items:start}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
-.stat b{display:block;font-weight:300;font-size:24px;font-variant-numeric:tabular-nums;line-height:1.2}
-.stat span{font-size:11px;color:var(--muted)}
-.legend{display:flex;gap:12px;font-size:11.5px;color:var(--muted)}
-.empty{color:var(--muted);font-size:13px;padding:6px 0}
+.stat{background:var(--sheet);padding:12px 14px}
+.stat b{display:block;font-weight:var(--wt);font-size:2rem;line-height:1.1}
+.stat span{font-size:.82rem;color:var(--muted)}
+.legend{display:flex;gap:12px;font-size:.85rem;color:var(--muted)}
+.empty{color:var(--muted);font-size:.93rem;padding:6px 0}
 
 /* home */
 .hero{display:flex;flex-direction:column;gap:2px;padding:4px 0 6px}
-.hero .title{font-size:26px}
+.hero .title{font-size:2.1rem}
 .today{display:flex;flex-direction:column;gap:14px}
-.today .nums{display:flex;gap:22px}
-.today .nums b{display:block;font-size:28px;font-weight:300;font-variant-numeric:tabular-nums;line-height:1.1}
-.today .nums span{font-size:11.5px;color:var(--muted)}
+.today .nums{display:flex;gap:24px}
+.today .nums b{display:block;font-size:2.2rem;font-weight:var(--wt);line-height:1.05}
+.today .nums span{font-size:.85rem;color:var(--muted)}
 
 /* units */
 .unit{display:flex;align-items:center;gap:12px}
-.unit .no{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:13px;font-weight:400}
+.unit .no{flex:none;width:36px;height:36px;border-radius:var(--r1);display:grid;place-items:center;font-size:1.1rem;font-weight:700;border:1.2px solid color-mix(in srgb,var(--pencil) 55%,transparent)}
 .unit.lock{opacity:.5}
 .rule{display:flex;flex-direction:column;gap:8px}
-.rule h3{font-size:16px}
+.rule h3{font-size:1.35rem;font-weight:700;align-self:flex-start;padding:0 4px;background:linear-gradient(transparent 58%,color-mix(in srgb,var(--sand) 75%,transparent) 58% 92%,transparent 92%)}
 .ex{display:flex;align-items:center;gap:10px}
 
 /* verbs */
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chips button{height:32px;padding:0 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);font-size:13px}
-.chips button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{height:34px;padding:0 15px;font-size:1rem;background:var(--sheet)}
+.chips button.on{font-weight:700;background:repeating-linear-gradient(-58deg,color-mix(in srgb,var(--lav) 65%,transparent) 0 1.8px,transparent 1.8px 5px),var(--sheet)}
 .conj{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:10px}
-.conj .p{color:var(--muted);font-size:12.5px}
-.conj .f{font-size:16px;font-weight:400}
+.conj .p{color:var(--muted);font-size:.93rem}
+.conj .f{font-size:1.3rem;font-weight:700}
 
 /* record */
-.bars{display:grid;grid-template-columns:repeat(14,1fr);gap:4px;align-items:end;height:110px}
+.bars{display:grid;grid-template-columns:repeat(14,1fr);gap:4px;align-items:end;height:120px}
 .bars div{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;height:100%;min-width:0}
-.bars i{display:block;width:100%;max-width:18px;border-radius:3px 3px 1px 1px;background:var(--sage);min-height:2px}
-.bars i.z{background:var(--soft)}
-.bars span{font-size:9.5px;color:var(--faint);font-variant-numeric:tabular-nums}
-.bars em{font-style:normal;font-size:9.5px;color:var(--muted);font-variant-numeric:tabular-nums}
-.seg{display:inline-flex;background:var(--soft);border-radius:9px;padding:2px}
-.seg button{height:28px;padding:0 11px;border-radius:7px;font-size:12px;color:var(--muted)}
-.seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+.bars i{display:block;width:100%;max-width:18px;border:1.1px solid var(--pencil);border-bottom:0;border-radius:3px 4px 0 0;background:repeating-linear-gradient(-58deg,var(--sage-ink) 0 1.4px,transparent 1.4px 4px);min-height:2px}
+.bars i.z{border:0;border-bottom:1.1px solid var(--faint);background:none;min-height:1px}
+.bars span{font-size:.7rem;color:var(--faint)}
+.bars em{font-style:normal;font-size:.72rem;color:var(--muted)}
+.seg{display:inline-flex;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{height:30px;padding:0 11px;border-radius:var(--r2);font-size:.92rem;color:var(--muted)}
+.seg button.on{color:var(--ink);font-weight:700;background:repeating-linear-gradient(-58deg,color-mix(in srgb,var(--sage) 60%,transparent) 0 1.6px,transparent 1.6px 5px)}
+.btn,.opt.ok,.opt.no,.seg button.on,.chips button.on,.side a.on{text-shadow:0 0 2px var(--sheet),0 0 4px var(--sheet)}
 .set{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sample{font-size:1.15rem;padding:8px 10px;border-radius:var(--r2);background:var(--paper)}
 
 /* study overlay */
-.ov{position:fixed;inset:0;z-index:30;background:var(--bg);display:flex;justify-content:center;overflow-y:auto;padding:calc(12px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.ov{position:fixed;inset:0;z-index:30;background:var(--grain),repeating-linear-gradient(to bottom,transparent 0 31px,var(--rule) 31px 32px),var(--paper);display:flex;justify-content:center;overflow-y:auto;padding:calc(12px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .ov-in{width:100%;max-width:540px;display:flex;flex-direction:column;gap:18px;min-height:100%}
 .ov-top{display:flex;align-items:center;gap:12px}
 .ov-top .track{flex:1}
-.ov-top .cnt{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:42px;text-align:right}
-.x{width:32px;height:32px;border-radius:16px;display:grid;place-items:center;color:var(--muted)}
-.x svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round}
+.ov-top .cnt{font-size:.88rem;color:var(--muted);min-width:44px;text-align:right}
+.x{width:34px;height:34px;border-radius:17px;display:grid;place-items:center;color:var(--muted)}
+.x svg{width:17px;height:17px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;filter:url(#pencil)}
 .stage{flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px;padding-block:8px}
 .prompt{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
-.prompt .big{font-size:32px;font-weight:300;letter-spacing:-.01em;line-height:1.25;overflow-wrap:anywhere}
-.prompt .q{font-size:12px;color:var(--muted)}
-.prompt .meaning{font-size:17px;margin-top:6px}
-.listen{width:84px;height:84px;border-radius:42px;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);color:var(--ink)}
-.listen svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
-.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.opt{min-height:54px;padding:10px 12px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line);font-size:14px;text-align:center;overflow-wrap:anywhere;min-width:0;transition:background .15s,border-color .15s}
-.opt.ok{background:color-mix(in srgb,var(--ok) 32%,var(--surface));border-color:var(--ok)}
-.opt.no{background:color-mix(in srgb,var(--no) 30%,var(--surface));border-color:var(--no)}
-.opt:disabled{cursor:default}
-.fb{text-align:center;font-size:13px;color:var(--muted);min-height:20px}
+.prompt .big{font-size:2.6rem;font-weight:700;line-height:1.2;overflow-wrap:anywhere}
+.prompt .big.ko2{font-size:2rem}
+.prompt .q{font-size:.9rem;color:var(--muted)}
+.prompt .meaning{font-size:1.35rem;margin-top:4px;padding:0 6px;background:linear-gradient(transparent 60%,color-mix(in srgb,var(--peach) 65%,transparent) 60% 90%,transparent 90%)}
+.listen{width:88px;height:88px;border-radius:50% 46% 52% 48%;display:grid;place-items:center;background:var(--sheet);color:var(--ink)}
+.listen::before{border-radius:50% 46% 52% 48%}
+.listen svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{min-height:58px;padding:10px 12px;background:var(--sheet);font-size:1.1rem;text-align:center;overflow-wrap:anywhere;min-width:0}
+.opt.ok{background:repeating-linear-gradient(-58deg,color-mix(in srgb,var(--ok) 70%,transparent) 0 1.8px,transparent 1.8px 5px),var(--sheet);font-weight:700}
+.opt.no{background:repeating-linear-gradient(-58deg,color-mix(in srgb,var(--no) 70%,transparent) 0 1.8px,transparent 1.8px 5px),var(--sheet);text-decoration:line-through;text-decoration-color:var(--pencil)}
+.opt:disabled{cursor:default;color:var(--ink)}
+.fb{text-align:center;font-size:1rem;color:var(--muted);min-height:22px}
 .sent{display:flex;gap:10px;align-items:flex-start}
 .sent .grow{display:flex;flex-direction:column;gap:2px}
 .hide{filter:blur(5px);user-select:none;cursor:pointer}
 @media (max-width:380px){.opts{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
 /* A4 print */
 @media print{
   @page{size:A4;margin:14mm}
   .tabs,.side,.ov,.spk,.btn,.noprint{display:none!important}
-  body{background:#fff;color:#222;font-size:11pt}
+  body{background:#fff;color:#222;font-size:11pt;text-shadow:none}
   main{padding:0!important}
   .wrap{max-width:none}
-  .card,.stat{border:1px solid #ddd;break-inside:avoid}
+  .card,.stat{break-inside:avoid}
   .list > *{break-inside:avoid}
 }
 </style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="pencil" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
 
 <div class="app">
   <nav class="side" aria-label="메뉴">
@@ -183,10 +204,10 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
   </nav>
   <main><div class="wrap" id="view"></div></main>
   <nav class="tabs" aria-label="탭">
-    <a href="#home" data-n="home"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg>홈</a>
-    <a href="#units" data-n="units"><svg viewBox="0 0 24 24"><path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h10"/></svg>단원</a>
-    <a href="#verbs" data-n="verbs"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h13"/></svg>동사</a>
-    <a href="#record" data-n="record"><svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></svg>기록</a>
+    <a href="#home" data-n="home"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg><span>홈</span></a>
+    <a href="#units" data-n="units"><svg viewBox="0 0 24 24"><path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h10"/></svg><span>단원</span></a>
+    <a href="#verbs" data-n="verbs"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h13"/></svg><span>동사</span></a>
+    <a href="#record" data-n="record"><svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></svg><span>기록</span></a>
   </nav>
 </div>
 <div class="ov" id="ov" hidden><div class="ov-in" id="ovIn"></div></div>
@@ -331,7 +352,7 @@ function say(t){
 
 /* ---------- state & storage ---------- */
 const LS = 'passo-a-passo-v1';
-const DEF = () => ({v:1, t:0, w:{}, days:{}, streak:0, last:null, seen0:false, set:{pron:true, rate:0.9, newN:5}});
+const DEF = () => ({v:1, t:0, w:{}, days:{}, streak:0, last:null, seen0:false, set:{pron:true, rate:0.9, newN:5, font:'pencil', size:1, fontName:'', fontId:'', fontAsset:''}});
 function norm(o){ const d = DEF(); o = o && typeof o === 'object' ? o : {}; return {...d, ...o, set:{...d.set, ...(o.set||{})}, w:o.w||{}, days:o.days||{}}; }
 let S = DEF();
 try{ S = norm(JSON.parse(localStorage.getItem(LS))); }catch(e){}
@@ -356,7 +377,7 @@ async function pull(){
     const snap = await docRef.get();
     if (snap.exists){
       const r = snap.data();
-      if ((r.t||0) > (S.t||0)){ S = norm(JSON.parse(JSON.stringify(r))); try{ localStorage.setItem(LS, JSON.stringify(S)); }catch(e){} if ($('#ov').hidden) render(); }
+      if ((r.t||0) > (S.t||0)){ S = norm(JSON.parse(JSON.stringify(r))); try{ localStorage.setItem(LS, JSON.stringify(S)); }catch(e){} applyTypo(); if ($('#ov').hidden) render(); }
       else if ((S.t||0) > (r.t||0)) flush();
     } else if (S.t) flush();
     setSync('cloud');
@@ -373,6 +394,86 @@ async function initCloud(){
     await pull();
   }catch(e){ docRef = null; }
 }
+/* ---------- fonts ---------- */
+const FALLBACK = '-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif';
+const FONTS = {pencil:{fam:"'Gaegu'", scale:1.1, wt:400}, pen:{fam:"'Nanum Pen Script'", scale:1.3, wt:400}, basic:{fam:'', scale:.92, wt:300}, user:{fam:'', scale:1, wt:400}};
+const FTYPES = {ttf:'font/ttf', otf:'font/otf', woff:'font/woff', woff2:'font/woff2'};
+let userFam = '', userFamId = '', fontMsg = '';
+const idb = {
+  open(){ return new Promise((res, rej) => { const r = indexedDB.open('passo-a-passo', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); },
+  async op(mode, fn){ try{ const d = await this.open(); return await new Promise(res => { const q = fn(d.transaction('kv', mode).objectStore('kv')); q.onsuccess = () => res(q.result); q.onerror = () => res(null); }); }catch(e){ return null; } },
+  get(k){ return this.op('readonly', s => s.get(k)); },
+  set(k, v){ return this.op('readwrite', s => s.put(v, k)); },
+  del(k){ return this.op('readwrite', s => s.delete(k)); }
+};
+async function addFace(buf, id){
+  const fam = 'UserFont-' + String(id).replace(/[^a-z0-9]/gi, '').slice(-12);
+  const ff = new FontFace(fam, buf);
+  await ff.load(); document.fonts.add(ff);
+  userFam = fam; userFamId = id;
+}
+async function loadUserFont(){
+  const id = S.set.fontId;
+  if (!id || userFamId === id) return;
+  try{
+    const rec = await idb.get('font');
+    if (rec && rec.id === id){ await addFace(rec.buf, id); }
+    else if (S.set.fontAsset && S.set.fontAsset === id && window.claude){
+      const r = await fetch('/_blob/' + id);
+      if (!r.ok) throw 0;
+      const buf = await r.arrayBuffer();
+      await addFace(buf, id);
+      idb.set('font', {id, name:S.set.fontName, buf});
+    } else if (rec && rec.buf){ await addFace(rec.buf, rec.id); }
+  }catch(e){}
+  applyTypo(true);
+}
+function applyTypo(noLoad){
+  const want = S.set.font, k = want === 'user' && !userFam ? 'pencil' : want;
+  const f = FONTS[k] || FONTS.pencil;
+  const fam = k === 'user' ? `'${userFam}'` : f.fam;
+  const r = document.documentElement.style;
+  r.setProperty('--font', (fam ? fam + ',' : '') + FALLBACK);
+  r.setProperty('--wt', f.wt);
+  r.fontSize = (14 * f.scale * (S.set.size || 1)).toFixed(2) + 'px';
+  if (want === 'user' && !userFam && !noLoad) loadUserFont();
+}
+async function onFontFile(file){
+  const ext = (file.name.split('.').pop() || '').toLowerCase();
+  if (!FTYPES[ext]){ fontMsg = 'ttf, otf, woff, woff2 파일만 쓸 수 있어요.'; return render(); }
+  fontMsg = '폰트를 불러오는 중…'; render();
+  const buf = await file.arrayBuffer();
+  let id = 'local' + Date.now();
+  try{ await addFace(buf, id); }catch(e){ fontMsg = '폰트 파일을 읽지 못했어요. 다른 파일로 해 보세요.'; return render(); }
+  const oldAsset = S.set.fontAsset;
+  Object.assign(S.set, {font:'user', fontName:file.name, fontId:id, fontAsset:''});
+  await idb.set('font', {id, name:file.name, buf});
+  applyTypo(); save();
+  fontMsg = '이 기기에 저장했어요.'; render();
+  try{
+    const assets = window.claude && window.claude.use ? await window.claude.use('assets') : null;
+    if (!assets) return;
+    fontMsg = 'iPhone·iPad에 공유하는 중…'; render();
+    const up = await assets.upload(new Blob([buf], {type:FTYPES[ext]}), {type:FTYPES[ext]});
+    S.set.fontAsset = up.id; S.set.fontId = up.id; userFamId = up.id;
+    await idb.set('font', {id:up.id, name:file.name, buf});
+    save();
+    if (oldAsset && oldAsset !== up.id) assets.delete(oldAsset).catch(() => {});
+    fontMsg = 'iPhone과 iPad 모두에서 이 폰트를 써요.';
+  }catch(e){
+    fontMsg = e && e.code === 'too_large' ? '파일이 20MB를 넘어서 이 기기에만 저장했어요.' : '이 기기에만 저장했어요.';
+  }
+  render();
+}
+async function removeFont(){
+  const old = S.set.fontAsset;
+  Object.assign(S.set, {font:'pencil', fontName:'', fontId:'', fontAsset:''});
+  userFam = ''; userFamId = ''; fontMsg = '';
+  await idb.del('font');
+  applyTypo(); save(); render();
+  if (old){ try{ const assets = await window.claude.use('assets'); if (assets) await assets.delete(old); }catch(e){} }
+}
+
 function setSync(s){ sync = s; const el = $('#syncSide'); if (el) el.textContent = s === 'cloud' ? 'iPhone · iPad 동기화 중' : '이 기기에 저장 중'; }
 document.addEventListener('visibilitychange', () => { if (!document.hidden) pull(); });
 
@@ -428,8 +529,8 @@ function vHome(){
   ${!S.seen0 ? `<a class="card row" href="#unit-0"><span class="chip" style="background:color-mix(in srgb,var(--sand) 55%,var(--surface));color:var(--sand-ink)">0단원</span><span class="grow">처음이라면 발음 규칙부터 들어보세요</span><span class="sub">›</span></a>` : ''}
   <a class="card" href="#unit-${u.n}" style="display:flex;flex-direction:column;gap:10px">
     <div class="row"><span class="eyebrow grow">지금 배우는 단원</span><span class="sub">${p.l} / ${p.n}</span></div>
-    <div class="row"><b style="font-weight:400;font-size:16px">${u.n}. ${u.ko}</b><span class="sub">${u.pt}</span></div>
-    <div class="track"><i style="width:${p.n ? p.l/p.n*100 : 0}%;background:var(--${u.c})"></i></div>
+    <div class="row"><b style="font-weight:700;font-size:1.2rem">${u.n}. ${u.ko}</b><span class="sub">${u.pt}</span></div>
+    <div class="track"><i style="width:${p.n ? p.l/p.n*100 : 0}%;--c:var(--${u.c}-ink)"></i></div>
   </a>
   <section class="card sent">
     ${spk(s[0])}
@@ -444,7 +545,7 @@ function vUnits(){
       <span class="no" style="background:color-mix(in srgb,var(--${u.c}) 50%,var(--surface));color:var(--${u.c}-ink)">${u.n}</span>
       <span class="grow" style="display:flex;flex-direction:column;gap:5px">
         <span class="row"><span class="grow" style="font-weight:400">${u.ko}</span><span class="sub">${p ? p.l+' / '+p.n : (S.seen0 ? '봤어요' : '규칙 '+u.rules.length+'개')}</span></span>
-        ${p ? `<span class="track"><i style="width:${p.l/p.n*100}%;background:var(--${u.c})"></i></span>` : `<span class="sub">${u.pt}</span>`}
+        ${p ? `<span class="track"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></span>` : `<span class="sub">${u.pt}</span>`}
       </span></a>`;
   }).join('');
   const lock = LATER.map((t,i) => `<div class="unit lock"><span class="no" style="background:var(--soft);color:var(--muted)">${i+5}</span><span class="grow">${t}</span><span class="sub">준비 중</span></div>`).join('');
@@ -471,7 +572,7 @@ function vUnit(n){
       <span class="dots" aria-label="숙련도 ${b}/6">${[1,2,3,4,5,6].map(i => `<i class="${i <= b ? 'on' : ''}"></i>`).join('')}</span></div>`;
   }).join('');
   const sents = u.sents.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko">${esc(s[1])}</span></div></div>`).join('');
-  return head + `<div class="row"><div class="track grow"><i style="width:${p.l/p.n*100}%;background:var(--${u.c})"></i></div><span class="sub">학습 ${p.l} · 익힘 ${p.m} / ${p.n}</span></div>
+  return head + `<div class="row"><div class="track grow"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></div><span class="sub">학습 ${p.l} · 익힘 ${p.m} / ${p.n}</span></div>
   <div class="grid2">
     <section class="card" style="display:flex;flex-direction:column;gap:10px">
       <div class="row"><span class="eyebrow grow">단어 ${ws.length}</span><span class="legend"><span><span class="art m">o</span> 남성</span><span><span class="art f">a</span> 여성</span></span></div>
@@ -490,7 +591,7 @@ function vVerbs(){
   return `<div class="hero"><span class="eyebrow">현재형 · Presente</span><h1 class="title">동사</h1></div>
   <div class="chips noprint">${VERBS.map((x,i) => `<button class="${i === verbIdx ? 'on' : ''}" data-a="verb" data-x="${i}">${x.v}</button>`).join('')}</div>
   <section class="card" style="display:flex;flex-direction:column;gap:12px">
-    <div class="row">${spk(v.v)}<div class="grow"><span class="pt" style="font-size:20px;font-weight:300">${v.v}</span> <span class="ko">${v.ko}</span><p class="sub">${v.note}</p></div></div>
+    <div class="row">${spk(v.v)}<div class="grow"><span class="pt" style="font-size:1.6rem">${v.v}</span> <span class="ko">${v.ko}</span><p class="sub">${v.note}</p></div></div>
     <div class="list">${v.f.map((f,i) => `<div class="conj"><span class="p">${PRON[i]}</span><span class="f">${f}</span>${spk(PRON_SAY[i]+' '+f)}</div>`).join('')}</div>
     <div class="sent" style="padding-top:4px">${spk(v.ex[0])}<div class="grow"><span class="pt">${esc(v.ex[0])}</span><span class="ko">${esc(v.ex[1])}</span></div></div>
   </section>
@@ -515,7 +616,15 @@ function vRecord(){
     <span class="eyebrow">최근 14일 · 푼 문제 수</span>
     <div class="bars">${days.map(x => `<div><em>${x[1] || ''}</em><i class="${x[1] ? '' : 'z'}" style="height:${Math.max(2, x[1]/max*80)}px"></i><span>${x[0]}</span></div>`).join('')}</div>
   </section>
-  <section class="card list">${UNITS.filter(u => u.words).map(u => { const p = unitProg(u); return `<div style="display:flex;flex-direction:column;gap:6px"><div class="row"><span class="grow">${u.n}. ${u.ko}</span><span class="sub">익힘 ${p.m} · 학습 ${p.l} / ${p.n}</span></div><div class="track"><i style="width:${p.l/p.n*100}%;background:var(--${u.c})"></i></div></div>`; }).join('')}</section>
+  <section class="card list">${UNITS.filter(u => u.words).map(u => { const p = unitProg(u); return `<div style="display:flex;flex-direction:column;gap:6px"><div class="row"><span class="grow">${u.n}. ${u.ko}</span><span class="sub">익힘 ${p.m} · 학습 ${p.l} / ${p.n}</span></div><div class="track"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></div></div>`; }).join('')}</section>
+  <section class="card list noprint">
+    <div class="set"><span>글씨체</span>${seg('font', ['pencil','pen','basic'].concat(S.set.fontName ? ['user'] : []), ['연필','펜','기본'].concat(S.set.fontName ? ['내 폰트'] : []))}</div>
+    <div class="set"><span>글씨 크기</span>${seg('size',[0.9,1,1.15],['작게','보통','크게'])}</div>
+    <div class="set"><span class="grow" style="display:flex;flex-direction:column"><span>내 폰트</span><span class="sub">${S.set.fontName ? esc(S.set.fontName) : 'ttf · otf · woff · woff2 파일'}</span></span>
+      <span class="row"><label class="btn sm ghost" for="fontFile">파일 올리기</label>${S.set.fontName ? '<button class="btn sm ghost" data-a="fontDel">지우기</button>' : ''}<input type="file" id="fontFile" class="vh"></span></div>
+    ${fontMsg ? `<p class="sub">${esc(fontMsg)}</p>` : ''}
+    <div><p class="sample">Olá! Tudo bem? · pão, açúcar, você · 안녕하세요</p></div>
+  </section>
   <section class="card list noprint">
     <div class="set"><span>한글 발음 표시</span>${seg('pron',[true,false],['켜기','끄기'])}</div>
     <div class="set"><span>말하기 속도</span>${seg('rate',[0.7,0.9,1],['천천히','보통','빠르게'])}</div>
@@ -581,7 +690,7 @@ function draw(){
     let prompt;
     if (it.k === 'verb'){ const v = VERBS[it.vi]; prompt = `<span class="q">알맞은 형태를 고르세요</span><span class="big">${PRON[it.pi].split(' · ')[0]} ___</span><span class="sub">${v.v} · ${v.ko}</span>`; }
     else if (it.m === 'pt'){ prompt = `<span class="q">뜻을 고르세요</span><span class="big">${ptHTML(it.w)}</span>${S.set.pron ? `<span class="pron">${esc(it.w.pr)}</span>` : ''}${spk(full(it.w))}`; setTimeout(() => say(full(it.w)), 120); }
-    else if (it.m === 'ko'){ prompt = `<span class="q">포르투갈어를 고르세요</span><span class="big" style="font-size:26px">${esc(it.w.ko)}</span>`; }
+    else if (it.m === 'ko'){ prompt = `<span class="q">포르투갈어를 고르세요</span><span class="big ko2">${esc(it.w.ko)}</span>`; }
     else { prompt = `<span class="q">들은 단어를 고르세요</span><button class="listen" data-a="say" data-x="${esc(full(it.w))}" aria-label="다시 듣기">${ICON.spk}</button>`; setTimeout(() => say(full(it.w)), 150); }
     body = `<div class="stage"><div class="prompt">${prompt}</div>
       <div class="opts">${Q.opts.map((o,i) => `<button class="opt" data-a="opt" data-x="${i}">${o.h || esc(o.t)}</button>`).join('')}</div>
@@ -641,9 +750,10 @@ document.addEventListener('click', e => {
   else if (a === 'close') closeSession();
   else if (a === 'reveal') b.classList.remove('hide');
   else if (a === 'verb'){ verbIdx = +x; render(); }
-  else if (a === 'set'){ const k = b.dataset.k; S.set[k] = k === 'pron' ? x === 'true' : +x; save(); render(); if (k === 'rate') say('Muito bem!'); }
+  else if (a === 'set'){ const k = b.dataset.k; S.set[k] = k === 'pron' ? x === 'true' : k === 'font' ? x : +x; if (k === 'font' || k === 'size') applyTypo(); save(); render(); if (k === 'rate') say('Muito bem!'); }
   else if (a === 'reset'){ resetAsk = true; render(); }
   else if (a === 'resetNo'){ resetAsk = false; render(); }
+  else if (a === 'fontDel') removeFont();
   else if (a === 'resetYes'){ const set = S.set; S = DEF(); S.set = set; resetAsk = false; save(); render(); }
 });
 document.addEventListener('keydown', e => {
@@ -653,7 +763,10 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'Enter' && document.querySelector('[data-a="next"]')) next();
 });
 
+document.addEventListener('change', e => { if (e.target.id === 'fontFile' && e.target.files && e.target.files[0]){ onFontFile(e.target.files[0]); e.target.value = ''; } });
+
 setSync('local');
+applyTypo();
 render();
 initCloud();
 </script>
