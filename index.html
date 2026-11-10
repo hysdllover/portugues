@@ -194,6 +194,8 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 @keyframes stamp{from{transform:rotate(-6deg) scale(1.5);opacity:0}to{transform:rotate(-6deg) scale(1);opacity:.85}}
 @media (prefers-reduced-motion:reduce){.stamp{animation:none}.fc-in{transition:none}}
 
+.learned{display:inline-block;margin-left:8px;padding:0 5px;font-size:calc(.64rem*var(--ks));letter-spacing:.08em;color:var(--sage-ink);border:1px solid color-mix(in srgb,var(--sage-ink) 60%,transparent);transform:rotate(-2deg);vertical-align:1px;filter:url(#ink)}
+
 /* A4 print */
 @media print{
   @page{size:A4;margin:14mm}
@@ -254,7 +256,8 @@ const UNITS = [
   ['tudo bem?','잘 지내요?','뚜두 벵'],['prazer','반가워요','쁘라제르'],['eu','나','에우'],['você','너 · 당신','보쎄'],
   ['ele','그 (남자)','엘리'],['ela','그녀','엘라'],['nome','이름','노미','m'],['amigo','친구 (남자)','아미구','m'],
   ['amiga','친구 (여자)','아미가','f'],['Coreia','한국','꼬레이아','f'],['Brasil','브라질','브라지우','m'],
-  ['coreano','한국 사람 (남자)','꼬레아누'],['coreana','한국 사람 (여자)','꼬레아나'],['brasileiro','브라질 사람 (남자)','브라질레이루']
+  ['coreano','한국 사람 (남자)','꼬레아누'],['coreana','한국 사람 (여자)','꼬레아나'],['brasileiro','브라질 사람 (남자)','브라질레이루'],
+  ['Japão','일본','자빠웅','m'],['México','멕시코','메시꾸','m'],['ser de','~ 출신이다','쎄르 지']
  ], sents:[
   ['Oi, tudo bem?','안녕, 잘 지내?','오이, 뚜두 벵?'],
   ['Tudo bem, e você?','잘 지내, 너는?','뚜두 벵, 이 보쎄?'],
@@ -264,7 +267,16 @@ const UNITS = [
   ['De onde você é?','어디에서 오셨어요?','지 온지 보쎄 에?'],
   ['Eu sou da Coreia.','저는 한국에서 왔어요.','에우 쏘우 다 꼬레이아'],
   ['Muito obrigada!','정말 고마워요! (여성)','무이뚜 오브리가다'],
-  ['Até amanhã!','내일 봐요!','아떼 아마냥']
+  ['Até amanhã!','내일 봐요!','아떼 아마냥'],
+  ['Oi, eu sou o João!','안녕, 나는 주앙이야!','오이, 에우 쏘우 우 주아웅',1],
+  ['Bom dia, eu sou a Ana.','좋은 아침이에요, 저는 아나예요.','봉 지아, 에우 쏘우 아 아나',1],
+  ['Muito prazer, até logo!','반가워요, 또 봐요!','무이뚜 쁘라제르, 아떼 로구',1],
+  ['Até logo, obrigado.','또 봐요, 고마워요.','아떼 로구, 오브리가두',1],
+  ['Sim, eu sou do Brasil.','네, 저는 브라질 사람이에요.','씽, 에우 쏘우 두 브라지우',1],
+  ['A minha mãe é do Japão.','제 어머니는 일본 분이에요.','아 미냐 망이 에 두 자빠웅',1],
+  ['O Tiago é do Brasil.','치아구는 브라질 사람이에요.','우 치아구 에 두 브라지우',1],
+  ['Ela é do México.','그녀는 멕시코 사람이에요.','엘라 에 두 메시꾸',1],
+  ['Eu sou do Japão, muito prazer.','저는 일본에서 왔어요, 반가워요.','에우 쏘우 두 자빠웅, 무이뚜 쁘라제르',1]
  ]},
  {n:2, ko:'숫자·시간', pt:'Números e horas', c:'sky', words:[
   ['zero','0','제루'],['um','1','웅'],['dois','2','도이스'],['três','3','뜨레스'],['quatro','4','꽈뜨루'],
@@ -300,7 +312,12 @@ const UNITS = [
   ['Eu sou casada.','저는 결혼했어요. (여성)','에우 쏘우 까자다'],
   ['Minha irmã mora em São Paulo.','제 언니는 상파울루에 살아요.','미냐 이르망 모라 엥 싸웅 빠울루'],
   ['Meu avô tem oitenta anos.','할아버지는 여든 살이세요.','메우 아보 뗑 오이뗀따 아누스'],
-  ['Eu gosto da minha família.','저는 제 가족이 좋아요.','에우 고스뚜 다 미냐 파밀리아']
+  ['Eu gosto da minha família.','저는 제 가족이 좋아요.','에우 고스뚜 다 미냐 파밀리아'],
+  ['Eu tenho uma tia.','저는 이모가 한 명 있어요.','에우 떼뉴 우마 치아',1],
+  ['Ela é a minha irmã.','그녀는 제 자매예요.','엘라 에 아 미냐 이르망',1],
+  ['O meu filho quer um sanduíche.','제 아들은 샌드위치를 원해요.','우 메우 필류 께르 웅 상두이시',1],
+  ['Sim, eu tenho uma filha!','네, 저는 딸이 하나 있어요!','씽, 에우 떼뉴 우마 필랴',1],
+  ['O Pedro é o meu tio!','페드루는 제 삼촌이에요!','우 뻬드루 에 우 메우 치우',1]
  ]},
  {n:4, ko:'음식·카페', pt:'Comida e café', c:'peach', words:[
   ['café','커피','까페','m'],['água','물','아구아','f'],['suco','주스','쑤꾸','m'],['leite','우유','레이치','m'],
@@ -309,16 +326,22 @@ const UNITS = [
   ['feijão','콩','페이자웅','m'],['fruta','과일','프루따','f'],['salada','샐러드','쌀라다','f'],['açúcar','설탕','아쑤까르','m'],
   ['cerveja','맥주','쎄르베자','f'],['cardápio','메뉴판','까르다삐우','m'],['conta','계산서','꼰따','f'],
   ['gostoso','맛있는','고스또주'],['quente','뜨거운','껭치'],['gelado','차가운','젤라두'],
-  ['querer','원하다','께레르'],['comer','먹다','꼬메르'],['beber','마시다','베베르']
+  ['querer','원하다','께레르'],['comer','먹다','꼬메르'],['beber','마시다','베베르'],
+  ['gelo','얼음','젤루','m'],['chá','차','샤','m'],['sanduíche','샌드위치','상두이시','m'],['pastel','파스텔 (브라질식 튀김 파이)','빠스떼우','m'],
+  ['ou','또는','오우'],['com','~와 함께 · ~을 넣은','꽁'],['sem','~ 없이','쎙']
  ], sents:[
-  ['Um café, por favor.','커피 한 잔 주세요.','웅 까페, 뽀르 파보르'],
+  ['Um café, por favor.','커피 한 잔 주세요.','웅 까페, 뽀르 파보르',1],
   ['Eu quero uma água.','물 하나 주세요.','에우 께루 우마 아구아'],
   ['O cardápio, por favor.','메뉴판 주세요.','우 까르다삐우, 뽀르 파보르'],
   ['A conta, por favor.','계산서 주세요.','아 꼰따, 뽀르 파보르'],
   ['Está muito gostoso!','정말 맛있어요!','이스따 무이뚜 고스또주'],
   ['Sem açúcar, por favor.','설탕은 빼 주세요.','쎙 아쑤까르, 뽀르 파보르'],
   ['Eu não como carne.','저는 고기를 안 먹어요.','에우 나웅 꼬무 까르니'],
-  ['Quanto é?','얼마예요?','꽌뚜 에?']
+  ['Quanto é?','얼마예요?','꽌뚜 에?'],
+  ['Água com gelo, por favor.','얼음물 주세요.','아구아 꽁 젤루, 뽀르 파보르',1],
+  ['Um sanduíche e um pastel.','샌드위치 하나랑 파스텔 하나요.','웅 상두이시 이 웅 빠스떼우',1],
+  ['Um chá ou um café?','차 드릴까요, 커피 드릴까요?','웅 샤 오우 웅 까페?',1],
+  ['Com gelo, por favor!','얼음 넣어 주세요!','꽁 젤루, 뽀르 파보르',1]
  ]},
  {n:5, ko:'장소·길 찾기', pt:'Lugares e direções', c:'sky', words:[
   ['rua','길 · 거리','후아','f'],['casa','집','까자','f'],['banco','은행','방꾸','m'],['farmácia','약국','파르마씨아','f'],
@@ -327,7 +350,8 @@ const UNITS = [
   ['banheiro','화장실','반녜이루','m'],['onde','어디','온지'],['aqui','여기','아끼'],['ali','저기','알리'],
   ['perto','가까운 · 가까이','뻬르뚜'],['longe','먼 · 멀리','롱지'],['direita','오른쪽','지레이따','f'],['esquerda','왼쪽','이스께르다','f'],
   ['em frente','앞으로 · 맞은편','엥 프렌치'],['virar','돌다 · 꺾다','비라르'],['seguir','따라가다 · 계속 가다','쎄기르'],
-  ['esquina','모퉁이','이스끼나','f'],['quarteirão','블록 · 구역','꽈르떼이라웅','m']
+  ['esquina','모퉁이','이스끼나','f'],['quarteirão','블록 · 구역','꽈르떼이라웅','m'],
+  ['cidade','도시','씨다지','f'],['parque','공원','빠르끼','m'],['livraria','서점','리브라리아','f'],['museu','박물관','무제우','m'],['teatro','극장','치아뜨루','m'],['olha','봐 · 저기','올랴']
  ], sents:[
   ['Onde fica o banheiro?','화장실이 어디예요?','온지 피까 우 반녜이루?'],
   ['Fica perto daqui?','여기서 가까워요?','피까 뻬르뚜 다끼?'],
@@ -336,7 +360,12 @@ const UNITS = [
   ['É longe?','멀어요?','에 롱지?'],
   ['A farmácia fica ao lado do banco.','약국은 은행 옆에 있어요.','아 파르마씨아 피까 아우 라두 두 방꾸'],
   ['Estou perdido.','길을 잃었어요. (남성)','이스또우 뻬르지두'],
-  ['Pode me ajudar?','도와주실 수 있어요?','뽀지 미 아주다르?']
+  ['Pode me ajudar?','도와주실 수 있어요?','뽀지 미 아주다르?'],
+  ['Tem um mercado e um parque perto daqui.','이 근처에 시장과 공원이 있어요.','뗑 웅 메르까두 이 웅 빠르끼 뻬르뚜 다끼',1],
+  ['Não tem parque na minha cidade.','우리 도시에는 공원이 없어요.','나웅 뗑 빠르끼 나 미냐 씨다지',1],
+  ['Olha, tem uma livraria e um museu.','봐, 서점이랑 박물관이 있어.','올랴, 뗑 우마 리브라리아 이 웅 무제우',1],
+  ['Tem um hotel na minha cidade.','우리 도시에 호텔이 있어요.','뗑 웅 오떼우 나 미냐 씨다지',1],
+  ['Tem um teatro na minha cidade!','우리 도시에 극장이 있어요!','뗑 웅 치아뜨루 나 미냐 씨다지',1]
  ]},
  {n:6, ko:'쇼핑', pt:'Compras', c:'lav', words:[
   ['loja','가게','로자','f'],['preço','가격','쁘레쑤','m'],['dinheiro','돈','진녜이루','m'],['cartão','카드','까르따웅','m'],
@@ -379,7 +408,8 @@ const UNITS = [
   ['nublado','흐린','누블라두'],['chover','비가 오다','쇼베르'],['verão','여름','베라웅','m'],['inverno','겨울','잉베르누','m'],
   ['primavera','봄','쁘리마베라','f'],['outono','가을','오우또누','m'],['temperatura','기온','뗑뻬라뚜라','f'],['grau','도 (온도)','그라우','m'],
   ['guarda-chuva','우산','과르다 슈바','m'],['céu','하늘','쎄우','m'],['neve','눈 (날씨)','네비','f'],['seco','건조한','쎄꾸'],
-  ['úmido','습한','우미두'],['agradável','쾌적한','아그라다베우'],['fresco','선선한','프레스꾸'],['previsão do tempo','일기예보','쁘레비자웅 두 뗑뿌','f']
+  ['úmido','습한','우미두'],['agradável','쾌적한','아그라다베우'],['fresco','선선한','프레스꾸'],['previsão do tempo','일기예보','쁘레비자웅 두 뗑뿌','f'],
+  ['fazer sol','해가 나다','파제르 쏘우'],['tempo bom','좋은 날씨','뗑뿌 봉','m'],['outubro','10월','오우뚜브루']
  ], sents:[
   ['Como está o tempo hoje?','오늘 날씨 어때요?','꼬무 이스따 우 뗑뿌 오지?'],
   ['Está fazendo calor.','더워요.','이스따 파젠두 깔로르'],
@@ -388,7 +418,12 @@ const UNITS = [
   ['Hoje faz trinta graus.','오늘 30도예요.','오지 파스 뜨린따 그라우스'],
   ['Leve um guarda-chuva.','우산 챙기세요.','레비 웅 과르다 슈바'],
   ['Eu gosto do verão.','저는 여름이 좋아요.','에우 고스뚜 두 베라웅'],
-  ['No Brasil quase não neva.','브라질에는 눈이 거의 안 와요.','누 브라지우 꽈지 나웅 네바']
+  ['No Brasil quase não neva.','브라질에는 눈이 거의 안 와요.','누 브라지우 꽈지 나웅 네바'],
+  ['Faz sol.','해가 나요.','파스 쏘우',1],
+  ['Faz frio no inverno.','겨울에는 추워요.','파스 프리우 누 잉베르누',1],
+  ['Sim, faz calor no verão.','네, 여름에는 더워요.','씽, 파스 깔로르 누 베라웅',1],
+  ['Faz tempo bom em outubro?','10월에는 날씨가 좋아요?','파스 뗑뿌 봉 엥 오우뚜브루?',1],
+  ['Não, não faz muito frio no inverno.','아니요, 겨울에 그렇게 춥지 않아요.','나웅, 나웅 파스 무이뚜 프리우 누 잉베르누',1]
  ]},
  {n:9, ko:'교통·여행', pt:'Transporte e viagem', c:'peach', words:[
   ['ônibus','버스','오니부스','m'],['metrô','지하철','메뜨로','m'],['táxi','택시','따끼씨','m'],['avião','비행기','아비아웅','m'],
@@ -459,8 +494,64 @@ const UNITS = [
   ['Talvez na semana que vem.','아마 다음 주에요.','따우베스 나 쎄마나 끼 벵'],
   ['Vamos nos encontrar no sábado?','토요일에 만날까요?','바무스 누스 잉꼰뜨라르 누 싸바두?'],
   ['Com certeza!','물론이죠!','꽁 쎄르떼자']
+ ]},
+ {n:13, ko:'성격 묘사', pt:'Personalidade', c:'peach', words:[
+  ['namorado','남자친구','나모라두','m'],['namorada','여자친구','나모라다','f'],['sério','진지한','쎄리우'],['tímido','수줍음 많은','치미두'],
+  ['simpático','다정한 · 호감 가는','씽빠치꾸'],['engraçado','웃긴 · 재밌는','잉그라싸두'],['alegre','명랑한','알레그리'],['calmo','차분한','까우무'],
+  ['gentil','친절한 · 상냥한','젠치우'],['inteligente','똑똑한','잉뗄리젠치'],['bonito','잘생긴 · 예쁜','보니뚜'],['legal','멋진 · 괜찮은','레가우'],
+  ['chato','지루한 · 짜증 나는','샤뚜'],['preguiçoso','게으른','쁘레기쏘주'],['trabalhador','성실한','뜨라바랴도르'],['nervoso','긴장한 · 예민한','네르보주'],
+  ['feliz','행복한','펠리스'],['triste','슬픈','뜨리스치'],['divertido','즐거운 · 유쾌한','지베르치두'],['educado','예의 바른','이두까두'],
+  ['mas','하지만','마스'],['também','~도 · 또한','땀벵'],['né?','그렇지?','네'],['muito','아주 · 많이','무이뚜']
+ ], sents:[
+  ['O meu namorado é sério.','제 남자친구는 진지해요.','우 메우 나모라두 에 쎄리우',1],
+  ['A sua namorada é tímida.','당신 여자친구는 수줍음이 많아요.','아 쑤아 나모라다 에 치미다',1],
+  ['O meu pai é sério, mas ele é simpático.','아버지는 진지하지만 다정하세요.','우 메우 빠이 에 쎄리우, 마스 엘리 에 씽빠치꾸',1],
+  ['A minha amiga é simpática, mas ela é tímida.','제 친구는 다정하지만 수줍음이 많아요.','아 미냐 아미가 에 씽빠치까, 마스 엘라 에 치미다',1],
+  ['O Tiago é engraçado, né?','치아구는 재밌어, 그렇지?','우 치아구 에 잉그라싸두, 네?',1],
+  ['Ela é muito alegre.','그녀는 아주 명랑해요.','엘라 에 무이뚜 알레그리'],
+  ['Você é muito gentil.','정말 친절하시네요.','보쎄 에 무이뚜 젠치우'],
+  ['Ele é inteligente e calmo.','그는 똑똑하고 차분해요.','엘리 에 잉뗄리젠치 이 까우무']
+ ]},
+ {n:14, ko:'소지품 찾기', pt:'Meus objetos', c:'sand', words:[
+  ['carteira','지갑','까르떼이라','f'],['suéter','스웨터','쑤에떼르','m'],['tablet','태블릿','따블레치','m'],['celular','휴대폰','쎌룰라르','m'],
+  ['chave','열쇠','샤비','f'],['óculos','안경','오꿀루스','mp'],['livro','책','리브루','m'],['caneta','펜','까네따','f'],
+  ['relógio','시계','헬로지우','m'],['mochila','배낭','모실라','f'],['computador','컴퓨터','꼼뿌따도르','m'],['casaco','외투','까자꾸','m'],
+  ['boné','야구 모자','보네','m'],['fone de ouvido','이어폰','포니 지 오우비두','m'],['documento','서류 · 신분증','도꾸멘뚜','m'],
+  ['meu · minha','나의','메우 · 미냐'],['seu · sua','당신의','쎄우 · 쑤아'],['estar com','~을 갖고 있다','이스따르 꽁'],
+  ['perdi','잃어버렸어요','뻬르지'],['procurar','찾아다니다','쁘로꾸라르'],['achar','찾아내다 · 생각하다','아샤르'],
+  ['aqui está','여기 있어요','아끼 이스따'],['isso','그것','이쑤'],['aff','아휴 (짜증)','아프']
+ ], sents:[
+  ['Onde está a minha carteira?','제 지갑 어디 있어요?','온지 이스따 아 미냐 까르떼이라?',1],
+  ['Eu estou com o seu passaporte.','당신 여권 제가 갖고 있어요.','에우 이스또우 꽁 우 쎄우 빠싸뽀르치',1],
+  ['Sim, a minha mala está aqui.','네, 제 가방 여기 있어요.','씽, 아 미냐 말라 이스따 아끼',1],
+  ['Aff, onde está o meu suéter?','아휴, 내 스웨터 어디 있지?','아프, 온지 이스따 우 메우 쑤에떼르?',1],
+  ['A Júlia quer o seu tablet, por favor.','줄리아가 당신 태블릿을 달래요.','아 줄리아 께르 우 쎄우 따블레치, 뽀르 파보르',1],
+  ['Você viu as minhas chaves?','제 열쇠 봤어요?','보쎄 비우 아스 미냐스 샤비스?'],
+  ['O celular está na mochila.','휴대폰은 배낭 안에 있어요.','우 쎌룰라르 이스따 나 모실라'],
+  ['Esse livro é seu?','그 책 당신 거예요?','에씨 리브루 에 쎄우?']
+ ]},
+ {n:15, ko:'언어·공부', pt:'Idiomas e estudos', c:'lav', words:[
+  ['português','포르투갈어','뽀르뚜게스','m'],['inglês','영어','잉글레스','m'],['francês','프랑스어','프랑세스','m'],['espanhol','스페인어','이스빠뇨우','m'],
+  ['japonês','일본어','자뽀네스','m'],['língua','언어','링구아','f'],['escola','학교','이스꼴라','f'],['aula','수업','아울라','f'],
+  ['professor','선생님 (남자)','쁘로페쏘르','m'],['professora','선생님 (여자)','쁘로페쏘라','f'],['aluno','학생 (남자)','알루누','m'],
+  ['palavra','단어','빨라브라','f'],['frase','문장','프라지','f'],['um pouco','조금','웅 뽀우꾸'],['difícil','어려운','지피씨우'],
+  ['fácil','쉬운','파씨우'],['devagar','천천히','지바가르'],['entender','이해하다','잉뗀데르'],['ler','읽다','레르'],
+  ['escrever','쓰다','이스끄레베르'],['repetir','반복하다','헤뻬치르'],['perguntar','묻다','뻬르군따르'],['responder','대답하다','헤스뽄데르']
+ ], sents:[
+  ['Eu estudo português na escola.','저는 학교에서 포르투갈어를 공부해요.','에우 이스뚜두 뽀르뚜게스 나 이스꼴라',1],
+  ['Eu falo inglês e francês.','저는 영어와 프랑스어를 해요.','에우 팔루 잉글레스 이 프랑세스',1],
+  ['Você fala espanhol também, né?','스페인어도 하시죠, 그렇죠?','보쎄 팔라 이스빠뇨우 땀벵, 네?',1],
+  ['Eu estudo espanhol na minha cidade.','저는 제 도시에서 스페인어를 공부해요.','에우 이스뚜두 이스빠뇨우 나 미냐 씨다지',1],
+  ['Sim, eu falo um pouco de português.','네, 포르투갈어를 조금 해요.','씽, 에우 팔루 웅 뽀우꾸 지 뽀르뚜게스',1],
+  ['Pode repetir, por favor?','다시 말씀해 주시겠어요?','뽀지 헤뻬치르, 뽀르 파보르?'],
+  ['Mais devagar, por favor.','좀 더 천천히요.','마이스 지바가르, 뽀르 파보르'],
+  ['Eu não entendo.','이해가 안 돼요.','에우 나웅 잉뗀두']
  ]}
 ];
+// learning order (ids stay fixed, display numbers follow this order)
+const ORDER = [0,1,2,3,4,13,14,5,15,6,7,8,9,10,11,12];
+UNITS.sort((a,b) => ORDER.indexOf(a.n) - ORDER.indexOf(b.n));
+const uno = u => UNITS.indexOf(u);
 const PRON = ['eu','você · ele · ela','nós','vocês · eles · elas'];
 const PRON_SAY = ['eu','ele','nós','eles'];
 const VERBS = [
@@ -683,7 +774,8 @@ function vHome(){
   const u = curUnit(), p = unitProg(u);
   const d = new Date();
   const date = `${['dom','seg','ter','qua','qui','sex','sáb'][d.getDay()]} · ${String(d.getDate()).padStart(2,'0')} ${['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'][d.getMonth()]} ${d.getFullYear()}`;
-  const pool = UNITS.filter(x => x.sents && x.n <= u.n).flatMap(x => x.sents);
+  const learnedS = UNITS.flatMap(x => x.sents || []).filter(x => x[3]);
+  const pool = learnedS.length ? learnedS : UNITS.filter(x => x.sents && uno(x) <= uno(u)).flatMap(x => x.sents);
   const s = pool[(dnum()) % pool.length];
   const done = !due && !nw;
   return `
@@ -698,7 +790,7 @@ function vHome(){
   ${!S.seen0 ? `<a class="card row" href="#unit-0"><span class="chip" style="background:color-mix(in srgb,var(--sand) 55%,var(--sheet));color:var(--sand-ink)">0단원</span><span class="grow">처음이라면 발음 규칙부터 들어보세요</span><span class="sub">›</span></a>` : ''}
   <a class="card" href="#unit-${u.n}" style="display:flex;flex-direction:column;gap:10px">
     <div class="row"><span class="eyebrow grow">지금 배우는 단원</span><span class="sub">${p.l} / ${p.n}</span></div>
-    <div class="row"><b style="font-weight:400;font-size:calc(1.2rem*var(--ks))">${u.n}. ${u.ko}</b><span class="sub lat">${u.pt}</span></div>
+    <div class="row"><b style="font-weight:400;font-size:calc(1.2rem*var(--ks))">${uno(u)}. ${u.ko}</b><span class="sub lat">${u.pt}</span></div>
     <div class="track"><i style="width:${p.n ? p.l/p.n*100 : 0}%;--c:var(--${u.c}-ink)"></i></div>
   </a>
   <section class="card sent">
@@ -711,7 +803,7 @@ function vUnits(){
   const rows = UNITS.map(u => {
     const p = u.rules ? null : unitProg(u);
     return `<a class="unit" href="#unit-${u.n}">
-      <span class="no" style="background:color-mix(in srgb,var(--${u.c}) 50%,var(--sheet));color:var(--${u.c}-ink)">${u.n}</span>
+      <span class="no" style="background:color-mix(in srgb,var(--${u.c}) 50%,var(--sheet));color:var(--${u.c}-ink)">${uno(u)}</span>
       <span class="grow" style="display:flex;flex-direction:column;gap:5px">
         <span class="row"><span class="grow" style="font-weight:400">${u.ko}</span><span class="sub">${p ? p.l+' / '+p.n : (S.seen0 ? '봤어요' : '규칙 '+u.rules.length+'개')}</span></span>
         ${p ? `<span class="track"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></span>` : `<span class="sub lat">${u.pt}</span>`}
@@ -725,7 +817,7 @@ function vUnit(n){
   const u = unitOf(n);
   if (!u) return vUnits();
   const head = `<a class="sub noprint" href="#units">‹ 단원</a>
-   <div class="hero"><span class="eyebrow">${u.n}단원 · <span class="lat">${u.pt}</span></span><h1 class="title">${u.ko}</h1></div>`;
+   <div class="hero"><span class="eyebrow">${uno(u)}단원 · <span class="lat">${u.pt}</span></span><h1 class="title">${u.ko}</h1></div>`;
   if (u.rules){
     if (!S.seen0){ S.seen0 = true; save(); }
     return head + `<p class="sub">스피커를 눌러 예시 단어를 들어보세요. 한글 표기는 비슷한 소리일 뿐이니 꼭 소리로 확인하세요.</p>
@@ -739,7 +831,7 @@ function vUnit(n){
       <span class="ko" style="text-align:right;max-width:45%">${esc(w.ko)}</span>
       <span class="dots" aria-label="숙련도 ${b}/6">${[1,2,3,4,5,6].map(i => `<i class="${i <= b ? 'on' : ''}"></i>`).join('')}</span></div>`;
   }).join('');
-  const sents = u.sents.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko">${esc(s[1])}</span></div></div>`).join('');
+  const sents = u.sents.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko">${esc(s[1])}${s[3] ? '<span class="learned">배운 표현</span>' : ''}</span></div></div>`).join('');
   return head + `<div class="row"><div class="track grow"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></div><span class="sub">학습 ${p.l} · 익힘 ${p.m} / ${p.n}</span></div>
   <div class="grid2">
     <section class="card" style="display:flex;flex-direction:column;gap:10px">
@@ -797,7 +889,7 @@ function vRecord(){
     <span class="eyebrow">최근 14일 · 푼 문제 수</span>
     <div class="bars">${days.map(x => `<div><em>${x[1] || ''}</em><i class="${x[1] ? '' : 'z'}" style="height:${Math.max(2, x[1]/max*80)}px"></i><span>${x[0]}</span></div>`).join('')}</div>
   </section>
-  <section class="card list">${UNITS.filter(u => u.words).map(u => { const p = unitProg(u); return `<div style="display:flex;flex-direction:column;gap:6px"><div class="row"><span class="grow">${u.n}. ${u.ko}</span><span class="sub">익힘 ${p.m} · 학습 ${p.l} / ${p.n}</span></div><div class="track"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></div></div>`; }).join('')}</section>
+  <section class="card list">${UNITS.filter(u => u.words).map(u => { const p = unitProg(u); return `<div style="display:flex;flex-direction:column;gap:6px"><div class="row"><span class="grow">${uno(u)}. ${u.ko}</span><span class="sub">익힘 ${p.m} · 학습 ${p.l} / ${p.n}</span></div><div class="track"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></div></div>`; }).join('')}</section>
   <section class="card list noprint">
     <div class="set"><span>포르투갈어 글씨체</span><span class="sub lat">IBM Plex Mono Light</span></div>
     <div class="set"><span>한글 글씨체</span>${seg('font', ['basic','pencil','pen'].concat(S.set.fontName ? ['user'] : []), ['기본','연필','펜'].concat(S.set.fontName ? ['내 폰트'] : []))}</div>
@@ -860,7 +952,7 @@ function draw(){
   if (!it) body = drawDone();
   else if (it.k === 'learn'){
     const w = it.w, u = unitOf(w.u);
-    const head = `<span class="fc-head"><span>새 단어</span><span class="lat">Nº ${String(ALL.indexOf(w)+1).padStart(3,'0')} · U${u.n}</span></span>`;
+    const head = `<span class="fc-head"><span>새 단어</span><span class="lat">Nº ${String(ALL.indexOf(w)+1).padStart(3,'0')} · U${uno(u)}</span></span>`;
     body = `<div class="stage">
       <div class="fc" data-a="flip" role="button" aria-label="카드 뒤집기"><div class="fc-in">
         <div class="fc-face">${head}<div class="fc-body"><span class="big">${ptHTML(w)}</span>${S.set.pron ? `<span class="pron">${esc(w.pr)}</span>` : ''}${spk(full(w))}</div></div>
