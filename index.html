@@ -171,9 +171,6 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
 /* analog details */
-.datestamp{align-self:flex-start;font-size:calc(.72rem*var(--ks));letter-spacing:.16em;text-transform:uppercase;color:var(--sage-ink);border:1px solid var(--sage-ink);padding:2px 8px;transform:rotate(-1.5deg);opacity:.8;filter:url(#ink)}
-.taped{margin-top:8px}
-.taped::after{content:"";position:absolute;top:-10px;left:50%;width:86px;height:20px;transform:translateX(-50%) rotate(-2.5deg);background:color-mix(in srgb,var(--sage) 60%,transparent);clip-path:polygon(0 8%,4% 0,9% 10%,14% 0,100% 0,96% 12%,100% 25%,96% 40%,100% 55%,96% 70%,100% 85%,96% 100%,0 100%,4% 88%,0 74%,4% 60%,0 46%,4% 32%,0 18%);pointer-events:none}
 .stack{box-shadow:4px 4px 0 -1px var(--sheet),4px 4px 0 0 color-mix(in srgb,var(--pencil) 30%,transparent)}
 .tally{display:inline-flex;gap:4px;align-items:center}
 .tally svg{fill:none;stroke:var(--pencil);stroke-width:1.2;stroke-linecap:square;filter:url(#pencil)}
@@ -188,13 +185,30 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 .fc .big{font-size:calc(2.3rem*var(--ks));line-height:1.15;overflow-wrap:anywhere}
 .fc .meaning{font-size:calc(1.5rem*var(--ks))}
 .fc-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;text-align:center}
-.stamp{display:flex;flex-direction:column;align-items:center;gap:2px;margin:10px 0 6px;padding:10px 20px;border:2px solid var(--sage-ink);outline:1px solid var(--sage-ink);outline-offset:3px;color:var(--sage-ink);text-transform:uppercase;letter-spacing:.14em;transform:rotate(-6deg);opacity:.85;filter:url(#ink);animation:stamp .35s cubic-bezier(.2,.9,.3,1.2) both}
-.stamp b{font-weight:400;font-size:1.5rem}
-.stamp span{font-size:.72rem;letter-spacing:.12em}
-@keyframes stamp{from{transform:rotate(-6deg) scale(1.5);opacity:0}to{transform:rotate(-6deg) scale(1);opacity:.85}}
-@media (prefers-reduced-motion:reduce){.stamp{animation:none}.fc-in{transition:none}}
+@media (prefers-reduced-motion:reduce){.fc-in{transition:none}.check path{animation:none}}
+/* fill-in date line, like a notebook header */
+.datefield{display:flex;align-items:baseline;gap:10px;font-size:.72rem;letter-spacing:.14em;color:var(--muted)}
+.datefield .lat{color:var(--ink);letter-spacing:.08em;padding:0 6px 1px;border-bottom:1px solid color-mix(in srgb,var(--pencil) 60%,transparent)}
+/* folded corner */
+.dogear::after{content:"";position:absolute;top:-1px;right:-1px;width:20px;height:20px;pointer-events:none;background:linear-gradient(to bottom left,var(--paper) 0 50%,color-mix(in srgb,var(--pencil) 55%,transparent) 50% calc(50% + 1px),var(--soft) calc(50% + 1px))}
+/* result slip with dotted leaders */
+.slip{align-self:stretch;max-width:340px;margin:6px auto 0;width:100%;display:flex;flex-direction:column;gap:9px;padding:18px 20px;background:var(--sheet);position:relative}
+.slip::before{content:"";position:absolute;inset:0;border:1px solid var(--pencil);opacity:.42;pointer-events:none;filter:url(#pencil)}
+.slip-h{display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid color-mix(in srgb,var(--pencil) 45%,transparent)}
+.slip-h b{font-family:var(--lat);font-weight:300;font-size:1.35rem}
+.slip-r{display:flex;align-items:baseline;gap:8px;font-size:.86rem}
+.slip-r .k{color:var(--muted)}
+.slip-r i{flex:1;border-bottom:1px dotted var(--faint);transform:translateY(-3px)}
+.slip-r .v{font-family:var(--lat);font-weight:300}
+.check{display:inline-flex;gap:2px}
+.check svg{width:18px;height:16px;fill:none;stroke:var(--sage-ink);stroke-width:1.5;stroke-linecap:square;filter:url(#pencil)}
+.check path{stroke-dasharray:24;stroke-dashoffset:24;animation:draw .45s ease-out forwards}
+.check svg:nth-child(2) path{animation-delay:.25s}.check svg:nth-child(3) path{animation-delay:.5s}
+@keyframes draw{to{stroke-dashoffset:0}}
+/* already-learned mark */
+.learned{display:inline-flex;align-items:center;gap:3px;margin-left:8px;font-size:calc(.66rem*var(--ks));color:var(--sage-ink);vertical-align:1px}
+.learned svg{width:11px;height:10px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:square;filter:url(#pencil)}
 
-.learned{display:inline-block;margin-left:8px;padding:0 5px;font-size:calc(.64rem*var(--ks));letter-spacing:.08em;color:var(--sage-ink);border:1px solid color-mix(in srgb,var(--sage-ink) 60%,transparent);transform:rotate(-2deg);vertical-align:1px;filter:url(#ink)}
 
 /* A4 print */
 @media print{
@@ -207,7 +221,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
   .list > *{break-inside:avoid}
 }
 </style>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="pencil" x="-2%" y="-2%" width="104%" height="104%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.4" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="ink" x="-5%" y="-10%" width="110%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" seed="7" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.8 1.4" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in" result="c"/><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="1" seed="2" result="w"/><feDisplacementMap in="c" in2="w" scale="1.6" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="pencil" x="-2%" y="-2%" width="104%" height="104%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.4" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
 
 <div class="app">
   <nav class="side" aria-label="메뉴">
@@ -773,14 +787,15 @@ function vHome(){
   const due = dueList().length, nw = Math.min(newList().length, S.set.newN);
   const u = curUnit(), p = unitProg(u);
   const d = new Date();
-  const date = `${['dom','seg','ter','qua','qui','sex','sáb'][d.getDay()]} · ${String(d.getDate()).padStart(2,'0')} ${['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'][d.getMonth()]} ${d.getFullYear()}`;
+  const date = `${String(d.getDate()).padStart(2,'0')} / ${String(d.getMonth()+1).padStart(2,'0')} / ${d.getFullYear()}`;
+  const wd = ['domingo','segunda','terça','quarta','quinta','sexta','sábado'][d.getDay()];
   const learnedS = UNITS.flatMap(x => x.sents || []).filter(x => x[3]);
   const pool = learnedS.length ? learnedS : UNITS.filter(x => x.sents && uno(x) <= uno(u)).flatMap(x => x.sents);
   const s = pool[(dnum()) % pool.length];
   const done = !due && !nw;
   return `
-  <div class="hero"><span class="datestamp lat">${date}</span><h1 class="title lat">${greet[0]}</h1><span class="sub">${greet[1]}</span></div>
-  <section class="card today taped stack">
+  <div class="hero"><span class="datefield"><span>DATA</span><span class="lat">${date}</span><span class="lat" style="letter-spacing:.04em;color:var(--muted)">${wd}</span></span><h1 class="title lat">${greet[0]}</h1><span class="sub">${greet[1]}</span></div>
+  <section class="card today dogear stack">
     <div class="row"><span class="grow eyebrow">오늘의 학습</span><span class="row" style="gap:8px">${tally(streakNow())}<span class="sub">연속 ${streakNow()}일</span></span></div>
     ${done ? `<p>오늘 학습을 모두 마쳤어요. 내일 복습할 단어가 준비돼요.</p>
       <button class="btn ghost wide" data-a="extra">익힌 단어 추가 연습</button>`
@@ -831,7 +846,7 @@ function vUnit(n){
       <span class="ko" style="text-align:right;max-width:45%">${esc(w.ko)}</span>
       <span class="dots" aria-label="숙련도 ${b}/6">${[1,2,3,4,5,6].map(i => `<i class="${i <= b ? 'on' : ''}"></i>`).join('')}</span></div>`;
   }).join('');
-  const sents = u.sents.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko">${esc(s[1])}${s[3] ? '<span class="learned">배운 표현</span>' : ''}</span></div></div>`).join('');
+  const sents = u.sents.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko">${esc(s[1])}${s[3] ? '<span class="learned"><svg viewBox="0 0 11 10"><path d="M1 5.5 L4 8.5 L10 1.5"/></svg>배운 표현</span>' : ''}</span></div></div>`).join('');
   return head + `<div class="row"><div class="track grow"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></div><span class="sub">학습 ${p.l} · 익힘 ${p.m} / ${p.n}</span></div>
   <div class="grid2">
     <section class="card" style="display:flex;flex-direction:column;gap:10px">
@@ -851,7 +866,7 @@ function vVerbs(){
   return `<div class="hero"><span class="eyebrow">${verbT === 'f' ? '현재형' : '과거형'} · <span class="lat">${verbT === 'f' ? 'Presente' : 'Pretérito perfeito'}</span></span><h1 class="title">동사</h1></div>
   <div class="seg noprint"><button class="${verbT === 'f' ? 'on' : ''}" data-a="tense" data-x="f">현재</button><button class="${verbT === 'p' ? 'on' : ''}" data-a="tense" data-x="p">과거</button></div>
   <div class="chips noprint">${VERBS.map((x,i) => `<button class="lat ${i === verbIdx ? 'on' : ''}" data-a="verb" data-x="${i}">${x.v}</button>`).join('')}</div>
-  <section class="card taped" style="display:flex;flex-direction:column;gap:12px">
+  <section class="card dogear" style="display:flex;flex-direction:column;gap:12px">
     <div class="row">${spk(v.v)}<div class="grow"><span class="pt" style="font-size:calc(1.6rem*var(--ks))">${v.v}</span> <span class="ko">${v.ko}</span><p class="sub">${v.note}</p></div></div>
     <div class="list">${fs.map((f,i) => `<div class="conj"><span class="p">${PRON[i]}</span><span class="f">${f}</span>${spk(PRON_SAY[i]+' '+f)}</div>`).join('')}</div>
     <div class="sent" style="padding-top:4px">${spk(ex[0])}<div class="grow"><span class="pt">${esc(ex[0])}</span><span class="ko">${esc(ex[1])}</span></div></div>
@@ -1009,8 +1024,13 @@ function drawDone(){
   const pct = Q.total ? Math.round(Q.ok / Q.total * 100) : 100;
   return `<div class="stage" style="justify-content:flex-start;padding-top:24px">
     <div class="prompt"><span class="q">${Q.mode === 'verb' ? '활용 퀴즈' : '오늘의 학습'} 완료</span>
-      <div class="stamp lat"><b>${pct >= 90 ? 'Excelente!' : pct >= 70 ? 'Muito bem!' : 'Continue!'}</b><span>${dkey().split('-').reverse().join('.')} · ${Q.ok}/${Q.total}</span></div>
-      <span class="sub">정답률 ${pct}% · 연속 ${streakNow()}일</span></div>
+      <div class="slip">
+        <div class="slip-h"><b>${pct >= 90 ? 'Excelente!' : pct >= 70 ? 'Muito bem!' : 'Continue!'}</b><span class="check">${'<svg viewBox="0 0 18 16"><path d="M2 8.5 L7 13.5 L16 2.5"/></svg>'.repeat(pct >= 90 ? 3 : pct >= 70 ? 2 : 1)}</span></div>
+        <div class="slip-r"><span class="k">맞힌 문제</span><i></i><span class="v">${Q.ok} / ${Q.total}</span></div>
+        <div class="slip-r"><span class="k">정답률</span><i></i><span class="v">${pct}%</span></div>
+        <div class="slip-r"><span class="k">연속 학습</span><i></i><span class="v">${streakNow()}</span></div>
+        <div class="slip-r"><span class="k">날짜</span><i></i><span class="v">${dkey().split('-').reverse().join('/')}</span></div>
+      </div></div>
     ${Q.mode === 'verb' ? '' : `<section class="card" style="display:flex;flex-direction:column;gap:10px"><span class="eyebrow">문장으로 마무리 · 뜻을 눌러 확인</span>
       <div class="list">${ss.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko hide" data-a="reveal">${esc(s[1])}</span></div></div>`).join('')}</div></section>`}
   </div><button class="btn wide" data-a="close">완료</button>`;
