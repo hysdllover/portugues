@@ -1,0 +1,659 @@
+<title>Passo a Passo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Passo">
+<style>
+/* Layout: phone = single column + bottom tabs; iPad (>=900px) = left sidebar + wide content. Quiet, low-saturation pastels, thin system type. */
+:root{
+  --bg:#F3F5F2; --surface:#FFFFFF; --soft:#ECEFEB; --line:#E0E4DE;
+  --ink:#3B413E; --muted:#848B87; --faint:#B0B6B2;
+  --sage:#A9C2B2; --sage-ink:#4E6C5A;
+  --sky:#BFD3E0;  --sky-ink:#4A6880;
+  --lav:#C8C4DD;  --lav-ink:#5F5985;
+  --peach:#E9CBBE;--peach-ink:#8C5C48;
+  --sand:#E2D8BF; --sand-ink:#77693F;
+  --ok:#8DB59A; --no:#D6A193;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Apple SD Gothic Neo","Helvetica Neue",sans-serif;
+  --r:12px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#191C1B; --surface:#222625; --soft:#2A2F2D; --line:#323836;
+  --ink:#E2E6E3; --muted:#939A96; --faint:#5F6662;
+  --sage:#56705F; --sage-ink:#B6CFBF; --sky:#4F6878; --sky-ink:#BBD1E0;
+  --lav:#5E5A7C; --lav-ink:#CDC8E6; --peach:#7C5F53; --peach-ink:#EECDBF;
+  --sand:#6F6750; --sand-ink:#E2D8BE; --ok:#6E9A7C; --no:#B57F72; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#191C1B; --surface:#222625; --soft:#2A2F2D; --line:#323836;
+  --ink:#E2E6E3; --muted:#939A96; --faint:#5F6662;
+  --sage:#56705F; --sage-ink:#B6CFBF; --sky:#4F6878; --sky-ink:#BBD1E0;
+  --lav:#5E5A7C; --lav-ink:#CDC8E6; --peach:#7C5F53; --peach-ink:#EECDBF;
+  --sand:#6F6750; --sand-ink:#E2D8BE; --ok:#6E9A7C; --no:#B57F72; color-scheme:dark}
+
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:300 14px/1.55 var(--font);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+a{color:inherit;text-decoration:none}
+button:focus-visible,a:focus-visible{outline:2px solid var(--sky);outline-offset:2px;border-radius:8px}
+h1,h2,h3{font-weight:400;margin:0;text-wrap:balance}
+p{margin:0}
+
+.app{display:flex;min-height:100%}
+main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px calc(84px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+
+/* nav */
+.side{display:none}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;display:grid;grid-template-columns:repeat(4,1fr);background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+.tabs a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:var(--faint);padding:4px 0}
+.tabs a.on{color:var(--ink)}
+.tabs svg,.side svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+@media (min-width:900px){
+  .tabs{display:none}
+  .side{display:flex;flex-direction:column;gap:4px;width:220px;flex:none;position:sticky;top:0;height:100vh;padding:28px 14px;padding-left:max(14px,env(safe-area-inset-left,0px));border-right:1px solid var(--line);background:var(--surface)}
+  .side .brand{padding:0 10px 18px}
+  .side a{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;color:var(--muted)}
+  .side a.on{background:var(--soft);color:var(--ink)}
+  .side .foot{margin-top:auto;padding:0 10px;font-size:11px;color:var(--faint)}
+  main{padding-block:32px 40px;padding-left:32px;padding-right:max(32px,env(safe-area-inset-right,0px))}
+}
+.brand b{display:block;font-weight:500;font-size:15px;letter-spacing:.01em}
+.brand span{font-size:11px;color:var(--muted)}
+
+/* common */
+.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.06em}
+.title{font-size:22px;font-weight:300;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:12.5px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.row{display:flex;align-items:center;gap:10px;min-width:0}
+.grow{flex:1;min-width:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:42px;padding:0 18px;border-radius:21px;background:var(--ink);color:var(--bg);font-weight:400;font-size:13.5px}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.btn.wide{width:100%}
+.btn.sm{height:32px;padding:0 13px;font-size:12.5px}
+.chip{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:11px;font-size:11px;font-weight:400;white-space:nowrap}
+.spk{flex:none;width:32px;height:32px;border-radius:16px;display:grid;place-items:center;background:var(--soft);color:var(--muted)}
+.spk svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.spk:active{transform:scale(.94)}
+.track{height:4px;border-radius:2px;background:var(--soft);overflow:hidden}
+.track i{display:block;height:100%;border-radius:2px;background:var(--sage)}
+.list{display:flex;flex-direction:column}
+.list > *{border-top:1px solid var(--line);padding-block:11px}
+.list > *:first-child{border-top:0;padding-top:2px}
+.list > *:last-child{padding-bottom:2px}
+.pt{font-weight:400;font-size:15px;overflow-wrap:anywhere}
+.pron{color:var(--muted);font-size:12px}
+.ko{font-size:13px}
+.art.m{color:var(--sky-ink)} .art.f{color:var(--peach-ink)}
+.art{font-weight:400}
+.dots{display:flex;gap:3px;flex:none}
+.dots i{width:5px;height:5px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--sage)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px;align-items:start}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.stat b{display:block;font-weight:300;font-size:24px;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:11px;color:var(--muted)}
+.legend{display:flex;gap:12px;font-size:11.5px;color:var(--muted)}
+.empty{color:var(--muted);font-size:13px;padding:6px 0}
+
+/* home */
+.hero{display:flex;flex-direction:column;gap:2px;padding:4px 0 6px}
+.hero .title{font-size:26px}
+.today{display:flex;flex-direction:column;gap:14px}
+.today .nums{display:flex;gap:22px}
+.today .nums b{display:block;font-size:28px;font-weight:300;font-variant-numeric:tabular-nums;line-height:1.1}
+.today .nums span{font-size:11.5px;color:var(--muted)}
+
+/* units */
+.unit{display:flex;align-items:center;gap:12px}
+.unit .no{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:13px;font-weight:400}
+.unit.lock{opacity:.5}
+.rule{display:flex;flex-direction:column;gap:8px}
+.rule h3{font-size:16px}
+.ex{display:flex;align-items:center;gap:10px}
+
+/* verbs */
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{height:32px;padding:0 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);font-size:13px}
+.chips button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.conj{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:10px}
+.conj .p{color:var(--muted);font-size:12.5px}
+.conj .f{font-size:16px;font-weight:400}
+
+/* record */
+.bars{display:grid;grid-template-columns:repeat(14,1fr);gap:4px;align-items:end;height:110px}
+.bars div{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;height:100%;min-width:0}
+.bars i{display:block;width:100%;max-width:18px;border-radius:3px 3px 1px 1px;background:var(--sage);min-height:2px}
+.bars i.z{background:var(--soft)}
+.bars span{font-size:9.5px;color:var(--faint);font-variant-numeric:tabular-nums}
+.bars em{font-style:normal;font-size:9.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.seg{display:inline-flex;background:var(--soft);border-radius:9px;padding:2px}
+.seg button{height:28px;padding:0 11px;border-radius:7px;font-size:12px;color:var(--muted)}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+.set{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* study overlay */
+.ov{position:fixed;inset:0;z-index:30;background:var(--bg);display:flex;justify-content:center;overflow-y:auto;padding:calc(12px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.ov-in{width:100%;max-width:540px;display:flex;flex-direction:column;gap:18px;min-height:100%}
+.ov-top{display:flex;align-items:center;gap:12px}
+.ov-top .track{flex:1}
+.ov-top .cnt{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:42px;text-align:right}
+.x{width:32px;height:32px;border-radius:16px;display:grid;place-items:center;color:var(--muted)}
+.x svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round}
+.stage{flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px;padding-block:8px}
+.prompt{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+.prompt .big{font-size:32px;font-weight:300;letter-spacing:-.01em;line-height:1.25;overflow-wrap:anywhere}
+.prompt .q{font-size:12px;color:var(--muted)}
+.prompt .meaning{font-size:17px;margin-top:6px}
+.listen{width:84px;height:84px;border-radius:42px;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);color:var(--ink)}
+.listen svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{min-height:54px;padding:10px 12px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line);font-size:14px;text-align:center;overflow-wrap:anywhere;min-width:0;transition:background .15s,border-color .15s}
+.opt.ok{background:color-mix(in srgb,var(--ok) 32%,var(--surface));border-color:var(--ok)}
+.opt.no{background:color-mix(in srgb,var(--no) 30%,var(--surface));border-color:var(--no)}
+.opt:disabled{cursor:default}
+.fb{text-align:center;font-size:13px;color:var(--muted);min-height:20px}
+.sent{display:flex;gap:10px;align-items:flex-start}
+.sent .grow{display:flex;flex-direction:column;gap:2px}
+.hide{filter:blur(5px);user-select:none;cursor:pointer}
+@media (max-width:380px){.opts{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* A4 print */
+@media print{
+  @page{size:A4;margin:14mm}
+  .tabs,.side,.ov,.spk,.btn,.noprint{display:none!important}
+  body{background:#fff;color:#222;font-size:11pt}
+  main{padding:0!important}
+  .wrap{max-width:none}
+  .card,.stat{border:1px solid #ddd;break-inside:avoid}
+  .list > *{break-inside:avoid}
+}
+</style>
+
+<div class="app">
+  <nav class="side" aria-label="메뉴">
+    <div class="brand"><b>Passo a Passo</b><span>브라질 포르투갈어</span></div>
+    <a href="#home" data-n="home"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg>홈</a>
+    <a href="#units" data-n="units"><svg viewBox="0 0 24 24"><path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h10"/></svg>단원</a>
+    <a href="#verbs" data-n="verbs"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h13"/></svg>동사</a>
+    <a href="#record" data-n="record"><svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></svg>기록</a>
+    <div class="foot" id="syncSide"></div>
+  </nav>
+  <main><div class="wrap" id="view"></div></main>
+  <nav class="tabs" aria-label="탭">
+    <a href="#home" data-n="home"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg>홈</a>
+    <a href="#units" data-n="units"><svg viewBox="0 0 24 24"><path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h10"/></svg>단원</a>
+    <a href="#verbs" data-n="verbs"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h13"/></svg>동사</a>
+    <a href="#record" data-n="record"><svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></svg>기록</a>
+  </nav>
+</div>
+<div class="ov" id="ov" hidden><div class="ov-in" id="ovIn"></div></div>
+
+<script>
+/* ---------- content (Português do Brasil) ---------- */
+// word: [pt, 한국어 뜻, 한글 발음, 성(m/f/mp/fp)]
+const UNITS = [
+ {n:0, ko:'알파벳과 발음', pt:'Pronúncia', c:'sand', rules:[
+  {t:'ão', d:'코로 내는 "아웅". 끝을 닫지 말고 코로 울려요.', ex:[['pão','빠웅','빵'],['não','나웅','아니요'],['mão','마웅','손']]},
+  {t:'lh', d:'혀를 입천장에 붙인 "리"에 가까운 소리.', ex:[['filho','필류','아들'],['trabalho','뜨라바류','일'],['mulher','물례르','여자']]},
+  {t:'nh', d:'"냐·녀·뇨"처럼 부드러운 ㄴ 소리.', ex:[['vinho','빙뉴','와인'],['banheiro','반녜이루','화장실'],['amanhã','아마냥','내일']]},
+  {t:'r · rr', d:'단어 처음의 r과 rr은 "ㅎ" 소리, 모음 사이의 r은 가벼운 "ㄹ".', ex:[['rio','히우','강'],['carro','까후','자동차'],['caro','까루','비싼']]},
+  {t:'de · te', d:'브라질에서는 de/di는 "지", te/ti는 "치"로 발음해요.', ex:[['cidade','씨다지','도시'],['leite','레이치','우유'],['tia','치아','이모·고모']]},
+  {t:'끝의 o · e', d:'단어 끝의 o는 "우", e는 "이"로 약하게.', ex:[['obrigado','오브리가두','고마워요'],['nome','노미','이름'],['grande','그란지','큰']]},
+  {t:'끝의 l', d:'음절 끝의 l은 "우"처럼 발음해요.', ex:[['Brasil','브라지우','브라질'],['sal','싸우','소금'],['futebol','푸치보우','축구']]},
+  {t:'ç · s', d:'ç는 "ㅆ", 모음 사이의 s는 "ㅈ"에 가까운 소리.', ex:[['açúcar','아쑤까르','설탕'],['casa','까자','집'],['mesa','메자','탁자']]},
+  {t:'em · im · om · um', d:'끝의 m은 입을 닫지 않고 코로 "ㅇ" 받침처럼.', ex:[['bem','벵','잘'],['sim','씽','네'],['bom','봉','좋은']]}
+ ]},
+ {n:1, ko:'인사·소개', pt:'Cumprimentos', c:'sage', words:[
+  ['olá','안녕하세요','올라'],['oi','안녕 (친근하게)','오이'],['bom dia','좋은 아침이에요','봉 지아'],
+  ['boa tarde','안녕하세요 (오후)','보아 따르지'],['boa noite','안녕하세요 (저녁) · 잘 자요','보아 노이치'],
+  ['tchau','잘 가','차우'],['até logo','나중에 봐요','아떼 로구'],['obrigado','고마워요 (남성이 말할 때)','오브리가두'],
+  ['obrigada','고마워요 (여성이 말할 때)','오브리가다'],['por favor','부탁해요','뽀르 파보르'],['de nada','천만에요','지 나다'],
+  ['desculpa','미안해요','지스꾸우빠'],['com licença','실례합니다','꽁 리쎈싸'],['sim','네','씽'],['não','아니요','나웅'],
+  ['tudo bem?','잘 지내요?','뚜두 벵'],['prazer','반가워요','쁘라제르'],['eu','나','에우'],['você','너 · 당신','보쎄'],
+  ['ele','그 (남자)','엘리'],['ela','그녀','엘라'],['nome','이름','노미','m'],['amigo','친구 (남자)','아미구','m'],
+  ['amiga','친구 (여자)','아미가','f'],['Coreia','한국','꼬레이아','f'],['Brasil','브라질','브라지우','m'],
+  ['coreano','한국 사람 (남자)','꼬레아누'],['coreana','한국 사람 (여자)','꼬레아나'],['brasileiro','브라질 사람 (남자)','브라질레이루']
+ ], sents:[
+  ['Oi, tudo bem?','안녕, 잘 지내?','오이, 뚜두 벵?'],
+  ['Tudo bem, e você?','잘 지내, 너는?','뚜두 벵, 이 보쎄?'],
+  ['Como você se chama?','이름이 뭐예요?','꼬무 보쎄 시 샤마?'],
+  ['Meu nome é Ana.','제 이름은 아나예요.','메우 노미 에 아나'],
+  ['Muito prazer!','만나서 정말 반가워요!','무이뚜 쁘라제르'],
+  ['De onde você é?','어디에서 오셨어요?','지 온지 보쎄 에?'],
+  ['Eu sou da Coreia.','저는 한국에서 왔어요.','에우 쏘우 다 꼬레이아'],
+  ['Muito obrigada!','정말 고마워요! (여성)','무이뚜 오브리가다'],
+  ['Até amanhã!','내일 봐요!','아떼 아마냥']
+ ]},
+ {n:2, ko:'숫자·시간', pt:'Números e horas', c:'sky', words:[
+  ['zero','0','제루'],['um','1','웅'],['dois','2','도이스'],['três','3','뜨레스'],['quatro','4','꽈뜨루'],
+  ['cinco','5','씽꾸'],['seis','6','쎄이스'],['sete','7','쎄치'],['oito','8','오이뚜'],['nove','9','노비'],
+  ['dez','10','데스'],['vinte','20','빈치'],['cem','100','쎙'],
+  ['hora','시 · 시간','오라','f'],['minuto','분','미누뚜','m'],['dia','날 · 일','지아','m'],['semana','주','쎄마나','f'],
+  ['mês','달 · 월','메스','m'],['ano','해 · 년','아누','m'],['hoje','오늘','오지'],['amanhã','내일','아마냥'],
+  ['ontem','어제','온뗑'],['agora','지금','아고라'],['segunda-feira','월요일','쎄군다 페이라','f'],
+  ['sábado','토요일','싸바두','m'],['domingo','일요일','도밍구','m']
+ ], sents:[
+  ['Que horas são?','몇 시예요?','끼 오라스 싸웅?'],
+  ['São três horas.','3시예요.','싸웅 뜨레스 오라스'],
+  ['É uma hora.','1시예요.','에 우마 오라'],
+  ['Hoje é sábado.','오늘은 토요일이에요.','오지 에 싸바두'],
+  ['Quantos anos você tem?','몇 살이에요?','꽌뚜스 아누스 보쎄 뗑?'],
+  ['Eu tenho trinta anos.','저는 서른 살이에요.','에우 떼뉴 뜨린따 아누스'],
+  ['Quanto custa?','얼마예요?','꽌뚜 꾸스따?'],
+  ['Até segunda!','월요일에 봐요!','아떼 쎄군다']
+ ]},
+ {n:3, ko:'가족', pt:'Família', c:'lav', words:[
+  ['família','가족','파밀리아','f'],['pai','아버지','빠이','m'],['mãe','어머니','망이','f'],['pais','부모님','빠이스','mp'],
+  ['filho','아들','필류','m'],['filha','딸','필랴','f'],['irmão','형제 (형·오빠·남동생)','이르마웅','m'],
+  ['irmã','자매 (언니·누나·여동생)','이르망','f'],['avô','할아버지','아보','m'],['avó','할머니','아보 (입을 더 벌려서)','f'],
+  ['marido','남편','마리두','m'],['esposa','아내','이스뽀자','f'],['bebê','아기','베베','m'],['tio','삼촌 · 외삼촌','치우','m'],
+  ['tia','이모 · 고모','치아','f'],['primo','사촌 (남자)','쁘리무','m'],['criança','아이','끄리앙싸','f'],
+  ['casado','결혼한 (남자)','까자두'],['solteiro','미혼인 (남자)','쏘우떼이루'],['mais velho','나이가 더 많은','마이스 벨류'],
+  ['mais novo','나이가 더 어린','마이스 노부'],['ter','가지다 · 있다','떼르'],['morar','살다','모라르'],['gostar de','~을 좋아하다','고스따르 지']
+ ], sents:[
+  ['Esta é a minha mãe.','이분은 제 어머니예요.','에스따 에 아 미냐 망이'],
+  ['Este é o meu pai.','이분은 제 아버지예요.','에스치 에 우 메우 빠이'],
+  ['Eu tenho dois irmãos.','저는 형제가 둘 있어요.','에우 떼뉴 도이스 이르마웅스'],
+  ['Você tem filhos?','자녀가 있어요?','보쎄 뗑 필류스?'],
+  ['Eu sou casada.','저는 결혼했어요. (여성)','에우 쏘우 까자다'],
+  ['Minha irmã mora em São Paulo.','제 언니는 상파울루에 살아요.','미냐 이르망 모라 엥 싸웅 빠울루'],
+  ['Meu avô tem oitenta anos.','할아버지는 여든 살이세요.','메우 아보 뗑 오이뗀따 아누스'],
+  ['Eu gosto da minha família.','저는 제 가족이 좋아요.','에우 고스뚜 다 미냐 파밀리아']
+ ]},
+ {n:4, ko:'음식·카페', pt:'Comida e café', c:'peach', words:[
+  ['café','커피','까페','m'],['água','물','아구아','f'],['suco','주스','쑤꾸','m'],['leite','우유','레이치','m'],
+  ['pão','빵','빠웅','m'],['pão de queijo','치즈빵','빠웅 지 께이주','m'],['queijo','치즈','께이주','m'],
+  ['carne','고기','까르니','f'],['frango','닭고기','프랑구','m'],['peixe','생선','뻬이시','m'],['arroz','쌀 · 밥','아호스','m'],
+  ['feijão','콩','페이자웅','m'],['fruta','과일','프루따','f'],['salada','샐러드','쌀라다','f'],['açúcar','설탕','아쑤까르','m'],
+  ['cerveja','맥주','쎄르베자','f'],['cardápio','메뉴판','까르다삐우','m'],['conta','계산서','꼰따','f'],
+  ['gostoso','맛있는','고스또주'],['quente','뜨거운','껭치'],['gelado','차가운','젤라두'],
+  ['querer','원하다','께레르'],['comer','먹다','꼬메르'],['beber','마시다','베베르']
+ ], sents:[
+  ['Um café, por favor.','커피 한 잔 주세요.','웅 까페, 뽀르 파보르'],
+  ['Eu quero uma água.','물 하나 주세요.','에우 께루 우마 아구아'],
+  ['O cardápio, por favor.','메뉴판 주세요.','우 까르다삐우, 뽀르 파보르'],
+  ['A conta, por favor.','계산서 주세요.','아 꼰따, 뽀르 파보르'],
+  ['Está muito gostoso!','정말 맛있어요!','이스따 무이뚜 고스또주'],
+  ['Sem açúcar, por favor.','설탕은 빼 주세요.','쎙 아쑤까르, 뽀르 파보르'],
+  ['Eu não como carne.','저는 고기를 안 먹어요.','에우 나웅 꼬무 까르니'],
+  ['Quanto é?','얼마예요?','꽌뚜 에?']
+ ]}
+];
+const LATER = ['장소·길 찾기','쇼핑','일상 루틴','날씨·계절','교통·여행','건강','과거 이야기','계획·미래'];
+const PRON = ['eu','você · ele · ela','nós','vocês · eles · elas'];
+const PRON_SAY = ['eu','ele','nós','eles'];
+const VERBS = [
+ {v:'ser', ko:'~이다', note:'변하지 않는 것: 국적·직업·성격', f:['sou','é','somos','são'], ex:['Eu sou coreana.','저는 한국 사람이에요.']},
+ {v:'estar', ko:'~이다 · ~에 있다', note:'변하는 것: 기분·상태·위치', f:['estou','está','estamos','estão'], ex:['Eu estou cansado.','저는 피곤해요.']},
+ {v:'ter', ko:'가지다 · 있다', note:'나이를 말할 때도 써요', f:['tenho','tem','temos','têm'], ex:['Eu tenho um irmão.','저는 남자 형제가 한 명 있어요.']},
+ {v:'ir', ko:'가다', note:'ir + 동사원형 = ~할 거예요', f:['vou','vai','vamos','vão'], ex:['Nós vamos ao Brasil.','우리는 브라질에 가요.']},
+ {v:'fazer', ko:'하다 · 만들다', note:'날씨·직업 질문에 자주 나와요', f:['faço','faz','fazemos','fazem'], ex:['O que você faz?','무슨 일 하세요?']},
+ {v:'querer', ko:'원하다', note:'주문할 때 Eu quero…', f:['quero','quer','queremos','querem'], ex:['Eu quero um café.','커피 한 잔 주세요.']}
+];
+const ART = {m:'o', f:'a', mp:'os', fp:'as'};
+const ALL = [];
+UNITS.forEach(u => (u.words||[]).forEach((w,i) => ALL.push({id:u.n+'-'+i, u:u.n, pt:w[0], ko:w[1], pr:w[2], g:w[3]||''})));
+const BYID = Object.fromEntries(ALL.map(w => [w.id, w]));
+const INT = [0,1,2,4,7,15,30];
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length-1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; };
+const full = w => (w.g ? ART[w.g]+' ' : '') + w.pt;
+const ptHTML = w => (w.g ? `<span class="art ${w.g[0]}">${ART[w.g]}</span> ` : '') + esc(w.pt);
+const unitOf = n => UNITS.find(u => u.n === n);
+function dkey(d = new Date()){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function dnum(d = new Date()){ return Math.round(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())/864e5); }
+const ICON = {
+ spk:'<svg viewBox="0 0 24 24"><path d="M4 9.5h3l4.5-4v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>',
+ x:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>'
+};
+const spk = t => canSpeak ? `<button class="spk" data-a="say" data-x="${esc(t)}" aria-label="듣기">${ICON.spk}</button>` : '';
+
+/* ---------- speech ---------- */
+const canSpeak = 'speechSynthesis' in window;
+let voice = null;
+function pickVoice(){ try{ const vs = speechSynthesis.getVoices(); voice = vs.find(v => /pt[-_]BR/i.test(v.lang)) || vs.find(v => /^pt/i.test(v.lang)) || null; }catch(e){} }
+if (canSpeak){ pickVoice(); speechSynthesis.addEventListener?.('voiceschanged', pickVoice); }
+function say(t){
+  if (!canSpeak) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(String(t).replace(/…|\.\.\./g,''));
+    u.lang = 'pt-BR'; if (voice) u.voice = voice; u.rate = S.set.rate;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+/* ---------- state & storage ---------- */
+const LS = 'passo-a-passo-v1';
+const DEF = () => ({v:1, t:0, w:{}, days:{}, streak:0, last:null, seen0:false, set:{pron:true, rate:0.9, newN:5}});
+function norm(o){ const d = DEF(); o = o && typeof o === 'object' ? o : {}; return {...d, ...o, set:{...d.set, ...(o.set||{})}, w:o.w||{}, days:o.days||{}}; }
+let S = DEF();
+try{ S = norm(JSON.parse(localStorage.getItem(LS))); }catch(e){}
+let docRef = null, saveT = null, saving = false, again = false, sync = 'local';
+
+function save(){
+  S.t = Date.now();
+  try{ localStorage.setItem(LS, JSON.stringify(S)); }catch(e){}
+  if (docRef){ clearTimeout(saveT); saveT = setTimeout(flush, 1200); }
+}
+async function flush(){
+  if (!docRef) return;
+  if (saving){ again = true; return; }
+  saving = true;
+  try{ await docRef.set(JSON.parse(JSON.stringify(S))); setSync('cloud'); }
+  catch(e){ if (e && e.code === 'unavailable'){ again = true; } else { docRef = null; setSync('local'); } }
+  finally{ saving = false; if (again && docRef){ again = false; setTimeout(flush, 1500); } }
+}
+async function pull(){
+  if (!docRef) return;
+  try{
+    const snap = await docRef.get();
+    if (snap.exists){
+      const r = snap.data();
+      if ((r.t||0) > (S.t||0)){ S = norm(JSON.parse(JSON.stringify(r))); try{ localStorage.setItem(LS, JSON.stringify(S)); }catch(e){} if ($('#ov').hidden) render(); }
+      else if ((S.t||0) > (r.t||0)) flush();
+    } else if (S.t) flush();
+    setSync('cloud');
+  }catch(e){}
+}
+async function initCloud(){
+  try{
+    if (!window.claude || !window.claude.use) return;
+    const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+    if (!db || !user) return;
+    const id = await user.id();
+    if (!id) return;
+    docRef = db.doc('data/users/' + id + '/progress');
+    await pull();
+  }catch(e){ docRef = null; }
+}
+function setSync(s){ sync = s; const el = $('#syncSide'); if (el) el.textContent = s === 'cloud' ? 'iPhone · iPad 동기화 중' : '이 기기에 저장 중'; }
+document.addEventListener('visibilitychange', () => { if (!document.hidden) pull(); });
+
+/* ---------- derived ---------- */
+function learned(w){ return !!S.w[w.id]; }
+function dueList(){ const t = dnum(); return ALL.filter(w => S.w[w.id] && S.w[w.id].d <= t).sort((a,b) => S.w[a.id].d - S.w[b.id].d); }
+function newList(){ return ALL.filter(w => !S.w[w.id]); }
+function curUnit(){ const w = newList()[0]; return w ? unitOf(w.u) : unitOf(4); }
+function streakNow(){ if (!S.last) return 0; return S.last >= dnum() - 1 ? S.streak : 0; }
+function touchDay(n){
+  const t = dnum(), k = dkey();
+  S.days[k] = (S.days[k]||0) + n;
+  if (S.last !== t){ S.streak = S.last === t - 1 ? S.streak + 1 : 1; S.last = t; }
+}
+function unitProg(u){ const ws = ALL.filter(w => w.u === u.n); return {n:ws.length, l:ws.filter(learned).length, m:ws.filter(w => (S.w[w.id]?.b||0) >= 4).length}; }
+
+/* ---------- views ---------- */
+function route(){ return (location.hash.slice(1) || 'home'); }
+let lastRoute = '';
+function render(){
+  const r = route();
+  const base = r.startsWith('unit-') ? 'units' : r;
+  document.querySelectorAll('[data-n]').forEach(a => a.classList.toggle('on', a.dataset.n === base));
+  const v = $('#view');
+  if (r === 'units') v.innerHTML = vUnits();
+  else if (r.startsWith('unit-')) v.innerHTML = vUnit(+r.slice(5));
+  else if (r === 'verbs') v.innerHTML = vVerbs();
+  else if (r === 'record') v.innerHTML = vRecord();
+  else v.innerHTML = vHome();
+  if (r !== lastRoute){ window.scrollTo(0,0); lastRoute = r; }
+}
+window.addEventListener('hashchange', render);
+
+function vHome(){
+  const h = new Date().getHours();
+  const greet = h < 12 ? ['Bom dia','좋은 아침이에요'] : h < 18 ? ['Boa tarde','좋은 오후예요'] : ['Boa noite','좋은 저녁이에요'];
+  const due = dueList().length, nw = Math.min(newList().length, S.set.newN);
+  const u = curUnit(), p = unitProg(u);
+  const d = new Date();
+  const date = `${d.getMonth()+1}월 ${d.getDate()}일 ${'일월화수목금토'[d.getDay()]}요일`;
+  const pool = UNITS.filter(x => x.sents && x.n <= u.n).flatMap(x => x.sents);
+  const s = pool[(dnum()) % pool.length];
+  const done = !due && !nw;
+  return `
+  <div class="hero"><span class="eyebrow">${date}</span><h1 class="title">${greet[0]}</h1><span class="sub">${greet[1]}</span></div>
+  <section class="card today">
+    <div class="row"><span class="grow eyebrow">오늘의 학습</span><span class="chip" style="background:var(--soft);color:var(--muted)">연속 ${streakNow()}일</span></div>
+    ${done ? `<p>오늘 학습을 모두 마쳤어요. 내일 복습할 단어가 준비돼요.</p>
+      <button class="btn ghost wide" data-a="extra">익힌 단어 추가 연습</button>`
+    : `<div class="nums"><div><b>${due}</b><span>복습</span></div><div><b>${nw}</b><span>새 단어</span></div><div><b>${Math.max(2, Math.round((due*8 + nw*20)/60))}</b><span>분 예상</span></div></div>
+      <button class="btn wide" data-a="start">시작하기</button>`}
+  </section>
+  ${!S.seen0 ? `<a class="card row" href="#unit-0"><span class="chip" style="background:color-mix(in srgb,var(--sand) 55%,var(--surface));color:var(--sand-ink)">0단원</span><span class="grow">처음이라면 발음 규칙부터 들어보세요</span><span class="sub">›</span></a>` : ''}
+  <a class="card" href="#unit-${u.n}" style="display:flex;flex-direction:column;gap:10px">
+    <div class="row"><span class="eyebrow grow">지금 배우는 단원</span><span class="sub">${p.l} / ${p.n}</span></div>
+    <div class="row"><b style="font-weight:400;font-size:16px">${u.n}. ${u.ko}</b><span class="sub">${u.pt}</span></div>
+    <div class="track"><i style="width:${p.n ? p.l/p.n*100 : 0}%;background:var(--${u.c})"></i></div>
+  </a>
+  <section class="card sent">
+    ${spk(s[0])}
+    <div class="grow"><span class="eyebrow">오늘의 표현</span><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko">${esc(s[1])}</span></div>
+  </section>`;
+}
+
+function vUnits(){
+  const rows = UNITS.map(u => {
+    const p = u.rules ? null : unitProg(u);
+    return `<a class="unit" href="#unit-${u.n}">
+      <span class="no" style="background:color-mix(in srgb,var(--${u.c}) 50%,var(--surface));color:var(--${u.c}-ink)">${u.n}</span>
+      <span class="grow" style="display:flex;flex-direction:column;gap:5px">
+        <span class="row"><span class="grow" style="font-weight:400">${u.ko}</span><span class="sub">${p ? p.l+' / '+p.n : (S.seen0 ? '봤어요' : '규칙 '+u.rules.length+'개')}</span></span>
+        ${p ? `<span class="track"><i style="width:${p.l/p.n*100}%;background:var(--${u.c})"></i></span>` : `<span class="sub">${u.pt}</span>`}
+      </span></a>`;
+  }).join('');
+  const lock = LATER.map((t,i) => `<div class="unit lock"><span class="no" style="background:var(--soft);color:var(--muted)">${i+5}</span><span class="grow">${t}</span><span class="sub">준비 중</span></div>`).join('');
+  return `<div class="hero"><span class="eyebrow">A1 → A2</span><h1 class="title">단원</h1></div>
+  <section class="card list">${rows}${lock}</section>`;
+}
+
+function vUnit(n){
+  const u = unitOf(n);
+  if (!u) return vUnits();
+  const head = `<a class="sub noprint" href="#units">‹ 단원</a>
+   <div class="hero"><span class="eyebrow">${u.n}단원 · ${u.pt}</span><h1 class="title">${u.ko}</h1></div>`;
+  if (u.rules){
+    if (!S.seen0){ S.seen0 = true; save(); }
+    return head + `<p class="sub">스피커를 눌러 예시 단어를 들어보세요. 한글 표기는 비슷한 소리일 뿐이니 꼭 소리로 확인하세요.</p>
+    <div class="grid2">${u.rules.map(r => `<section class="card rule"><h3>${esc(r.t)}</h3><p class="sub">${esc(r.d)}</p>
+      <div class="list">${r.ex.map(e => `<div class="ex">${spk(e[0])}<span class="grow"><span class="pt">${esc(e[0])}</span> <span class="pron">${esc(e[1])}</span></span><span class="ko">${esc(e[2])}</span></div>`).join('')}</div></section>`).join('')}</div>`;
+  }
+  const ws = ALL.filter(w => w.u === n), p = unitProg(u);
+  const words = ws.map(w => {
+    const b = S.w[w.id]?.b || 0;
+    return `<div class="row">${spk(full(w))}<span class="grow" style="display:flex;flex-direction:column"><span class="pt">${ptHTML(w)}</span>${S.set.pron ? `<span class="pron">${esc(w.pr)}</span>` : ''}</span>
+      <span class="ko" style="text-align:right;max-width:45%">${esc(w.ko)}</span>
+      <span class="dots" aria-label="숙련도 ${b}/6">${[1,2,3,4,5,6].map(i => `<i class="${i <= b ? 'on' : ''}"></i>`).join('')}</span></div>`;
+  }).join('');
+  const sents = u.sents.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko">${esc(s[1])}</span></div></div>`).join('');
+  return head + `<div class="row"><div class="track grow"><i style="width:${p.l/p.n*100}%;background:var(--${u.c})"></i></div><span class="sub">학습 ${p.l} · 익힘 ${p.m} / ${p.n}</span></div>
+  <div class="grid2">
+    <section class="card" style="display:flex;flex-direction:column;gap:10px">
+      <div class="row"><span class="eyebrow grow">단어 ${ws.length}</span><span class="legend"><span><span class="art m">o</span> 남성</span><span><span class="art f">a</span> 여성</span></span></div>
+      <div class="list">${words}</div>
+    </section>
+    <section class="card" style="display:flex;flex-direction:column;gap:10px">
+      <span class="eyebrow">문장 ${u.sents.length}</span>
+      <div class="list">${sents}</div>
+    </section>
+  </div>`;
+}
+
+let verbIdx = 0;
+function vVerbs(){
+  const v = VERBS[verbIdx];
+  return `<div class="hero"><span class="eyebrow">현재형 · Presente</span><h1 class="title">동사</h1></div>
+  <div class="chips noprint">${VERBS.map((x,i) => `<button class="${i === verbIdx ? 'on' : ''}" data-a="verb" data-x="${i}">${x.v}</button>`).join('')}</div>
+  <section class="card" style="display:flex;flex-direction:column;gap:12px">
+    <div class="row">${spk(v.v)}<div class="grow"><span class="pt" style="font-size:20px;font-weight:300">${v.v}</span> <span class="ko">${v.ko}</span><p class="sub">${v.note}</p></div></div>
+    <div class="list">${v.f.map((f,i) => `<div class="conj"><span class="p">${PRON[i]}</span><span class="f">${f}</span>${spk(PRON_SAY[i]+' '+f)}</div>`).join('')}</div>
+    <div class="sent" style="padding-top:4px">${spk(v.ex[0])}<div class="grow"><span class="pt">${esc(v.ex[0])}</span><span class="ko">${esc(v.ex[1])}</span></div></div>
+  </section>
+  <p class="sub">브라질에서는 tu 대신 você를 주로 써서, você · ele · ela가 같은 형태를 써요.</p>
+  <button class="btn wide noprint" data-a="verbq">활용 퀴즈 8문제</button>`;
+}
+
+let resetAsk = false;
+function vRecord(){
+  const learnedN = ALL.filter(learned).length, mastered = ALL.filter(w => (S.w[w.id]?.b||0) >= 4).length;
+  const days = []; const d = new Date();
+  for (let i = 13; i >= 0; i--){ const x = new Date(d.getFullYear(), d.getMonth(), d.getDate() - i); days.push([x.getDate(), S.days[dkey(x)] || 0]); }
+  const max = Math.max(10, ...days.map(x => x[1]));
+  const seg = (k, vals, labels) => `<div class="seg">${vals.map((v,i) => `<button class="${S.set[k] === v ? 'on' : ''}" data-a="set" data-k="${k}" data-x="${v}">${labels[i]}</button>`).join('')}</div>`;
+  return `<div class="hero"><span class="eyebrow">Progresso</span><h1 class="title">기록</h1></div>
+  <div class="stats">
+    <div class="stat"><b>${streakNow()}</b><span>연속 학습일</span></div>
+    <div class="stat"><b>${learnedN}</b><span>학습한 단어</span></div>
+    <div class="stat"><b>${mastered}</b><span>익힌 단어</span></div>
+  </div>
+  <section class="card" style="display:flex;flex-direction:column;gap:12px">
+    <span class="eyebrow">최근 14일 · 푼 문제 수</span>
+    <div class="bars">${days.map(x => `<div><em>${x[1] || ''}</em><i class="${x[1] ? '' : 'z'}" style="height:${Math.max(2, x[1]/max*80)}px"></i><span>${x[0]}</span></div>`).join('')}</div>
+  </section>
+  <section class="card list">${UNITS.filter(u => u.words).map(u => { const p = unitProg(u); return `<div style="display:flex;flex-direction:column;gap:6px"><div class="row"><span class="grow">${u.n}. ${u.ko}</span><span class="sub">익힘 ${p.m} · 학습 ${p.l} / ${p.n}</span></div><div class="track"><i style="width:${p.l/p.n*100}%;background:var(--${u.c})"></i></div></div>`; }).join('')}</section>
+  <section class="card list noprint">
+    <div class="set"><span>한글 발음 표시</span>${seg('pron',[true,false],['켜기','끄기'])}</div>
+    <div class="set"><span>말하기 속도</span>${seg('rate',[0.7,0.9,1],['천천히','보통','빠르게'])}</div>
+    <div class="set"><span>하루 새 단어</span>${seg('newN',[3,5,8],['3개','5개','8개'])}</div>
+    <div class="set"><span>저장</span><span class="sub">${sync === 'cloud' ? 'iPhone과 iPad에서 같은 기록을 써요' : '이 기기에만 저장돼요'}</span></div>
+    <div class="set"><span>기록 초기화</span>${resetAsk
+      ? `<span class="row"><span class="sub">모든 기록을 지울까요?</span><button class="btn sm" data-a="resetYes">지우기</button><button class="btn sm ghost" data-a="resetNo">취소</button></span>`
+      : `<button class="btn sm ghost" data-a="reset">초기화</button>`}</div>
+  </section>
+  ${canSpeak ? '' : '<p class="sub">이 브라우저는 음성 읽기를 지원하지 않아요.</p>'}`;
+}
+
+/* ---------- study session ---------- */
+let Q = null;
+function openSession(items, mode){
+  Q = {items, i:0, ok:0, total:0, graded:new Set(), mode, answered:false};
+  $('#ov').hidden = false; document.body.style.overflow = 'hidden';
+  draw();
+}
+function closeSession(){ Q = null; $('#ov').hidden = true; document.body.style.overflow = ''; try{ speechSynthesis.cancel(); }catch(e){} render(); }
+function modeFor(w, isNew){ if (isNew) return 'pt'; const m = ['pt','ko'].concat(canSpeak ? ['listen'] : []); return m[Math.floor(Math.random()*m.length)]; }
+function startToday(){
+  const due = dueList().slice(0, 30), fresh = newList().slice(0, S.set.newN);
+  if (!due.length && !fresh.length) return startExtra();
+  const items = fresh.map(w => ({k:'learn', w})).concat(shuffle(due.map(w => ({k:'quiz', w, m:modeFor(w)})).concat(fresh.map(w => ({k:'quiz', w, m:modeFor(w, true)})))));
+  openSession(items, 'srs');
+}
+function startExtra(){
+  const pool = ALL.filter(learned);
+  const src = pool.length >= 4 ? pool : ALL.filter(w => w.u === 1);
+  openSession(shuffle(src).slice(0, 10).map(w => ({k:'quiz', w, m:modeFor(w)})), 'extra');
+}
+function startVerbQuiz(){
+  const items = [];
+  for (let i = 0; i < 8; i++) items.push({k:'verb', vi:Math.floor(Math.random()*VERBS.length), pi:Math.floor(Math.random()*4)});
+  openSession(items, 'verb');
+}
+function options(it){
+  if (it.k === 'verb') return shuffle(VERBS[it.vi].f.map((f,i) => ({t:f, ok:i === it.pi})));
+  const w = it.w, key = it.m === 'pt' ? 'ko' : 'pt';
+  const same = shuffle(ALL.filter(x => x.u === w.u && x.id !== w.id && x[key] !== w[key]));
+  const other = shuffle(ALL.filter(x => x.u !== w.u && x[key] !== w[key]));
+  const picks = [];
+  for (const x of same.concat(other)){ if (picks.length === 3) break; if (!picks.some(p => p[key] === x[key])) picks.push(x); }
+  return shuffle([w, ...picks].map(x => ({t: key === 'ko' ? x.ko : full(x), h: key === 'pt' ? ptHTML(x) : esc(x.ko), ok:x.id === w.id})));
+}
+function draw(){
+  const it = Q.items[Q.i], n = Q.items.length;
+  const top = `<div class="ov-top"><button class="x" data-a="close" aria-label="닫기">${ICON.x}</button><div class="track"><i style="width:${(it ? Q.i : n)/n*100}%"></i></div><span class="cnt">${Math.min(Q.i+1, n)} / ${n}</span></div>`;
+  let body = '';
+  if (!it) body = drawDone();
+  else if (it.k === 'learn'){
+    const w = it.w, u = unitOf(w.u);
+    body = `<div class="stage"><div class="prompt">
+      <span class="chip" style="background:color-mix(in srgb,var(--${u.c}) 50%,var(--surface));color:var(--${u.c}-ink)">새 단어 · ${u.n}단원</span>
+      <span class="big">${ptHTML(w)}</span>${S.set.pron ? `<span class="pron">${esc(w.pr)}</span>` : ''}
+      ${spk(full(w))}<span class="meaning">${esc(w.ko)}</span>
+      ${w.g ? `<span class="q">${w.g[0] === 'm' ? '남성 명사' : '여성 명사'}${w.g.length > 1 ? ' · 복수' : ''}</span>` : ''}
+    </div></div><button class="btn wide" data-a="next">다음</button>`;
+    setTimeout(() => say(full(w)), 120);
+  } else {
+    Q.opts = options(it); Q.answered = false;
+    let prompt;
+    if (it.k === 'verb'){ const v = VERBS[it.vi]; prompt = `<span class="q">알맞은 형태를 고르세요</span><span class="big">${PRON[it.pi].split(' · ')[0]} ___</span><span class="sub">${v.v} · ${v.ko}</span>`; }
+    else if (it.m === 'pt'){ prompt = `<span class="q">뜻을 고르세요</span><span class="big">${ptHTML(it.w)}</span>${S.set.pron ? `<span class="pron">${esc(it.w.pr)}</span>` : ''}${spk(full(it.w))}`; setTimeout(() => say(full(it.w)), 120); }
+    else if (it.m === 'ko'){ prompt = `<span class="q">포르투갈어를 고르세요</span><span class="big" style="font-size:26px">${esc(it.w.ko)}</span>`; }
+    else { prompt = `<span class="q">들은 단어를 고르세요</span><button class="listen" data-a="say" data-x="${esc(full(it.w))}" aria-label="다시 듣기">${ICON.spk}</button>`; setTimeout(() => say(full(it.w)), 150); }
+    body = `<div class="stage"><div class="prompt">${prompt}</div>
+      <div class="opts">${Q.opts.map((o,i) => `<button class="opt" data-a="opt" data-x="${i}">${o.h || esc(o.t)}</button>`).join('')}</div>
+      <div class="fb" id="fb"></div></div><div id="nx"></div>`;
+  }
+  $('#ovIn').innerHTML = top + body;
+}
+function answer(i){
+  if (Q.answered) return;
+  Q.answered = true;
+  const it = Q.items[Q.i], o = Q.opts[i], ok = o.ok;
+  const btns = document.querySelectorAll('.opt');
+  btns.forEach((b,j) => { b.disabled = true; if (Q.opts[j].ok) b.classList.add('ok'); });
+  if (!ok) btns[i].classList.add('no');
+  const key = it.k === 'verb' ? 'v' + it.vi + '-' + it.pi + '-' + Q.i : it.w.id;
+  if (!Q.graded.has(key)){
+    Q.graded.add(key); Q.total++; if (ok) Q.ok++;
+    if (Q.mode === 'srs'){
+      const t = dnum(), s = S.w[it.w.id] || {b:0, d:t, n:0};
+      s.b = ok ? Math.min(s.b + 1, 6) : 1; s.d = t + INT[s.b]; s.n++;
+      S.w[it.w.id] = s;
+    }
+    touchDay(1); save();
+  }
+  if (!ok && it.k !== 'verb' && !it.retry) Q.items.push({...it, retry:true});
+  if (it.k === 'verb'){ const v = VERBS[it.vi]; say(PRON_SAY[it.pi] + ' ' + v.f[it.pi]); }
+  else if (it.m !== 'pt') say(full(it.w));
+  const fb = $('#fb');
+  if (ok){ fb.textContent = '정답'; setTimeout(() => { if (Q && Q.answered) next(); }, 900); }
+  else {
+    fb.innerHTML = it.k === 'verb' ? `정답: ${PRON_SAY[it.pi]} ${VERBS[it.vi].f[it.pi]}` : `${ptHTML(it.w)} = ${esc(it.w.ko)} · 마지막에 한 번 더 나와요`;
+    $('#nx').innerHTML = '<button class="btn wide" data-a="next">다음</button>';
+  }
+}
+function next(){ if (!Q) return; Q.answered = false; Q.i++; draw(); }
+function drawDone(){
+  const u = curUnit();
+  const ss = shuffle(u.sents).slice(0, 2);
+  const pct = Q.total ? Math.round(Q.ok / Q.total * 100) : 100;
+  return `<div class="stage" style="justify-content:flex-start;padding-top:24px">
+    <div class="prompt"><span class="q">${Q.mode === 'verb' ? '활용 퀴즈' : '오늘의 학습'} 완료</span><span class="big">${Q.ok} / ${Q.total}</span><span class="sub">정답률 ${pct}% · 연속 ${streakNow()}일</span></div>
+    ${Q.mode === 'verb' ? '' : `<section class="card" style="display:flex;flex-direction:column;gap:10px"><span class="eyebrow">문장으로 마무리 · 뜻을 눌러 확인</span>
+      <div class="list">${ss.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko hide" data-a="reveal">${esc(s[1])}</span></div></div>`).join('')}</div></section>`}
+  </div><button class="btn wide" data-a="close">완료</button>`;
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-a]'); if (!b) return;
+  const a = b.dataset.a, x = b.dataset.x;
+  if (a === 'say'){ e.preventDefault(); say(x); }
+  else if (a === 'start') startToday();
+  else if (a === 'extra') startExtra();
+  else if (a === 'verbq') startVerbQuiz();
+  else if (a === 'opt') answer(+x);
+  else if (a === 'next') next();
+  else if (a === 'close') closeSession();
+  else if (a === 'reveal') b.classList.remove('hide');
+  else if (a === 'verb'){ verbIdx = +x; render(); }
+  else if (a === 'set'){ const k = b.dataset.k; S.set[k] = k === 'pron' ? x === 'true' : +x; save(); render(); if (k === 'rate') say('Muito bem!'); }
+  else if (a === 'reset'){ resetAsk = true; render(); }
+  else if (a === 'resetNo'){ resetAsk = false; render(); }
+  else if (a === 'resetYes'){ const set = S.set; S = DEF(); S.set = set; resetAsk = false; save(); render(); }
+});
+document.addEventListener('keydown', e => {
+  if (!Q) return;
+  if (e.key === 'Escape') closeSession();
+  else if (/^[1-4]$/.test(e.key) && !Q.answered && Q.opts && Q.items[Q.i]?.k !== 'learn') answer(+e.key - 1);
+  else if (e.key === 'Enter' && document.querySelector('[data-a="next"]')) next();
+});
+
+setSync('local');
+render();
+initCloud();
+</script>
