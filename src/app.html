@@ -249,6 +249,17 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 .gram .list > *{padding-block:9px}
 @media print{details.gram > .gbody{display:flex}}
 
+/* my notebook form */
+.mform{display:flex;flex-direction:column;gap:12px}
+.fld{display:flex;flex-direction:column;gap:5px;font-size:calc(.8rem*var(--ks));color:var(--muted)}
+.fld input,.fld textarea{width:100%;box-sizing:border-box;min-height:42px;padding:9px 12px;border:1px solid color-mix(in srgb,var(--pencil) 45%,transparent);background:var(--sheet);color:var(--ink);font-size:16px;border-radius:0;outline:none;-webkit-appearance:none;appearance:none}
+.fld input:not(.lat),.fld textarea:not(.lat){font-family:var(--ko)}
+.fld input:focus,.fld textarea:focus{border-color:var(--ink)}
+.fld textarea{resize:vertical;line-height:1.5}
+.mlink{font-size:calc(.78rem*var(--ks));color:var(--muted);padding:4px 2px}
+.mlink:active{color:var(--ink)}
+.big.long{font-size:calc(1.45rem*var(--ks)) !important;line-height:1.35}
+
 /* life vocabulary */
 .bk{width:100%;box-sizing:border-box;padding:10px;border:1px solid color-mix(in srgb,var(--pencil) 45%,transparent);background:var(--paper);color:var(--ink);font:300 .78rem/1.4 var(--lat);resize:vertical;border-radius:0;word-break:break-all}
 .seg a{display:inline-flex;align-items:center;height:30px;font-size:.86rem;color:var(--faint);border-bottom:1px solid transparent}
@@ -948,7 +959,13 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':
 const shuffle = a => { a = a.slice(); for (let i = a.length-1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; };
 const full = w => (w.g ? ART[w.g]+' ' : '') + w.pt;
 const ptHTML = w => (w.g ? `<span class="art ${w.g[0]}">${ART[w.g]}</span> ` : '') + esc(w.pt);
-const unitOf = n => UNITS.find(u => u.n === n);
+const MYU = {n:'M', ko:'내 단어장', pt:'Meu caderno', c:'peach', sents:[]};
+const unitOf = n => n === 'M' ? MYU : UNITS.find(u => u.n === n);
+const mineItems = () => (S.mine || []).map(m => ({id:'M-' + m.id, u:'M', pt:m.pt, ko:m.ko, pr:m.pr || '', g:m.g || '', t:m.t, mid:m.id}));
+const studyWords = () => mineItems().concat(ALL);
+const SENTW = [];
+UNITS.forEach(u => (u.sents || []).forEach((x, i) => SENTW.push({id:'S-' + u.n + '-' + i, u:'S', pt:x[0], ko:x[1], pr:x[2], t:'s'})));
+const isSent = w => w.t === 's' || /\s\S+\s\S+/.test(w.pt);
 function dkey(d = new Date()){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function dnum(d = new Date()){ return Math.round(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())/864e5); }
 const ICON = {
@@ -974,8 +991,8 @@ function say(t){
 
 /* ---------- state & storage ---------- */
 const LS = 'passo-a-passo-v1';
-const DEF = () => ({v:1, t:0, w:{}, days:{}, streak:0, last:null, seen0:false, set:{pron:true, rate:0.9, newN:5, font:'basic', size:1, fontName:'', fontId:'', fontAsset:''}});
-function norm(o){ const d = DEF(); o = o && typeof o === 'object' ? o : {}; return {...d, ...o, set:{...d.set, ...(o.set||{})}, w:o.w||{}, days:o.days||{}}; }
+const DEF = () => ({v:1, t:0, w:{}, days:{}, streak:0, last:null, seen0:false, mine:[], set:{pron:true, rate:0.9, newN:5, font:'basic', size:1, fontName:'', fontId:'', fontAsset:''}});
+function norm(o){ const d = DEF(); o = o && typeof o === 'object' ? o : {}; return {...d, ...o, set:{...d.set, ...(o.set||{})}, w:o.w||{}, days:o.days||{}, mine:Array.isArray(o.mine) ? o.mine : []}; }
 let S = DEF();
 try{ S = norm(JSON.parse(localStorage.getItem(LS))); }catch(e){}
 let docRef = null, saveT = null, saving = false, again = false, sync = 'local';
@@ -1102,9 +1119,9 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden) pull
 
 /* ---------- derived ---------- */
 function learned(w){ return !!S.w[w.id]; }
-function dueList(){ const t = dnum(); return ALL.filter(w => S.w[w.id] && S.w[w.id].d <= t).sort((a,b) => S.w[a.id].d - S.w[b.id].d); }
-function newList(){ return ALL.filter(w => !S.w[w.id]); }
-function curUnit(){ const w = newList()[0]; return w ? unitOf(w.u) : UNITS[UNITS.length - 1]; }
+function dueList(){ const t = dnum(); return studyWords().filter(w => S.w[w.id] && S.w[w.id].d <= t).sort((a,b) => S.w[a.id].d - S.w[b.id].d); }
+function newList(){ return studyWords().filter(w => !S.w[w.id]); }
+function curUnit(){ const w = ALL.find(x => !S.w[x.id]); return w ? unitOf(w.u) : UNITS[UNITS.length - 1]; }
 function streakNow(){ if (!S.last) return 0; return S.last >= dnum() - 1 ? S.streak : 0; }
 function touchDay(n){
   const t = dnum(), k = dkey();
@@ -1118,7 +1135,7 @@ function route(){ return (location.hash.slice(1) || 'home'); }
 let lastRoute = '';
 function render(){
   const r = route();
-  const base = r.startsWith('unit-') || r === 'life' ? 'units' : r;
+  const base = r.startsWith('unit-') || r === 'life' || r === 'mine' ? 'units' : r;
   document.querySelectorAll('[data-n]').forEach(a => a.classList.toggle('on', a.dataset.n === base));
   const v = $('#view');
   if (r === 'units') v.innerHTML = vUnits();
@@ -1126,6 +1143,7 @@ function render(){
   else if (r === 'verbs') v.innerHTML = vVerbs();
   else if (r === 'grammar') v.innerHTML = vGrammar();
   else if (r === 'life') v.innerHTML = vLife();
+  else if (r === 'mine') v.innerHTML = vMine();
   else if (r === 'record') v.innerHTML = vRecord();
   else v.innerHTML = vHome();
   if (r !== lastRoute){ window.scrollTo(0,0); lastRoute = r; }
@@ -1171,7 +1189,7 @@ function wordRow(w, tag){
 function vLife(){
   const r = 'life';
   return `<div class="hero"><span class="eyebrow lat">Dia a dia</span><h1 class="title">생활 단어</h1><span class="sub">대학생이 브라질에서 매일 쓰는 단어</span></div>
-  <div class="seg noprint"><a class="${r === 'units' ? 'on' : ''}" href="#units">학습 단원</a><a class="${r === 'life' ? 'on' : ''}" href="#life">생활 단어</a></div>
+  <div class="seg noprint"><a class="${r === 'units' ? 'on' : ''}" href="#units">학습 단원</a><a class="${r === 'life' ? 'on' : ''}" href="#life">생활 단어</a><a class="${r === 'mine' ? 'on' : ''}" href="#mine">내 단어장</a></div>
   <label class="search noprint"><svg viewBox="0 0 24 24"><path d="M10.5 17a6.5 6.5 0 1 1 0-13 6.5 6.5 0 0 1 0 13zM15.5 15.5 20 20"/></svg><input id="q" type="search" placeholder="단어 찾기 · 포르투갈어 또는 한국어" autocomplete="off"></label>
   <div id="qres"></div>
   <div class="row noprint"><span class="sub grow">주제 ${LIFE.length}개 · 단어 ${LIFE.reduce((n,c) => n + c.ws.length, 0)}개</span><button class="btn sm ghost" data-a="gopen">모두 펼치기</button></div>
@@ -1189,11 +1207,13 @@ function searchWords(q){
   const norm = t => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
   const nq = norm(q);
   const hits = [];
+  mineItems().forEach(w => { if (norm(w.pt).includes(nq) || w.ko.includes(q)) hits.push([w, '내 단어장']); });
   ALL.forEach(w => { if (norm(w.pt).includes(nq) || w.ko.includes(q)) hits.push([w, uno(unitOf(w.u)) + '단원']); });
   LIFE.forEach(c => c.ws.forEach(w => { if (norm(w.pt).includes(nq) || w.ko.includes(q)) hits.push([w, '생활 · ' + c.ko]); }));
   if (!hits.length) return `<p class="empty">"${esc(q)}"에 맞는 단어가 없어요.</p>`;
   return `<section class="card list">${hits.slice(0, 40).map(h => wordRow(h[0], h[1])).join('')}</section>${hits.length > 40 ? `<p class="sub">${hits.length}개 중 40개만 보여요. 더 자세히 입력해 보세요.</p>` : ''}`;
 }
+const SEGHTML = r => `<div class="seg noprint"><a class="${r === 'units' ? 'on' : ''}" href="#units">학습 단원</a><a class="${r === 'life' ? 'on' : ''}" href="#life">생활 단어</a><a class="${r === 'mine' ? 'on' : ''}" href="#mine">내 단어장</a></div>`;
 function vUnits(){
   const rows = UNITS.map(u => {
     const p = u.rules ? null : unitProg(u);
@@ -1206,7 +1226,7 @@ function vUnits(){
   }).join('');
   const r = 'units';
   return `<div class="hero"><span class="eyebrow lat">A1 → A2</span><h1 class="title">단원</h1></div>
-  <div class="seg noprint"><a class="${r === 'units' ? 'on' : ''}" href="#units">학습 단원</a><a class="${r === 'life' ? 'on' : ''}" href="#life">생활 단어</a></div>
+  <div class="seg noprint"><a class="${r === 'units' ? 'on' : ''}" href="#units">학습 단원</a><a class="${r === 'life' ? 'on' : ''}" href="#life">생활 단어</a><a class="${r === 'mine' ? 'on' : ''}" href="#mine">내 단어장</a></div>
   <section class="card list">${rows}</section>`;
 }
 
@@ -1352,6 +1372,73 @@ function startToday(){
   const items = fresh.map(w => ({k:'learn', w})).concat(shuffle(due.map(w => ({k:'quiz', w, m:modeFor(w)})).concat(fresh.map(w => ({k:'quiz', w, m:modeFor(w, true)})))));
   openSession(items, 'srs');
 }
+/* ---------- my notebook: words and sentences I add myself ---------- */
+let mineT = 'w', mineG = '', mineEdit = '', mineDel = '', mineMsg = '', mineBulk = false;
+const mineDraft = {pt:'', ko:'', pr:'', bulk:''};
+function keepDraft(){ ['pt','ko','pr','bulk'].forEach(k => { const el = $('#m-' + k); if (el) mineDraft[k] = el.value; }); }
+function vMine(){
+  const r = 'mine', items = mineItems();
+  const ws = items.filter(w => !isSent(w)), ss = items.filter(isSent);
+  const row = w => {
+    const b = S.w[w.id]?.b || 0, del = mineDel === w.mid;
+    return `<div style="display:flex;flex-direction:column;gap:6px">${wordRow(w)}
+      <div class="row noprint" style="justify-content:flex-end;gap:14px"><span class="dots" aria-label="숙련도 ${b}/6">${[1,2,3,4,5,6].map(i => `<i class="${i <= b ? 'on' : ''}"></i>`).join('')}</span><span class="grow"></span>
+      ${del ? `<span class="sub">지울까요?</span><button class="mlink" data-a="mDelYes" data-x="${w.mid}">지우기</button><button class="mlink" data-a="mDelNo">취소</button>`
+            : `<button class="mlink" data-a="mEdit" data-x="${w.mid}">수정</button><button class="mlink" data-a="mDel" data-x="${w.mid}">삭제</button>`}</div></div>`;
+  };
+  const gBtn = (v, l) => `<button class="${mineG === v ? 'on' : ''}" data-a="mG" data-x="${v}">${l}</button>`;
+  return `<div class="hero"><span class="eyebrow lat">Meu caderno</span><h1 class="title">내 단어장</h1><span class="sub">직접 넣은 단어와 문장은 오늘의 학습에 먼저 나와요</span></div>
+  ${SEGHTML(r)}
+  <section class="card mform noprint">
+    <div class="row"><span class="eyebrow grow">${mineEdit ? '수정하기' : '새로 넣기'}</span>
+      <div class="seg"><button class="${mineT === 'w' ? 'on' : ''}" data-a="mT" data-x="w">단어</button><button class="${mineT === 's' ? 'on' : ''}" data-a="mT" data-x="s">문장</button></div></div>
+    ${mineBulk ? `<label class="fld"><span>한 줄에 하나씩 · <span class="lat">português = 뜻</span></span>
+        <textarea id="m-bulk" class="lat" rows="6" placeholder="tô com fome = 배고파&#10;a geladeira = 냉장고" autocapitalize="none" spellcheck="false">${esc(mineDraft.bulk)}</textarea></label>`
+      : `<label class="fld"><span>포르투갈어</span><input id="m-pt" class="lat" value="${esc(mineDraft.pt)}" placeholder="${mineT === 's' ? 'Tô com saudade de casa.' : 'saudade'}" autocapitalize="none" autocomplete="off" spellcheck="false" lang="pt-BR"></label>
+      <label class="fld"><span>뜻</span><input id="m-ko" value="${esc(mineDraft.ko)}" placeholder="${mineT === 's' ? '집이 그리워.' : '그리움'}" autocomplete="off"></label>
+      <label class="fld"><span>한글 발음 <span class="sub">(선택)</span></span><input id="m-pr" value="${esc(mineDraft.pr)}" placeholder="${mineT === 's' ? '또 꽁 싸우다지 지 까자' : '싸우다지'}" autocomplete="off"></label>
+      ${mineT === 'w' ? `<div class="row"><span class="sub grow">명사라면 성</span><div class="seg">${gBtn('', '없음')}${gBtn('m', '<span class="art m">o</span> 남성')}${gBtn('f', '<span class="art f">a</span> 여성')}</div></div>` : ''}`}
+    <div class="row" style="gap:8px">
+      ${mineBulk ? '' : `<button class="spk" data-a="mSay" aria-label="듣기">${ICON.spk}</button>`}
+      <button class="btn sm ghost" data-a="mBulk">${mineBulk ? '하나씩 넣기' : '여러 개 한 번에'}</button>
+      <span class="grow"></span>
+      ${mineEdit ? '<button class="btn sm ghost" data-a="mCancel">취소</button>' : ''}
+      <button class="btn sm" data-a="mSave">${mineEdit ? '수정 저장' : '추가'}</button>
+    </div>
+    ${mineMsg ? `<p class="sub">${esc(mineMsg)}</p>` : ''}
+  </section>
+  ${items.length ? `<div class="row noprint"><span class="sub grow">단어 ${ws.length}개 · 문장 ${ss.length}개</span><button class="btn sm ghost" data-a="mPractice">내 단어장 연습</button></div>` : `<p class="empty">아직 넣은 단어가 없어요. 수업이나 듀오링고에서 새로 본 표현을 위에 적어 보세요.</p>`}
+  ${ws.length ? `<section class="card" style="display:flex;flex-direction:column;gap:10px"><span class="eyebrow">단어 ${ws.length}</span><div class="list">${ws.map(row).join('')}</div></section>` : ''}
+  ${ss.length ? `<section class="card" style="display:flex;flex-direction:column;gap:10px"><span class="eyebrow">문장 ${ss.length}</span><div class="list">${ss.map(row).join('')}</div></section>` : ''}`;
+}
+function mineSave(){
+  keepDraft();
+  if (mineBulk){
+    const lines = mineDraft.bulk.split(/\n+/).map(l => l.trim()).filter(Boolean);
+    let n = 0, bad = 0;
+    lines.forEach(l => {
+      const m = l.split(/\s*(?:=|\t|\s-\s)\s*/); const pt = (m[0] || '').trim(), ko = m.slice(1).join(' ').trim();
+      if (!pt || !ko){ bad++; return; }
+      S.mine.push({id: Date.now().toString(36) + n, pt, ko, pr:'', g:'', t: /\s\S+\s\S+/.test(pt) ? 's' : 'w'}); n++;
+    });
+    if (!n){ mineMsg = '"포르투갈어 = 뜻" 모양으로 한 줄에 하나씩 적어 주세요.'; return render(); }
+    mineDraft.bulk = ''; mineMsg = `${n}개를 넣었어요.` + (bad ? ` ${bad}줄은 모양이 맞지 않아 건너뛰었어요.` : '');
+  } else {
+    const pt = mineDraft.pt.trim(), ko = mineDraft.ko.trim(), pr = mineDraft.pr.trim();
+    if (!pt || !ko){ mineMsg = '포르투갈어와 뜻을 모두 적어 주세요.'; return render(); }
+    const dup = S.mine.find(m => m.pt.toLowerCase() === pt.toLowerCase() && m.id !== mineEdit);
+    if (dup){ mineMsg = '이미 넣은 단어예요.'; return render(); }
+    const entry = {pt, ko, pr, g: mineT === 'w' ? mineG : '', t: mineT};
+    if (mineEdit){ Object.assign(S.mine.find(m => m.id === mineEdit) || {}, entry); mineMsg = '수정했어요.'; }
+    else { S.mine.unshift({id: Date.now().toString(36), ...entry}); mineMsg = '넣었어요. 오늘의 학습에 먼저 나와요.'; }
+    mineDraft.pt = mineDraft.ko = mineDraft.pr = ''; mineEdit = ''; mineG = '';
+  }
+  save(); render();
+}
+function startMine(){
+  const items = mineItems(); if (!items.length) return;
+  openSession(shuffle(items).slice(0, 10).map(w => ({k:'quiz', w, m:modeFor(w)})), 'extra');
+}
 function startLife(k){
   const c = LIFE.find(x => x.k === k); if (!c) return;
   openSession(shuffle(c.ws).slice(0, 10).map(w => ({k:'quiz', w, m:modeFor(w), pool:c.ws})), 'life');
@@ -1369,9 +1456,10 @@ function startVerbQuiz(){
 function options(it){
   if (it.k === 'verb'){ const fs = VERBS[it.vi][it.t], ans = fs[it.pi]; return shuffle([...new Set(fs)].map(f => ({t:f, h:'<span class="pt">' + f + '</span>', ok:f === ans}))); }
   const w = it.w, key = it.m === 'pt' ? 'ko' : 'pt';
-  const src = it.pool || ALL;
-  const same = shuffle(src.filter(x => x.u === w.u && x.id !== w.id && x[key] !== w[key]));
-  const other = shuffle(ALL.filter(x => x.u !== w.u && x[key] !== w[key]));
+  const sentMode = isSent(w);
+  const src = it.pool || (w.u === 'M' ? (sentMode ? mineItems().filter(isSent).concat(SENTW) : mineItems().filter(x => !isSent(x))) : ALL);
+  const same = shuffle(src.filter(x => x.id !== w.id && x[key] !== w[key]));
+  const other = shuffle((sentMode ? SENTW : ALL).filter(x => x.u !== w.u && x[key] !== w[key]));
   const picks = [];
   for (const x of same.concat(other)){ if (picks.length === 3) break; if (!picks.some(p => p[key] === x[key])) picks.push(x); }
   return shuffle([w, ...picks].map(x => ({t: key === 'ko' ? x.ko : full(x), h: key === 'pt' ? '<span class="pt">' + ptHTML(x) + '</span>' : mix(x.ko), ok:x.id === w.id})));
@@ -1383,10 +1471,10 @@ function draw(){
   if (!it) body = drawDone();
   else if (it.k === 'learn'){
     const w = it.w, u = unitOf(w.u);
-    const head = `<span class="fc-head"><span>새 단어</span><span class="lat">Nº ${String(ALL.indexOf(w)+1).padStart(3,'0')} · U${uno(u)}</span></span>`;
+    const head = w.u === 'M' ? `<span class="fc-head"><span>내 단어장</span><span class="lat">${isSent(w) ? 'Frase' : 'Palavra'}</span></span>` : `<span class="fc-head"><span>새 단어</span><span class="lat">Nº ${String(ALL.indexOf(w)+1).padStart(3,'0')} · U${uno(u)}</span></span>`;
     body = `<div class="stage">
       <div class="fc" data-a="flip" role="button" aria-label="카드 뒤집기"><div class="fc-in">
-        <div class="fc-face">${head}<div class="fc-body"><span class="big">${ptHTML(w)}</span>${S.set.pron ? `<span class="pron">${esc(w.pr)}</span>` : ''}${spk(full(w))}</div></div>
+        <div class="fc-face">${head}<div class="fc-body"><span class="big${isSent(w) ? ' long' : ''}">${ptHTML(w)}</span>${S.set.pron ? `<span class="pron">${esc(w.pr)}</span>` : ''}${spk(full(w))}</div></div>
         <div class="fc-face fc-back">${head}<div class="fc-body"><span class="meaning">${mix(w.ko)}</span>
           ${w.g ? `<span class="q">${w.g[0] === 'm' ? '남성 명사' : '여성 명사'}${w.g.length > 1 ? ' · 복수' : ''}</span>` : ''}<span class="pt sub">${ptHTML(w)}</span></div></div>
       </div></div>
@@ -1397,7 +1485,7 @@ function draw(){
     Q.opts = options(it); Q.answered = false;
     let prompt;
     if (it.k === 'verb'){ const v = VERBS[it.vi]; prompt = `<span class="q">알맞은 ${it.t === 'f' ? '현재형' : '과거형'}을 고르세요</span><span class="big">${PRON[it.pi].split(' · ')[0]} ___</span><span class="sub"><span class="lat">${v.v}</span> · ${mix(v.ko)}</span>`; }
-    else if (it.m === 'pt'){ prompt = `<span class="q">뜻을 고르세요</span><span class="big">${ptHTML(it.w)}</span>${S.set.pron ? `<span class="pron">${esc(it.w.pr)}</span>` : ''}${spk(full(it.w))}`; setTimeout(() => say(full(it.w)), 120); }
+    else if (it.m === 'pt'){ prompt = `<span class="q">뜻을 고르세요</span><span class="big${isSent(it.w) ? ' long' : ''}">${ptHTML(it.w)}</span>${S.set.pron ? `<span class="pron">${esc(it.w.pr)}</span>` : ''}${spk(full(it.w))}`; setTimeout(() => say(full(it.w)), 120); }
     else if (it.m === 'ko'){ prompt = `<span class="q">포르투갈어를 고르세요</span><span class="big ko2">${mix(it.w.ko)}</span>`; }
     else { prompt = `<span class="q">들은 단어를 고르세요</span><button class="listen" data-a="say" data-x="${esc(full(it.w))}" aria-label="다시 듣기">${ICON.spk}</button>`; setTimeout(() => say(full(it.w)), 150); }
     body = `<div class="stage"><div class="prompt">${prompt}</div>
@@ -1467,6 +1555,17 @@ document.addEventListener('click', e => {
   else if (a === 'verb'){ verbIdx = +x; render(); }
   else if (a === 'tense'){ verbT = x; render(); }
   else if (a === 'life') startLife(x);
+  else if (a === 'mT'){ keepDraft(); mineT = x; mineMsg = ''; render(); }
+  else if (a === 'mG'){ keepDraft(); mineG = x; render(); }
+  else if (a === 'mBulk'){ keepDraft(); mineBulk = !mineBulk; mineMsg = ''; render(); }
+  else if (a === 'mSay'){ const v = ($('#m-pt')?.value || '').trim(); if (v) say(v); }
+  else if (a === 'mSave') mineSave();
+  else if (a === 'mCancel'){ mineEdit = ''; mineDraft.pt = mineDraft.ko = mineDraft.pr = ''; mineG = ''; mineMsg = ''; render(); }
+  else if (a === 'mEdit'){ const m = S.mine.find(e => e.id === x); if (m){ mineEdit = m.id; mineBulk = false; mineT = m.t || 'w'; mineG = m.g || ''; Object.assign(mineDraft, {pt:m.pt, ko:m.ko, pr:m.pr || ''}); mineMsg = ''; render(); window.scrollTo(0, 0); } }
+  else if (a === 'mDel'){ keepDraft(); mineDel = x; render(); }
+  else if (a === 'mDelNo'){ keepDraft(); mineDel = ''; render(); }
+  else if (a === 'mDelYes'){ keepDraft(); S.mine = S.mine.filter(e => e.id !== x); delete S.w['M-' + x]; mineDel = ''; if (mineEdit === x) mineEdit = ''; mineMsg = '지웠어요.'; save(); render(); }
+  else if (a === 'mPractice') startMine();
   else if (a === 'gopen'){ const ds = document.querySelectorAll('details.gram'), all = [...ds].every(d => d.open); ds.forEach(d => d.open = !all); b.textContent = all ? '모두 펼치기' : '모두 접기'; }
   else if (a === 'flip') b.classList.toggle('on');
   else if (a === 'set'){ const k = b.dataset.k; S.set[k] = k === 'pron' ? x === 'true' : k === 'font' ? x : +x; if (k === 'font' || k === 'size') applyTypo(); save(); render(); if (k === 'rate') say('Muito bem!'); }
@@ -1491,6 +1590,7 @@ document.addEventListener('click', e => {
   else if (a === 'resetYes'){ const set = S.set; S = DEF(); S.set = set; resetAsk = false; save(); render(); }
 });
 document.addEventListener('keydown', e => {
+  if (!Q && e.key === 'Enter' && e.target.closest && e.target.closest('.mform') && e.target.tagName === 'INPUT'){ e.preventDefault(); mineSave(); return; }
   if (!Q) return;
   if (e.key === 'Escape') closeSession();
   else if (/^[1-4]$/.test(e.key) && !Q.answered && Q.opts && Q.items[Q.i]?.k !== 'learn') answer(+e.key - 1);
