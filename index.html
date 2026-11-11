@@ -16,6 +16,7 @@
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
+<script>window.APP_VERSION = '4a0c98d1db';</script>
 <style>
 /* Layout: phone = single column + bottom tabs; iPad (>=900px) = left sidebar + wide content.
    Quiet analog notebook in muted blue-gray: one fine pencil line per object, square edges.
@@ -1337,7 +1338,7 @@ function openSession(items, mode){
   $('#ov').hidden = false; document.body.style.overflow = 'hidden';
   draw();
 }
-function closeSession(){ Q = null; $('#ov').hidden = true; document.body.style.overflow = ''; try{ speechSynthesis.cancel(); }catch(e){} render(); }
+function closeSession(){ Q = null; $('#ov').hidden = true; document.body.style.overflow = ''; try{ speechSynthesis.cancel(); }catch(e){} render(); if (updWaiting) refreshApp(); }
 function modeFor(w, isNew){ if (isNew) return 'pt'; const m = ['pt','ko'].concat(canSpeak ? ['listen'] : []); return m[Math.floor(Math.random()*m.length)]; }
 function startToday(){
   const due = dueList().slice(0, 30), fresh = newList().slice(0, S.set.newN);
@@ -1493,11 +1494,35 @@ document.addEventListener('keydown', e => {
 document.addEventListener('input', e => { if (e.target.id === 'q'){ const el = $('#qres'); if (el) el.innerHTML = searchWords(e.target.value); } });
 document.addEventListener('change', e => { if (e.target.id === 'fontFile' && e.target.files && e.target.files[0]){ onFontFile(e.target.files[0]); e.target.value = ''; } });
 
+/* ---------- auto update (home-screen app) ---------- */
+// The build stamps window.APP_VERSION and writes version.json. On open and whenever the app
+// comes back to the foreground, compare them and reload into the new version (never mid-quiz).
+let updWaiting = false;
+async function refreshApp(){
+  try{ const reg = await navigator.serviceWorker?.getRegistration(); await reg?.update(); }catch(e){}
+  try{ const ks = await caches.keys(); await Promise.all(ks.filter(k => k.startsWith('passo-core')).map(k => caches.delete(k))); }catch(e){}
+  location.reload();
+}
+async function checkUpdate(){
+  if (!window.APP_VERSION || !navigator.onLine) return;
+  try{
+    const r = await fetch('version.json?t=' + Date.now(), {cache:'no-store'});
+    const v = (await r.json()).v;
+    if (!v || v === window.APP_VERSION) return;
+    const tried = 'passo-upd-' + v;
+    try{ if (sessionStorage.getItem(tried)) return; sessionStorage.setItem(tried, '1'); }catch(e){}
+    if (Q){ updWaiting = true; return; }
+    refreshApp();
+  }catch(e){}
+}
+document.addEventListener('visibilitychange', () => { if (!document.hidden) checkUpdate(); });
+addEventListener('pageshow', checkUpdate);
+
 setSync('local');
 applyTypo();
 render();
 initCloud();
 </script>
-<script>if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));</script>
+<script>if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('sw.js', {updateViaCache: 'none'}).catch(() => {}));</script>
 </body>
 </html>

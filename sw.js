@@ -1,9 +1,9 @@
 // Offline support: app shell from cache, page updated from network when online.
-const CORE = 'passo-core-v7', FONTS = 'passo-fonts-v1';
+const CORE = 'passo-core-4a0c98d1db', FONTS = 'passo-fonts-v1';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/apple-touch-icon.png', './icons/icon-192.png', './icons/icon-512.png'];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CORE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(CORE).then(c => c.addAll(SHELL.map(u => new Request(u, {cache: 'reload'})))).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys()
@@ -16,13 +16,14 @@ self.addEventListener('fetch', e => {
   const u = new URL(r.url);
   if (u.origin === location.origin){
     if (r.mode === 'navigate'){
-      e.respondWith(fetch(r).then(res => {
+      e.respondWith(fetch(r.url, {cache: 'no-store', credentials: 'same-origin'}).then(res => {
         const copy = res.clone();
         caches.open(CORE).then(c => c.put('./index.html', copy));
         return res;
       }).catch(() => caches.match('./index.html')));
       return;
     }
+    if (u.pathname.endsWith('version.json')) return;
     e.respondWith(caches.match(r).then(m => m || fetch(r)));
     return;
   }

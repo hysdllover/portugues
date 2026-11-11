@@ -18,10 +18,11 @@
 3. 공유 버튼 → **홈 화면에 추가** → 추가
 
 - 홈 화면 앱은 전체 화면으로 열리고, 한 번 연 뒤에는 오프라인에서도 동작합니다.
+- 업데이트는 자동입니다. 앱을 열거나 다시 화면으로 돌아올 때 새 버전(`version.json`)을 확인해 스스로 새로고침합니다(퀴즈 중에는 끝난 뒤). 홈 화면 아이콘 그림만은 iOS 정책상 다시 추가해야 바뀝니다.
 - 기록은 그 기기의 앱 안에 저장됩니다. 다른 기기로 옮길 때는 기록 탭 → 기록 옮기기(백업 코드)를 쓰세요.
 
 ## 파일 구조
 
 - `src/app.html` — 앱 본문
-- `tools/build.py` — `src/app.html`로 홈 화면용 `index.html`을 만듭니다: `python3 tools/build.py`
+- `tools/build.py` — `src/app.html`로 홈 화면용 `index.html`, `version.json`을 만들고 `sw.js` 캐시 버전을 올립니다: `python3 tools/build.py`
 - `index.html`, `manifest.webmanifest`, `sw.js`, `icons/` — GitHub Pages로 배포되는 홈 화면 앱

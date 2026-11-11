@@ -4,10 +4,12 @@ src/app.html is the page body used for the claude.ai artifact (no <head>).
 This wraps it in a full document with the PWA head tags and the
 service worker registration. Run: python3 tools/build.py
 """
+import hashlib, json, re
 from pathlib import Path
 
 root = Path(__file__).resolve().parent.parent
 src = (root / 'src' / 'app.html').read_text(encoding='utf-8')
+VERSION = hashlib.sha1(src.encode('utf-8')).hexdigest()[:10]
 
 # head part = everything before the first <style> (title, meta, font link)
 cut = src.index('<style>')
@@ -33,7 +35,12 @@ head = '\n'.join([
     'body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>',
     '</head>',
     '<body>',
+    f"<script>window.APP_VERSION = '{VERSION}';</script>",
 ])
-tail = "\n<script>if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));</script>\n</body>\n</html>\n"
+tail = ("\n<script>if ('serviceWorker' in navigator) addEventListener('load', () => "
+        "navigator.serviceWorker.register('sw.js', {updateViaCache: 'none'}).catch(() => {}));</script>\n</body>\n</html>\n")
 (root / 'index.html').write_text(head + '\n' + body.rstrip('\n') + tail, encoding='utf-8')
-print('built index.html')
+(root / 'version.json').write_text(json.dumps({'v': VERSION}) + '\n', encoding='utf-8')
+sw = root / 'sw.js'
+sw.write_text(re.sub(r"const CORE = 'passo-core-[^']*'", f"const CORE = 'passo-core-{VERSION}'", sw.read_text(encoding='utf-8')), encoding='utf-8')
+print('built index.html, version', VERSION)
