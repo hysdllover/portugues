@@ -8,7 +8,7 @@
 - 문법 규칙 39개: 문법 탭 + 각 단원 화면 (표·예문·주의점)
 - 생활 단어 200개: 대학생 기준 주제 10개(캠퍼스·과제·자취·학식·돈/알바·SNS·약속·교통·감정·슬랭), 전체 단어 검색, 주제별 연습
 - 기록: 연속 학습일, 14일 학습량, 단원별 진도, 설정(한글 발음 표시·말하기 속도·하루 새 단어 수)
-- 발음은 기기 음성(pt-BR) 사용, 진도는 claude.ai 아티팩트에서는 계정에 동기화되고 그 외에는 기기(localStorage)에 저장
+- 발음은 기기 음성(pt-BR) 사용, 진도는 기기에 저장 (기기 간 이동은 기록 탭의 백업 코드)
 - 포르투갈어는 타자기체(IBM Plex Mono Light) 고정, 한글은 기본·연필·펜 또는 직접 올린 폰트(ttf·otf·woff·woff2) 중 선택
 
 ## 아이폰 홈 화면에 추가
@@ -22,6 +22,6 @@
 
 ## 파일 구조
 
-- `src/app.html` — 앱 본문 (claude.ai 아티팩트로도 게시)
+- `src/app.html` — 앱 본문
 - `tools/build.py` — `src/app.html`로 홈 화면용 `index.html`을 만듭니다: `python3 tools/build.py`
 - `index.html`, `manifest.webmanifest`, `sw.js`, `icons/` — GitHub Pages로 배포되는 홈 화면 앱
