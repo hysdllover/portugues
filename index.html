@@ -45,7 +45,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 
 /* nav */
 .side{display:none}
-.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;display:grid;grid-template-columns:repeat(4,1fr);background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;display:grid;grid-template-columns:repeat(5,1fr);background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
 .tabs a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:calc(.72rem*var(--ks));letter-spacing:.04em;color:var(--faint)}
 .tabs a.on{color:var(--ink)}
 .tabs a span{padding-bottom:2px;border-bottom:1px solid transparent}
@@ -215,6 +215,28 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 .learned svg{width:11px;height:10px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:square;filter:url(#pencil)}
 
 
+/* grammar */
+.ggroup{display:flex;flex-direction:column;gap:10px}
+.ggroup > .eyebrow{padding-top:6px}
+.gram{padding:0}
+.gram summary{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;list-style:none}
+.gram summary::-webkit-details-marker{display:none}
+.gno{flex:none;font-size:.72rem;color:var(--muted);letter-spacing:.06em}
+.gt{font-weight:400}
+.gx{flex:none;width:11px;height:11px;position:relative}
+.gx::before,.gx::after{content:"";position:absolute;left:0;right:0;top:5px;height:1px;background:var(--pencil)}
+.gx::after{transform:rotate(90deg);transition:transform .2s}
+.gram[open] .gx::after{transform:rotate(0)}
+.gbody{display:flex;flex-direction:column;gap:12px;padding:2px 16px 16px;border-top:1px solid var(--line);padding-top:14px;margin:0 0 0}
+.gtable{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);border:1px solid var(--line)}
+.gtable > div{display:contents}
+.gtable span{padding:7px 10px;border-top:1px solid var(--line);font-size:.86rem;overflow-wrap:anywhere}
+.gtable > div:first-child span{border-top:0}
+.gtable span:first-child{border-right:1px solid var(--line);color:var(--ink);background:color-mix(in srgb,var(--soft) 55%,transparent)}
+.tip{font-size:.84rem;color:var(--muted);padding-left:12px;border-left:1px solid color-mix(in srgb,var(--peach-ink) 45%,transparent)}
+.gram .list > *{padding-block:9px}
+@media print{details.gram > .gbody{display:flex}}
+
 /* A4 print */
 @media print{
   @page{size:A4;margin:14mm}
@@ -234,6 +256,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
     <a href="#home" data-n="home"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg>홈</a>
     <a href="#units" data-n="units"><svg viewBox="0 0 24 24"><path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h10"/></svg>단원</a>
     <a href="#verbs" data-n="verbs"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h13"/></svg>동사</a>
+    <a href="#grammar" data-n="grammar"><svg viewBox="0 0 24 24"><path d="M8 4H5v16h3M16 4h3v16h-3M9.5 12h5"/></svg>문법</a>
     <a href="#record" data-n="record"><svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></svg>기록</a>
     <div class="foot" id="syncSide"></div>
   </nav>
@@ -242,6 +265,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
     <a href="#home" data-n="home"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg><span>홈</span></a>
     <a href="#units" data-n="units"><svg viewBox="0 0 24 24"><path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h10"/></svg><span>단원</span></a>
     <a href="#verbs" data-n="verbs"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h13"/></svg><span>동사</span></a>
+    <a href="#grammar" data-n="grammar"><svg viewBox="0 0 24 24"><path d="M8 4H5v16h3M16 4h3v16h-3M9.5 12h5"/></svg><span>문법</span></a>
     <a href="#record" data-n="record"><svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></svg><span>기록</span></a>
   </nav>
 </div>
@@ -729,6 +753,42 @@ const VERBS = [
  {v:'sair', ko:'나가다', note:'saímos의 í 강세 주의', f:['saio','sai','saímos','saem'], p:['saí','saiu','saímos','saíram'], ex:['Saio de casa às oito.','8시에 집에서 나와요.'], px:['Ela saiu cedo.','그녀는 일찍 나갔어요.']},
  {v:'gostar', ko:'좋아하다', note:'항상 de와 함께: gostar de…', f:['gosto','gosta','gostamos','gostam'], p:['gostei','gostou','gostamos','gostaram'], ex:['Gosto muito de música.','음악 정말 좋아해요.'], px:['Gostei muito do filme.','영화 정말 좋았어요.']}
 ];
+// grammar notes: u = unit id, tb = [form, meaning], ex = [pt, ko]
+const GRAMMAR = [
+ {u:0, t:'강세 기호', pt:'Acentos', d:'기호는 강세 위치와 소리를 알려 줘요. 기호가 있는 음절을 세게 읽어요.', tb:[['á é í ó ú','열린 소리 + 강세 · café, avó'],['â ê ô','닫힌 소리 + 강세 · você, avô'],['ã õ','콧소리 · pão, lições'],['à','a + a 축약 · Vou à praia.'],['ç','a·o·u 앞에서 ㅆ 소리 · açúcar']], ex:[['Meu avô e minha avó.','우리 할아버지랑 할머니. (ô 닫힌 오, ó 열린 오)'],['Você é do Brasil?','브라질 사람이에요?']], tip:'기호가 없으면 보통 끝에서 두 번째 음절에 강세가 와요. -r, -l, -z, -i, -u로 끝나면 마지막 음절이에요 (falar, Brasil).'},
+ {u:1, t:'인칭대명사', pt:'Pronomes pessoais', d:'브라질에서는 tu 대신 você를 주로 쓰고, 동사는 ele·ela와 같은 형태를 써요. 일상에서는 nós 대신 a gente를 많이 써요.', tb:[['eu','나'],['você','너 · 당신'],['ele · ela','그 · 그녀'],['nós · a gente','우리'],['vocês','너희 · 여러분'],['eles · elas','그들']], ex:[['A gente vai junto.','우리 같이 가.'],['Vocês são de onde?','너희 어디 출신이야?']], tip:'a gente는 뜻은 "우리"지만 동사는 ele 형태예요: a gente vai (O), a gente vamos (X).'},
+ {u:1, t:'출신 말하기', pt:'Ser + de', d:'ser de + 장소 = ~ 출신이다. de는 뒤에 오는 관사와 합쳐져요.', tb:[['de + o → do','Sou do Brasil.'],['de + a → da','Sou da Coreia.'],['de (관사 없음)','Sou de São Paulo. · Sou de Portugal.']], ex:[['De onde você é?','어디 출신이에요?'],['Ela é do Japão.','그녀는 일본 사람이에요.']], tip:'나라 대신 국적 형용사도 많이 써요: Sou coreano(a). / Ela é japonesa.'},
+ {u:2, t:'시간 말하기', pt:'As horas', d:'1시는 단수 é, 2시부터는 복수 são를 써요. "~시에"는 às.', tb:[['É uma hora.','1시예요.'],['São duas horas.','2시예요.'],['e meia','~시 반 · São três e meia.'],['meio-dia · meia-noite','정오 · 자정'],['às + 시간','~시에 · A aula é às oito.']], ex:[['Que horas são?','몇 시예요?'],['Te vejo às sete.','7시에 봐.']], tip:'1시에는 à uma라고 해요: Chego à uma.'},
+ {u:2, t:'숫자의 성', pt:'Um, uma, dois, duas', d:'1과 2는 뒤에 오는 명사의 성에 맞춰요. 나머지 숫자는 그대로예요.', tb:[['um · uma','um café · uma água'],['dois · duas','dois cafés · duas horas'],['21, 22 …','vinte e uma horas · vinte e dois anos']], ex:[['Duas cervejas, por favor.','맥주 두 잔 주세요.'],['Tenho dois irmãos.','형제가 둘 있어요.']]},
+ {u:3, t:'명사의 성과 복수', pt:'Gênero e plural', d:'명사는 남성 아니면 여성이에요. 대부분 -o는 남성, -a는 여성이고, 복수는 -s를 붙여요.', tb:[['-o / -a','o filho · a filha'],['+ s','os filhos · as filhas'],['-ão','-ões · -ães · -ãos · lições, pães, irmãos'],['-l → -is','hotel → hotéis · papel → papéis'],['-r · -z · -s → + es','flores · luzes · meses']], ex:[['Meus pais moram no interior.','부모님은 지방에 사세요.'],['Tenho duas irmãs.','자매가 둘 있어요.']], tip:'예외: o dia, o mapa, o problema는 남성, a mão, a foto는 여성. 단어는 관사와 같이 외우세요.'},
+ {u:3, t:'소유사', pt:'Possessivos', d:'소유사는 가진 사람이 아니라 뒤에 오는 명사의 성·수에 맞춰요. 브라질 구어에서는 앞의 관사를 자주 빼요.', tb:[['meu · minha','나의 · meu pai, minha mãe'],['meus · minhas','나의 (복수)'],['seu · sua','너의 · 당신의'],['nosso · nossa','우리의'],['dele · dela','그의 · 그녀의 (명사 뒤)']], ex:[['Essa é minha irmã.','얘가 제 동생이에요.'],['O carro dele é novo.','그 사람 차는 새 거예요.']], tip:'seu는 "그의"도 되지만 헷갈리기 쉬워서, 구어에서는 dele·dela를 써요.'},
+ {u:3, t:'지시사', pt:'Esse, aquele, isso', d:'브라질 구어에서는 "이"와 "그"를 거의 다 esse·essa로 말해요. 멀리 있는 건 aquele.', tb:[['esse · essa','이 · 그 (가까운 것)'],['aquele · aquela','저 (먼 것)'],['isso · aquilo','이것 · 저것 (중성)'],['este · esta · isto','글이나 격식 있는 말']], ex:[['Esse é meu pai.','이분이 우리 아빠예요.'],['O que é aquilo?','저건 뭐야?']]},
+ {u:4, t:'관사', pt:'Artigos', d:'정관사(그)와 부정관사(어떤 하나)는 명사의 성·수에 맞춰요.', tb:[['o · a','정관사 단수 · o café, a conta'],['os · as','정관사 복수'],['um · uma','부정관사 단수 · um suco'],['uns · umas','몇몇 · uns amigos']], ex:[['A conta, por favor.','계산서 주세요.'],['Vou querer um pastel.','파스텔 하나 주세요.']], tip:'사람 이름 앞에도 관사를 자주 붙여요: o Pedro, a Ana.'},
+ {u:4, t:'주문하는 말', pt:'Pedindo', d:'카페나 식당에서는 아래 표현을 써요. 끝에 por favor를 붙이면 더 부드러워요.', tb:[['Me vê …','~ 주세요 (가장 흔함)'],['Vou querer …','~로 할게요'],['Eu queria …','~ 주시겠어요? (공손)'],['Me traz …?','~ 갖다 주실래요?']], ex:[['Eu queria uma água sem gás.','탄산 없는 물 주시겠어요?'],['Me traz a conta?','계산서 좀 갖다 주실래요?']]},
+ {u:13, t:'형용사 일치', pt:'Concordância', d:'형용사는 꾸미는 명사의 성·수에 맞추고, 보통 명사 뒤에 와요.', tb:[['-o · -a · -os · -as','simpático · simpática · simpáticos · simpáticas'],['-e · -l · -z','성은 그대로, 수만 · alegres, legal → legais, feliz → felizes'],['-or → -ora','trabalhador · trabalhadora']], ex:[['Minhas amigas são muito simpáticas.','제 친구들은 정말 다정해요.'],['Ele é um cara legal.','그는 괜찮은 사람이에요.']]},
+ {u:13, t:'ser와 estar', pt:'Ser vs. estar', d:'둘 다 "~이다"예요. ser는 성격·국적처럼 그 사람의 성질, estar는 기분·상태처럼 지금의 모습이에요.', tb:[['Ela é calma.','차분한 성격이에요. (ser)'],['Ela está nervosa hoje.','오늘 긴장했어요. (estar)'],['Ele é chato.','지루한 사람이에요. (ser)'],['Ele tá chato hoje.','오늘 까칠해요. (estar)']], ex:[['Sou tímida, mas hoje tô animada!','저는 수줍은 편인데, 오늘은 신나요!']], tip:'사람·물건의 위치도 estar예요: Tô em casa. 건물이나 도시의 위치는 ficar를 자주 써요.'},
+ {u:13, t:'정도 표현', pt:'Muito, bem, meio, super', d:'형용사 앞에 붙여 정도를 바꿔요. 이때는 모양이 변하지 않아요.', tb:[['super','엄청 · super legal'],['muito · bem','아주 · 꽤 · muito calmo, bem tranquilo'],['meio','좀 · meio séria (meia 아님)'],['um pouco','조금 · um pouco tímido']], ex:[['Ela é meio tímida.','그녀는 좀 수줍어해요.']], tip:'muito가 명사 앞에 오면 형용사처럼 변해요: muitas pessoas (많은 사람들).'},
+ {u:14, t:'전치사 축약', pt:'Contrações', d:'em(~에), de(~의 · ~에서), a(~로), por(~를 통해)는 뒤의 관사와 합쳐져요.', tb:[['em + o · a','no · na · na mochila'],['de + o · a','do · da · do lado do banco'],['a + o · a','ao · à · Vou à praia.'],['por + o · a','pelo · pela · pela janela'],['em + um · uma','num · numa (구어)']], ex:[['O celular tá na mochila.','휴대폰은 배낭에 있어.'],['Saí do trabalho agora.','방금 퇴근했어.']]},
+ {u:14, t:'estar com', pt:'Estar com', d:'estar com + 명사는 "~을 갖고 있다"와 "(몸·기분이) ~하다" 두 가지로 써요.', tb:[['estar com + 물건','~을 갖고 있다 · Tô com seu passaporte.'],['estar com fome · sede','배고프다 · 목마르다'],['estar com frio · calor','춥다 · 덥다'],['estar com pressa','급하다'],['estar com saudade','그립다']], ex:[['Tô com fome.','배고파요.'],['Tô com pressa, desculpa!','급해서요, 미안해요!']]},
+ {u:5, t:'있다 = tem', pt:'Ter (haver)', d:'"~이 있다"는 구어에서 tem을 써요. 주어 없이 쓰고, 뒤가 복수여도 tem이에요.', tb:[['Tem …','~이 있어요 · Tem um mercado aqui perto.'],['Não tem …','~이 없어요'],['Tem …?','~ 있어요? · Tem banheiro?'],['há','같은 뜻 (글 · 격식)']], ex:[['Tem duas farmácias nessa rua.','이 길에 약국이 두 개 있어요.']]},
+ {u:5, t:'위치 표현', pt:'Localização', d:'건물·장소의 위치는 ficar, 사람·물건은 estar로 말해요.', tb:[['perto de · longe de','~ 가까이 · ~에서 멀리'],['do lado de','~ 옆에'],['em frente a · de','~ 앞에 · 맞은편에'],['atrás de','~ 뒤에'],['entre … e …','~와 ~ 사이에']], ex:[['A farmácia fica do lado do banco.','약국은 은행 옆이에요.'],['Te espero em frente ao shopping.','쇼핑몰 앞에서 기다릴게.']]},
+ {u:5, t:'길 안내하는 말', pt:'Imperativo', d:'구어에서는 ele 현재형을 그대로 명령으로 써요. 부정은 앞에 não를 붙여요.', tb:[['virar','Vira à direita. 오른쪽으로 꺾어.'],['seguir','Segue reto. 쭉 가.'],['pegar','Pega o metrô. 지하철 타.'],['olhar','Olha! 봐!']], ex:[['Não esquece a chave!','열쇠 잊지 마!']], tip:'격식체 명령형은 Vire, Siga처럼 끝이 바뀌어요. 안내 방송이나 표지판에서 볼 수 있어요.'},
+ {u:15, t:'규칙동사 현재형', pt:'Presente regular', d:'동사원형 끝의 -ar, -er, -ir을 떼고 어미를 붙여요.', tb:[['-ar · falar','falo · fala · falamos · falam'],['-er · comer','como · come · comemos · comem'],['-ir · abrir','abro · abre · abrimos · abrem']], ex:[['Falo um pouco de português.','포르투갈어 조금 해요.'],['A gente estuda junto.','우리 같이 공부해.']], tip:'순서: eu · você/ele/a gente · nós · vocês/eles'},
+ {u:15, t:'부정문과 의문문', pt:'Negação e perguntas', d:'부정은 동사 앞에 não. 의문문은 어순은 그대로 두고 끝만 올려 읽어요.', tb:[['não + 동사','Não entendi.'],['o que','무엇 · O que é isso?'],['quem · onde','누구 · 어디'],['quando · como','언제 · 어떻게'],['por que · porque','왜 · 왜냐하면'],['qual · quanto','어느 것 · 얼마']], ex:[['Você fala inglês?','영어 해요?'],['Por que você tá estudando português?','왜 포르투갈어 공부해?']], tip:'구어에서는 부정을 두 번 하기도 해요: Não sei não. (몰라.)'},
+ {u:6, t:'비교', pt:'Comparação', d:'mais(더) · menos(덜) + 형용사 + (do) que.', tb:[['mais … (do) que','~보다 더 · mais barato que'],['menos … que','~보다 덜'],['tão … quanto','~만큼 · tão bom quanto'],['melhor · pior','더 좋은 · 더 나쁜'],['maior · menor','더 큰 · 더 작은']], ex:[['Essa é mais barata.','이게 더 싸요.'],['Tem num tamanho menor?','더 작은 사이즈 있어요?']], tip:'"더 좋은"은 mais bom이 아니라 melhor예요.'},
+ {u:6, t:'가능 · 허락', pt:'Poder · dá pra', d:'poder + 원형 = ~할 수 있다 · ~해도 된다. 구어에서는 dá pra + 원형도 많이 써요.', tb:[['Posso …?','~해도 돼요? · Posso provar?'],['Pode …?','~해 줄래요? · Pode parcelar?'],['Dá pra …?','~할 수 있어요? · Dá pra pagar no Pix?'],['Não dá.','안 돼요 · 무리예요']], ex:[['Dá pra fazer um desconto?','좀 깎아 주실 수 있어요?']]},
+ {u:7, t:'진행형', pt:'Estar + -ndo', d:'지금 하고 있는 일은 estar + 동명사로 말해요. 브라질에서 아주 많이 써요.', tb:[['-ar → -ando','falar → falando'],['-er → -endo','comer → comendo'],['-ir → -indo','dormir → dormindo']], ex:[['Tô trabalhando de casa.','재택근무 중이에요.'],['Tá chovendo?','비 와?']]},
+ {u:7, t:'재귀 대명사', pt:'Me, se', d:'"자기 자신을" 뜻의 대명사는 브라질에서 보통 동사 앞에 둬요.', tb:[['eu me …','Eu me chamo Ana.'],['você · ele se …','Ele se levanta cedo.'],['a gente se …','A gente se vê amanhã.']], ex:[['Como você se chama?','이름이 뭐예요?'],['Se cuida!','몸 조심해!']]},
+ {u:7, t:'빈도 부사', pt:'Frequência', d:'보통 동사 앞에 와요. nunca는 혼자서 부정의 뜻이에요.', tb:[['sempre','항상'],['geralmente','보통'],['às vezes','가끔'],['quase nunca','거의 안'],['nunca','절대 안 · Nunca bebo café.']], ex:[['Geralmente acordo às sete.','보통 7시에 일어나요.']]},
+ {u:8, t:'날씨 표현', pt:'Fazer · estar', d:'fazer는 "(계절·날씨가) 덥다·춥다", estar는 "지금 ~하다". 주어 없이 써요.', tb:[['faz calor · faz frio','덥다 · 춥다 (일반적으로)'],['tá frio · tá quente','(지금) 춥다 · 덥다'],['tá chovendo','비가 오고 있다'],['chove · neva','비가 온다 · 눈이 온다 (일반적으로)'],['faz + 기간','~ 전에 · Faz dois anos.']], ex:[['No inverno faz frio.','겨울엔 추워요.'],['Hoje tá fazendo sol.','오늘 해가 쨍쨍해요.']]},
+ {u:9, t:'이동 전치사', pt:'Pra · de · a pé', d:'가는 곳 앞에는 pra(para), 교통수단 앞에는 de, 걸어서는 a pé.', tb:[['ir pra · pro','~로 가다 · Vou pro trabalho.'],['de + 교통수단','de ônibus · de carro · de metrô'],['a pé','걸어서'],['até','~까지 · até o aeroporto'],['para + o · a','pro · pra (구어 축약)']], ex:[['Vou pro centro de metrô.','지하철로 시내 가요.'],['Dá pra ir a pé.','걸어갈 수 있어요.']]},
+ {u:10, t:'아프다', pt:'Doer · estar com dor', d:'doer는 아픈 부위가 주어예요. 부위가 복수면 doem.', tb:[['Dói + 단수','Dói a cabeça. 머리가 아파요.'],['Doem + 복수','Doem as costas. 등이 아파요.'],['Tô com dor de …','~가 아파요 · dor de cabeça, dor de barriga']], ex:[['Dói aqui.','여기가 아파요.']]},
+ {u:10, t:'필요하다', pt:'Precisar', d:'명사 앞에는 precisar de, 동사원형 앞에는 de 없이 써요.', tb:[['precisar de + 명사','Preciso de um médico.'],['precisar + 원형','Preciso descansar.']], ex:[['Você precisa de ajuda?','도움 필요해요?']]},
+ {u:11, t:'완료 과거', pt:'Pretérito perfeito', d:'끝난 일을 말할 때 써요. 규칙동사 어미는 아래와 같아요.', tb:[['-ar · falar','falei · falou · falamos · falaram'],['-er · comer','comi · comeu · comemos · comeram'],['-ir · abrir','abri · abriu · abrimos · abriram'],['ir · ser','fui · foi · fomos · foram (같은 형태)']], ex:[['Ontem saí com uns amigos.','어제 친구들이랑 놀았어요.'],['A gente comeu demais.','우리 너무 많이 먹었어.']], tip:'nós 형태(falamos)는 현재와 과거가 같아서 ontem 같은 시간 표현으로 구분해요.'},
+ {u:11, t:'벌써 · 아직', pt:'Já · ainda não', d:'já는 "벌써 · 이미 · ~해 본 적 있다", ainda não는 "아직 안".', tb:[['já + 과거','Já comi. 벌써 먹었어.'],['Você já …?','~해 본 적 있어요? · Você já foi ao Brasil?'],['ainda não','아직 안 · Ainda não vi.'],['faz + 기간 + que','~한 지 …됐다 · Faz tempo que não te vejo.']], ex:[['Você já comeu?','밥 먹었어?'],['Ainda não.','아직.']]},
+ {u:12, t:'가까운 미래', pt:'Ir + infinitivo', d:'구어의 미래는 거의 다 ir 현재형 + 동사원형이에요.', tb:[['vou + 원형','Vou viajar.'],['vai + 원형','Vai chover.'],['vamos · bora + 원형','~하자 · Bora tomar um café?'],['vão + 원형','Eles vão chegar tarde.']], ex:[['O que você vai fazer amanhã?','내일 뭐 해?'],['Semana que vem vou descansar.','다음 주엔 쉴 거예요.']], tip:'falarei 같은 단순미래형은 주로 글이나 뉴스에서 써요.'},
+ {u:12, t:'바람 · 계획', pt:'Querer · pensar em · tomara', d:'하고 싶은 일, 계획, 바람을 말하는 표현이에요.', tb:[['quero + 원형','~하고 싶어요'],['penso em + 원형','~할까 생각 중이에요'],['pretendo + 원형','~할 계획이에요'],['tomara que …','~하면 좋겠다 (뒤 동사는 접속법)']], ex:[['Penso em morar no Brasil.','브라질에서 살까 생각 중이에요.'],['Tomara que dê certo!','잘 됐으면 좋겠다!']]}
+];
 const ART = {m:'o', f:'a', mp:'os', fp:'as'};
 const ALL = [];
 UNITS.forEach(u => (u.words||[]).forEach((w,i) => ALL.push({id:u.n+'-'+i, u:u.n, pt:w[0], ko:w[1], pr:w[2], g:w[3]||''})));
@@ -917,6 +977,7 @@ function render(){
   if (r === 'units') v.innerHTML = vUnits();
   else if (r.startsWith('unit-')) v.innerHTML = vUnit(+r.slice(5));
   else if (r === 'verbs') v.innerHTML = vVerbs();
+  else if (r === 'grammar') v.innerHTML = vGrammar();
   else if (r === 'record') v.innerHTML = vRecord();
   else v.innerHTML = vHome();
   if (r !== lastRoute){ window.scrollTo(0,0); lastRoute = r; }
@@ -970,6 +1031,10 @@ function vUnits(){
   <section class="card list">${rows}</section>`;
 }
 
+function gSection(u){
+  const gs = GRAMMAR.filter(g => g.u === u.n);
+  return gs.length ? `<section class="ggroup"><span class="eyebrow">이 단원의 문법</span>${gs.map(g => gCard(g)).join('')}</section>` : '';
+}
 function vUnit(n){
   const u = unitOf(n);
   if (!u) return vUnits();
@@ -979,7 +1044,7 @@ function vUnit(n){
     if (!S.seen0){ S.seen0 = true; save(); }
     return head + `<p class="sub">스피커를 눌러 예시 단어를 들어보세요. 한글 표기는 비슷한 소리일 뿐이니 꼭 소리로 확인하세요.</p>
     <div class="grid2">${u.rules.map(r => `<section class="card rule"><h3>${esc(r.t)}</h3><p class="sub">${esc(r.d)}</p>
-      <div class="list">${r.ex.map(e => `<div class="ex">${spk(e[0])}<span class="grow"><span class="pt">${esc(e[0])}</span> <span class="pron">${esc(e[1])}</span></span><span class="ko">${esc(e[2])}</span></div>`).join('')}</div></section>`).join('')}</div>`;
+      <div class="list">${r.ex.map(e => `<div class="ex">${spk(e[0])}<span class="grow"><span class="pt">${esc(e[0])}</span> <span class="pron">${esc(e[1])}</span></span><span class="ko">${esc(e[2])}</span></div>`).join('')}</div></section>`).join('')}</div>${gSection(u)}`;
   }
   const ws = ALL.filter(w => w.u === n), p = unitProg(u);
   const words = ws.map(w => {
@@ -990,6 +1055,7 @@ function vUnit(n){
   }).join('');
   const sents = u.sents.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko">${esc(s[1])}${s[3] ? '<span class="learned"><svg viewBox="0 0 11 10"><path d="M1 5.5 L4 8.5 L10 1.5"/></svg>배운 표현</span>' : ''}</span></div></div>`).join('');
   return head + `<div class="row"><div class="track grow"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></div><span class="sub">학습 ${p.l} · 익힘 ${p.m} / ${p.n}</span></div>
+  ${gSection(u)}
   <div class="grid2">
     <section class="card" style="display:flex;flex-direction:column;gap:10px">
       <div class="row"><span class="eyebrow grow">단어 ${ws.length}</span><span class="legend"><span><span class="art m">o</span> 남성</span><span><span class="art f">a</span> 여성</span></span></div>
@@ -1000,6 +1066,25 @@ function vUnit(n){
       <div class="list">${sents}</div>
     </section>
   </div>`;
+}
+
+const gOrder = () => UNITS.flatMap(u => GRAMMAR.filter(g => g.u === u.n));
+function gCard(g, open){
+  const no = gOrder().indexOf(g) + 1;
+  return `<details class="card gram"${open ? ' open' : ''}>
+    <summary><span class="gno lat">G${String(no).padStart(2,'0')}</span><span class="grow"><span class="gt">${g.t}</span> <span class="sub lat">${g.pt}</span></span><span class="gx" aria-hidden="true"></span></summary>
+    <div class="gbody">
+      <p>${esc(g.d)}</p>
+      <div class="gtable">${g.tb.map(r => `<div><span class="lat">${esc(r[0])}</span><span>${esc(r[1])}</span></div>`).join('')}</div>
+      <div class="list">${g.ex.map(e => `<div class="sent">${spk(e[0])}<div class="grow"><span class="pt">${esc(e[0])}</span><span class="ko">${esc(e[1])}</span></div></div>`).join('')}</div>
+      ${g.tip ? `<p class="tip">${esc(g.tip)}</p>` : ''}
+    </div></details>`;
+}
+function vGrammar(){
+  const groups = UNITS.map(u => [u, GRAMMAR.filter(g => g.u === u.n)]).filter(x => x[1].length);
+  return `<div class="hero"><span class="eyebrow lat">Gramática</span><h1 class="title">문법</h1></div>
+  <div class="row noprint"><span class="sub grow">규칙 ${GRAMMAR.length}개 · 제목을 눌러 펼쳐 보세요</span><button class="btn sm ghost" data-a="gopen">모두 펼치기</button></div>
+  ${groups.map(([u, gs]) => `<section class="ggroup"><a class="eyebrow" href="#unit-${u.n}">${uno(u)}단원 · ${u.ko}</a>${gs.map(g => gCard(g)).join('')}</section>`).join('')}`;
 }
 
 let verbIdx = 0, verbT = 'f';
@@ -1188,6 +1273,7 @@ document.addEventListener('click', e => {
   else if (a === 'reveal') b.classList.remove('hide');
   else if (a === 'verb'){ verbIdx = +x; render(); }
   else if (a === 'tense'){ verbT = x; render(); }
+  else if (a === 'gopen'){ const ds = document.querySelectorAll('details.gram'), all = [...ds].every(d => d.open); ds.forEach(d => d.open = !all); b.textContent = all ? '모두 펼치기' : '모두 접기'; }
   else if (a === 'flip') b.classList.toggle('on');
   else if (a === 'set'){ const k = b.dataset.k; S.set[k] = k === 'pron' ? x === 'true' : k === 'font' ? x : +x; if (k === 'font' || k === 'size') applyTypo(); save(); render(); if (k === 'rate') say('Muito bem!'); }
   else if (a === 'reset'){ resetAsk = true; render(); }
