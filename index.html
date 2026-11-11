@@ -237,6 +237,15 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 .gram .list > *{padding-block:9px}
 @media print{details.gram > .gbody{display:flex}}
 
+/* life vocabulary */
+.seg a{display:inline-flex;align-items:center;height:30px;font-size:.86rem;color:var(--faint);border-bottom:1px solid transparent}
+.seg a.on{color:var(--ink);font-weight:400;border-bottom-color:var(--ink)}
+.search{display:flex;align-items:center;gap:10px;height:42px;padding:0 12px;background:var(--sheet);border:1px solid color-mix(in srgb,var(--pencil) 45%,transparent)}
+.search svg{width:16px;height:16px;flex:none;fill:none;stroke:var(--muted);stroke-width:1.4;stroke-linecap:square}
+.search input{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;font-family:var(--ko);font-size:16px;color:var(--ink)}
+.search:focus-within{border-color:var(--ink);outline:none}
+#qres:empty{display:none}
+
 /* A4 print */
 @media print{
   @page{size:A4;margin:14mm}
@@ -843,6 +852,70 @@ const GRAMMAR = [
  {u:17, t:'접속법 현재', pt:'Presente do subjuntivo', d:'바람·감정·필요를 나타내는 que 뒤에서 써요. -ar 동사는 어미가 -e로, -er·-ir 동사는 -a로 바뀌어요.', tb:[['-ar · falar','fale · fale · falemos · falem'],['-er · comer','coma · coma · comamos · comam'],['-ir · abrir','abra · abra · abramos · abram'],['ser · ir · estar','seja · vá · esteja (불규칙)'],['쓰는 자리','espero que · tomara que · quero que · é importante que']], ex:[['Espero que você goste do Brasil.','브라질이 마음에 들었으면 좋겠어.'],['Tomara que dê tudo certo!','다 잘 됐으면 좋겠다!']]},
  {u:17, t:'조건문', pt:'Se + futuro do subjuntivo', d:'앞으로 있을 조건은 se + 미래 접속법을 써요. 규칙동사는 동사원형과 모양이 같아요.', tb:[['se + 원형 모양','Se precisar, me chama.'],['ter → tiver','Se eu tiver tempo, vou.'],['poder → puder','Se puder, me liga.'],['vir → vier','Se você vier pra Seul, me avisa!'],['dar → der','Se der, a gente se vê. (시간 되면)']], ex:[['Se precisar de ajuda, me chama.','도움 필요하면 불러.']], tip:'늘 그런 일반적인 사실은 현재형을 써요: Se chove, fico em casa.'}
 ];
+// everyday vocabulary by topic (reference + practice, separate from unit SRS)
+const LIFE = [
+ {k:'casa', ko:'집 · 생활용품', pt:'Casa', c:'sky', w:[
+  ['geladeira','냉장고','젤라데이라','f'],['fogão','가스레인지','포가웅','m'],['micro-ondas','전자레인지','미끄루 온다스','m'],['máquina de lavar','세탁기','마끼나 지 라바르','f'],
+  ['chuveiro','샤워기','슈베이루','m'],['toalha','수건','또알랴','f'],['travesseiro','베개','뜨라베쎄이루','m'],['cobertor','이불 · 담요','꼬베르또르','m'],
+  ['tomada','콘센트','또마다','f'],['carregador','충전기','까헤가도르','m'],['lâmpada','전구','람빠다','f'],['lixo','쓰레기','리슈','m'],
+  ['sabonete','비누','싸보네치','m'],['xampu','샴푸','샴뿌','m'],['papel higiênico','화장지','빠뻬우 이지에니꾸','m'],['escova de dentes','칫솔','이스꼬바 지 덴치스','f'],
+  ['pasta de dente','치약','빠스따 지 덴치','f'],['ventilador','선풍기','벤칠라도르','m'],['ar-condicionado','에어컨','아르 꼰지씨오나두','m'],['chave de casa','집 열쇠','샤비 지 까자','f']]},
+ {k:'mercado', ko:'마트 · 장보기', pt:'Mercado', c:'sage', w:[
+  ['ovo','달걀','오부','m'],['pão francês','브라질식 바게트빵','빠웅 프랑세스','m'],['manteiga','버터','만떼이가','f'],['banana','바나나','바나나','f'],
+  ['maçã','사과','마쌍','f'],['tomate','토마토','또마치','m'],['cebola','양파','쎄볼라','f'],['alho','마늘','알류','m'],
+  ['batata','감자','바따따','f'],['macarrão','파스타 · 면','마까하웅','m'],['carne moída','다진 고기','까르니 모이다','f'],['presunto','햄','쁘레준뚜','m'],
+  ['iogurte','요거트','이오구르치','m'],['farofa','파로파 (카사바 가루 볶음)','파로파','f'],['caixa','계산대','까이샤','m'],['fila','줄','필라','f'],
+  ['carrinho','카트','까힝뉴','m'],['cesta','장바구니','쎄스따','f'],['validade','유통기한','발리다지','f'],['quilo','킬로그램','낄루','m']]},
+ {k:'comida', ko:'브라질 음식 · 외식', pt:'Comida brasileira', c:'peach', w:[
+  ['coxinha','코시냐 (닭고기 크로켓)','꼬시냐','f'],['brigadeiro','브리가데이루 (초콜릿 과자)','브리가데이루','m'],['açaí','아사이','아싸이','m'],['tapioca','타피오카 크레페','따삐오까','f'],
+  ['churrasco','슈하스코 (숯불 바비큐)','슈하스꾸','m'],['picanha','피카냐 (소 우둔살)','삐까냐','f'],['guaraná','과라나 탄산음료','과라나','m'],['caipirinha','카이피리냐 (칵테일)','까이삐링냐','f'],
+  ['cafezinho','작은 블랙커피','까페지뉴','m'],['prato feito','백반 정식 (PF)','쁘라뚜 페이뚜','m'],['comida por quilo','무게로 계산하는 뷔페','꼬미다 뽀르 낄루','f'],['lanchonete','간이식당','란쇼네치','f'],
+  ['padaria','빵집','빠다리아','f'],['garçom','웨이터','가르쏭','m'],['gorjeta','팁','고르제따','f'],['lanche','간식 · 가벼운 식사','란시','m'],
+  ['salgado','짭짤한 튀김 간식','싸우가두','m'],['sobremesa','디저트','쏘브리메자','f'],['delivery','배달','질리베리','m'],['marmita','도시락','마르미따','f']]},
+ {k:'dinheiro', ko:'돈 · 은행', pt:'Dinheiro', c:'sand', w:[
+  ['real','헤알 (브라질 화폐)','헤아우','m'],['troco','거스름돈','뜨로꾸','m'],['moeda','동전','모에다','f'],['nota de vinte','20헤알 지폐','노따 지 빈치','f'],
+  ['cartão de crédito','신용카드','까르따웅 지 끄레지뚜','m'],['débito','체크카드 결제','데비뚜','m'],['boleto','납부 고지서','볼레뚜','m'],['caixa eletrônico','ATM','까이샤 일레뜨로니꾸','m'],
+  ['sacar','(돈을) 인출하다','싸까르'],['transferência','송금','뜨란스페렌씨아','f'],['senha','비밀번호','쎄냐','f'],['chave Pix','Pix 키 (송금용 ID)','샤비 삐스','f'],
+  ['parcela','할부 회차','빠르쎌라','f'],['à vista','일시불','아 비스따'],['taxa','수수료','따샤','f'],['juros','이자','주루스','mp'],
+  ['conta de luz','전기 요금','꼰따 지 루스','f'],['caro pra caramba','엄청 비싼 (구어)','까루 쁘라 까람바'],['economizar','절약하다','이꼬노미자르'],['gastar','(돈을) 쓰다','가스따르']]},
+ {k:'digital', ko:'휴대폰 · 인터넷', pt:'Celular e internet', c:'lav', w:[
+  ['wi-fi','와이파이','우아이파이','m'],['senha do wi-fi','와이파이 비밀번호','쎄냐 두 우아이파이','f'],['zap','왓츠앱 (구어)','자삐','m'],['mensagem','메시지','멘싸젱','f'],
+  ['áudio','음성 메시지','아우지우','m'],['print','스크린샷','쁘린치','m'],['story','스토리','스또리','m'],['curtir','좋아요 누르다 · 즐기다','꾸르치르'],
+  ['seguir','팔로우하다','쎄기르'],['baixar','다운로드하다','바이샤르'],['aplicativo','앱','아쁠리까치부','m'],['bateria','배터리','바떼리아','f'],
+  ['sinal','신호 · 수신','씨나우','m'],['dados móveis','모바일 데이터','다두스 모베이스','mp'],['recarga','선불 충전','헤까르가','f'],['link','링크','링끼','m'],
+  ['mandar','보내다','만다르'],['ligar','전화하다 · 켜다','리가르'],['desligar','끊다 · 끄다','지스리가르'],['travar','(기기가) 멈추다','뜨라바르']]},
+ {k:'rua', ko:'교통 · 길거리', pt:'Na rua', c:'sky', w:[
+  ['bilhete único','교통카드 (상파울루)','빌례치 우니꾸','m'],['catraca','개찰구','까뜨라까','f'],['corrida','(택시·앱) 한 번 탑승','꼬히다','f'],['motorista','운전기사','모또리스따','m'],
+  ['faixa de pedestre','횡단보도','파이샤 지 뻬데스뜨리','f'],['semáforo','신호등','쎄마포루','m'],['calçada','인도','까우싸다','f'],['engarrafamento','교통 체증','잉가하파멘뚜','m'],
+  ['rodoviária','시외버스 터미널','호도비아리아','f'],['horário de pico','출퇴근 시간','오라리우 지 삐꾸','m'],['estação de metrô','지하철역','이스따싸웅 지 메뜨로','f'],['bicicleta','자전거','비씨끌레따','f'],
+  ['patinete','전동 킥보드','빠치네치','m'],['carona','카풀 · 태워 주기','까로나','f'],['ponto final','종점','뽄뚜 피나우','m'],['lotado','꽉 찬 · 만원인','로따두'],
+  ['atravessar','건너다','아뜨라베싸르'],['estacionar','주차하다','이스따씨오나르'],['assalto','강도 (조심!)','아싸우뚜','m'],['seguro','안전한','쎄구루']]},
+ {k:'roupa', ko:'옷 · 여름 생활', pt:'Roupas', c:'peach', w:[
+  ['camiseta','티셔츠','까미제따','f'],['bermuda','반바지','베르무다','f'],['chinelo','슬리퍼 · 쪼리','쉬넬루','m'],['tênis','운동화','떼니스','m'],
+  ['jaqueta','재킷','자께따','f'],['saia','치마','싸이아','f'],['meia','양말','메이아','f'],['óculos de sol','선글라스','오꿀루스 지 쏘우','mp'],
+  ['protetor solar','선크림','쁘로떼또르 쏠라르','m'],['biquíni','비키니','비끼니','m'],['sunga','남성 수영복','쑹가','f'],['canga','비치 타월','깡가','f'],
+  ['repelente','모기 기피제','헤뻴렌치','m'],['mosquito','모기','모스끼뚜','m'],['lavar roupa','빨래하다','라바르 호우빠'],['passar roupa','다림질하다','빠싸르 호우빠'],
+  ['vestir','입다','베스치르'],['tirar','벗다 · 빼다','치라르'],['apertado','꽉 끼는','아뻬르따두'],['largo','헐렁한','라르구']]},
+ {k:'sentimento', ko:'감정 · 상태', pt:'Sentimentos', c:'lav', w:[
+  ['animado','신난','아니마두'],['preocupado','걱정되는','쁘레오꾸빠두'],['com medo','무서운','꽁 메두'],['irritado','짜증 난','이히따두'],
+  ['entediado','지루한','잉떼지아두'],['ansioso','불안한 · 기대되는','앙씨오주'],['aliviado','안심한','알리비아두'],['envergonhado','창피한','잉베르고냐두'],
+  ['orgulhoso','자랑스러운','오르굴료주'],['apaixonado','사랑에 빠진','아빠이쇼나두'],['estressado','스트레스 받은','이스뜨레싸두'],['com raiva','화난','꽁 하이바'],
+  ['surpreso','놀란','쑤르쁘레주'],['confuso','헷갈리는','꽁푸주'],['de boa','편안한 · 여유로운 (구어)','지 보아'],['bravo','화난 (구어)','브라부'],
+  ['emocionado','감동한','이모씨오나두'],['com sono','졸린','꽁 쏘누'],['de saco cheio','지긋지긋한 (구어)','지 싸꾸 셰이우'],['sozinho','혼자인 · 외로운','쏘지뉴']]},
+ {k:'reacao', ko:'일상 리액션', pt:'Expressões', c:'sage', w:[
+  ['Caramba!','와! · 헐!','까람바!'],['Que legal!','좋다! · 멋지다!','끼 레가우!'],['Sério?','진짜?','쎄리우?'],['Tá bom.','알았어. · 좋아.','따 봉'],
+  ['Pois é.','그러게.','뽀이스 에'],['Tipo …','막 · 그러니까 …','치뿌'],['Show!','좋아! · 최고!','쇼우!'],['Demais!','끝내준다!','지마이스!'],
+  ['Que saco!','짜증 나!','끼 싸꾸!'],['Imagina!','천만에! · 별말을!','이마지나!'],['Fala sério!','말도 안 돼!','팔라 쎄리우!'],['Tô dentro!','나도 낄래!','또 덴뜨루!'],
+  ['Partiu!','출발! · 가자!','빠르치우!'],['Eita!','헉! · 어머!','에이따!'],['Ué?','어? · 뭐야?','우에?'],['Aham.','응응.','아앙'],
+  ['Deixa pra lá.','됐어, 신경 쓰지 마.','데이샤 쁘라 라'],['Tanto faz.','아무거나 상관없어.','딴뚜 파스'],['Boa!','잘했어!','보아!'],['Calma!','진정해!','까우마!']]},
+ {k:'tempo', ko:'시간 표현', pt:'Expressões de tempo', c:'sand', w:[
+  ['de manhã','아침에','지 마냥'],['à tarde','오후에','아 따르지'],['à noite','밤에','아 노이치'],['de madrugada','새벽에','지 마드루가다'],
+  ['agora há pouco','방금','아고라 아 뽀우꾸'],['daqui a pouco','조금 있다가','다끼 아 뽀우꾸'],['mais tarde','나중에','마이스 따르지'],['logo mais','이따가','로구 마이스'],
+  ['feriado','공휴일','페리아두','m'],['de vez em quando','가끔','지 베스 잉 꽌두'],['ontem à noite','어젯밤','온뗑 아 노이치'],['hoje cedo','오늘 아침 일찍','오지 쎄두'],
+  ['toda semana','매주','또다 쎄마나'],['no fim do mês','월말에','누 핑 두 메스'],['há dois dias','이틀 전에','아 도이스 지아스'],['em breve','곧','잉 브레비'],
+  ['na hora','제시간에 · 그 자리에서','나 오라'],['cedinho','아주 일찍','쎄징뉴'],['adiantado','(예정보다) 이른','아지안따두'],['prazo final','최종 마감','쁘라주 피나우','m']]}
+];
+LIFE.forEach(c => c.ws = c.w.map((w,i) => ({id:'L-'+c.k+'-'+i, u:'L-'+c.k, pt:w[0], ko:w[1], pr:w[2], g:w[3]||''})));
 const ART = {m:'o', f:'a', mp:'os', fp:'as'};
 const ALL = [];
 UNITS.forEach(u => (u.words||[]).forEach((w,i) => ALL.push({id:u.n+'-'+i, u:u.n, pt:w[0], ko:w[1], pr:w[2], g:w[3]||''})));
@@ -1025,13 +1098,14 @@ function route(){ return (location.hash.slice(1) || 'home'); }
 let lastRoute = '';
 function render(){
   const r = route();
-  const base = r.startsWith('unit-') ? 'units' : r;
+  const base = r.startsWith('unit-') || r === 'life' ? 'units' : r;
   document.querySelectorAll('[data-n]').forEach(a => a.classList.toggle('on', a.dataset.n === base));
   const v = $('#view');
   if (r === 'units') v.innerHTML = vUnits();
   else if (r.startsWith('unit-')) v.innerHTML = vUnit(+r.slice(5));
   else if (r === 'verbs') v.innerHTML = vVerbs();
   else if (r === 'grammar') v.innerHTML = vGrammar();
+  else if (r === 'life') v.innerHTML = vLife();
   else if (r === 'record') v.innerHTML = vRecord();
   else v.innerHTML = vHome();
   if (r !== lastRoute){ window.scrollTo(0,0); lastRoute = r; }
@@ -1071,6 +1145,32 @@ function vHome(){
   </section>`;
 }
 
+function wordRow(w, tag){
+  return `<div class="row">${spk(full(w))}<span class="grow" style="display:flex;flex-direction:column"><span class="pt">${ptHTML(w)}</span>${S.set.pron ? `<span class="pron">${esc(w.pr)}</span>` : ''}</span><span class="ko" style="text-align:right;max-width:48%">${esc(w.ko)}${tag ? `<span class="sub" style="display:block;font-size:.72rem">${tag}</span>` : ''}</span></div>`;
+}
+function vLife(){
+  const r = 'life';
+  return `<div class="hero"><span class="eyebrow lat">Dia a dia</span><h1 class="title">생활 단어</h1></div>
+  <div class="seg noprint"><a class="${r === 'units' ? 'on' : ''}" href="#units">학습 단원</a><a class="${r === 'life' ? 'on' : ''}" href="#life">생활 단어</a></div>
+  <label class="search noprint"><svg viewBox="0 0 24 24"><path d="M10.5 17a6.5 6.5 0 1 1 0-13 6.5 6.5 0 0 1 0 13zM15.5 15.5 20 20"/></svg><input id="q" type="search" placeholder="단어 찾기 · 포르투갈어 또는 한국어" autocomplete="off"></label>
+  <div id="qres"></div>
+  <div class="row noprint"><span class="sub grow">주제 ${LIFE.length}개 · 단어 ${LIFE.reduce((n,c) => n + c.ws.length, 0)}개</span><button class="btn sm ghost" data-a="gopen">모두 펼치기</button></div>
+  ${LIFE.map((c,i) => `<details class="card gram">
+    <summary><span class="gno lat">C${String(i+1).padStart(2,'0')}</span><span class="grow"><span class="gt">${c.ko}</span> <span class="sub lat">${c.pt}</span></span><span class="sub lat">${c.ws.length}</span><span class="gx" aria-hidden="true"></span></summary>
+    <div class="gbody"><div class="list">${c.ws.map(w => wordRow(w)).join('')}</div>
+      <button class="btn ghost wide noprint" data-a="life" data-x="${c.k}">이 주제 연습 10문제</button></div></details>`).join('')}`;
+}
+function searchWords(q){
+  q = q.trim().toLowerCase();
+  if (!q) return '';
+  const norm = t => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const nq = norm(q);
+  const hits = [];
+  ALL.forEach(w => { if (norm(w.pt).includes(nq) || w.ko.includes(q)) hits.push([w, uno(unitOf(w.u)) + '단원']); });
+  LIFE.forEach(c => c.ws.forEach(w => { if (norm(w.pt).includes(nq) || w.ko.includes(q)) hits.push([w, '생활 · ' + c.ko]); }));
+  if (!hits.length) return `<p class="empty">"${esc(q)}"에 맞는 단어가 없어요.</p>`;
+  return `<section class="card list">${hits.slice(0, 40).map(h => wordRow(h[0], h[1])).join('')}</section>${hits.length > 40 ? `<p class="sub">${hits.length}개 중 40개만 보여요. 더 자세히 입력해 보세요.</p>` : ''}`;
+}
 function vUnits(){
   const rows = UNITS.map(u => {
     const p = u.rules ? null : unitProg(u);
@@ -1081,7 +1181,9 @@ function vUnits(){
         ${p ? `<span class="track"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></span>` : `<span class="sub lat">${u.pt}</span>`}
       </span></a>`;
   }).join('');
+  const r = 'units';
   return `<div class="hero"><span class="eyebrow lat">A1 → A2</span><h1 class="title">단원</h1></div>
+  <div class="seg noprint"><a class="${r === 'units' ? 'on' : ''}" href="#units">학습 단원</a><a class="${r === 'life' ? 'on' : ''}" href="#life">생활 단어</a></div>
   <section class="card list">${rows}</section>`;
 }
 
@@ -1218,6 +1320,10 @@ function startToday(){
   const items = fresh.map(w => ({k:'learn', w})).concat(shuffle(due.map(w => ({k:'quiz', w, m:modeFor(w)})).concat(fresh.map(w => ({k:'quiz', w, m:modeFor(w, true)})))));
   openSession(items, 'srs');
 }
+function startLife(k){
+  const c = LIFE.find(x => x.k === k); if (!c) return;
+  openSession(shuffle(c.ws).slice(0, 10).map(w => ({k:'quiz', w, m:modeFor(w), pool:c.ws})), 'life');
+}
 function startExtra(){
   const pool = ALL.filter(learned);
   const src = pool.length >= 4 ? pool : ALL.filter(w => w.u === 1);
@@ -1231,7 +1337,8 @@ function startVerbQuiz(){
 function options(it){
   if (it.k === 'verb'){ const fs = VERBS[it.vi][it.t], ans = fs[it.pi]; return shuffle([...new Set(fs)].map(f => ({t:f, h:'<span class="pt">' + f + '</span>', ok:f === ans}))); }
   const w = it.w, key = it.m === 'pt' ? 'ko' : 'pt';
-  const same = shuffle(ALL.filter(x => x.u === w.u && x.id !== w.id && x[key] !== w[key]));
+  const src = it.pool || ALL;
+  const same = shuffle(src.filter(x => x.u === w.u && x.id !== w.id && x[key] !== w[key]));
   const other = shuffle(ALL.filter(x => x.u !== w.u && x[key] !== w[key]));
   const picks = [];
   for (const x of same.concat(other)){ if (picks.length === 3) break; if (!picks.some(p => p[key] === x[key])) picks.push(x); }
@@ -1327,6 +1434,7 @@ document.addEventListener('click', e => {
   else if (a === 'reveal') b.classList.remove('hide');
   else if (a === 'verb'){ verbIdx = +x; render(); }
   else if (a === 'tense'){ verbT = x; render(); }
+  else if (a === 'life') startLife(x);
   else if (a === 'gopen'){ const ds = document.querySelectorAll('details.gram'), all = [...ds].every(d => d.open); ds.forEach(d => d.open = !all); b.textContent = all ? '모두 펼치기' : '모두 접기'; }
   else if (a === 'flip') b.classList.toggle('on');
   else if (a === 'set'){ const k = b.dataset.k; S.set[k] = k === 'pron' ? x === 'true' : k === 'font' ? x : +x; if (k === 'font' || k === 'size') applyTypo(); save(); render(); if (k === 'rate') say('Muito bem!'); }
@@ -1342,6 +1450,7 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'Enter' && document.querySelector('[data-a="next"]')) next();
 });
 
+document.addEventListener('input', e => { if (e.target.id === 'q'){ const el = $('#qres'); if (el) el.innerHTML = searchWords(e.target.value); } });
 document.addEventListener('change', e => { if (e.target.id === 'fontFile' && e.target.files && e.target.files[0]){ onFontFile(e.target.files[0]); e.target.value = ''; } });
 
 setSync('local');
