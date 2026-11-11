@@ -16,7 +16,7 @@
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
-<script>window.APP_VERSION = '4a0c98d1db';</script>
+<script>window.APP_VERSION = '6bb5afc7ac';</script>
 <style>
 /* Layout: phone = single column + bottom tabs; iPad (>=900px) = left sidebar + wide content.
    Quiet analog notebook in muted blue-gray: one fine pencil line per object, square edges.
@@ -36,9 +36,13 @@
   --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 .29 0 0 0 0 .33 0 0 0 .045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 [hidden]{display:none!important}
+html{touch-action:manipulation}
+/* skip layout/paint for long lists until they scroll into view */
+.grid2 > section,.gram,.ggroup > .card{content-visibility:auto;contain-intrinsic-size:auto 600px}
+.gram{contain-intrinsic-size:auto 54px}
 html{font-size:12.5px}
 html,body{height:100%}
-body{background:var(--grain),radial-gradient(color-mix(in srgb,var(--pencil) 20%,transparent) .7px,transparent 1.2px) 0 0/22px 22px,var(--paper);color:var(--ink);font-family:var(--ko);font-weight:var(--kw);font-size:calc(1rem*var(--ks));line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+body{background:var(--grain),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Crect x='10.5' y='10.5' width='1.2' height='1.2' fill='%236C7883' fill-opacity='.28'/%3E%3C/svg%3E") 0 0/22px 22px,var(--paper);color:var(--ink);font-family:var(--ko);font-weight:var(--kw);font-size:calc(1rem*var(--ks));line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
 button,input{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0;border-radius:0}
 a{color:inherit;text-decoration:none}
 button:focus-visible,a:focus-visible,label:focus-within{outline:1px solid var(--pencil);outline-offset:3px}
@@ -48,7 +52,7 @@ p{margin:0}
 
 /* one fine pencil line */
 .card,.stat,.opt,.btn,.listen{position:relative}
-.card::before,.stat::before,.opt::before,.btn::before,.listen::before{content:"";position:absolute;inset:0;border:1px solid var(--pencil);opacity:.42;pointer-events:none;filter:url(#pencil)}
+.card::before,.stat::before,.opt::before,.btn::before,.listen::before,.fc-face::before,.slip::before,.spk::before{content:"";position:absolute;inset:0;border:4px solid transparent;border-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='4'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='1.6'/%3E%3C/filter%3E%3Crect x='2.5' y='2.5' width='395' height='395' fill='none' stroke='%236C7883' stroke-width='1.1' filter='url(%23p)'/%3E%3C/svg%3E") 4 / 4px stretch;opacity:.75;pointer-events:none}
 
 /* typewriter for Portuguese; Korean glyphs fall through to the chosen Korean face */
 .lat,.pt,.big:not(.ko2),.conj .f,.stat b,.today .nums b,.brand b,.unit .no,.rule h3,.cnt,.bars span,.bars em,.sample .lat{font-family:var(--lat),var(--ko);font-weight:300;letter-spacing:-.01em;--ks:1}
@@ -59,7 +63,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 
 /* nav */
 .side{display:none}
-.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;display:grid;grid-template-columns:repeat(5,1fr);background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;display:grid;grid-template-columns:repeat(5,1fr);background:var(--paper);border-top:1px solid var(--line);padding:8px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
 .tabs a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:calc(.72rem*var(--ks));letter-spacing:.04em;color:var(--faint)}
 .tabs a.on{color:var(--ink)}
 .tabs a span{padding-bottom:2px;border-bottom:1px solid transparent}
@@ -87,7 +91,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 .grow{flex:1;min-width:0}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:48px;padding:0 22px;font-size:calc(.93rem*var(--ks));font-weight:400;letter-spacing:.06em;color:var(--sheet);background:var(--ink)}
 .btn::before{opacity:0}
-.btn:not(.ghost)::after{content:"";position:absolute;inset:4px -4px -4px 4px;border:1px solid var(--pencil);opacity:.45;pointer-events:none;filter:url(#pencil)}
+.btn:not(.ghost)::after{content:"";position:absolute;inset:4px -4px -4px 4px;border:4px solid transparent;border-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='4'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='1.6'/%3E%3C/filter%3E%3Crect x='2.5' y='2.5' width='395' height='395' fill='none' stroke='%236C7883' stroke-width='1.1' filter='url(%23p)'/%3E%3C/svg%3E") 4 / 4px stretch;opacity:.6;pointer-events:none}
 .btn.ghost{background:transparent;color:var(--ink);font-weight:300}
 .btn.ghost::before{opacity:.5}
 .btn.wide{width:100%}
@@ -95,7 +99,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 .btn:active,.opt:active{transform:translateY(1px)}
 .chip{display:inline-flex;align-items:center;height:22px;padding:0 9px;font-size:calc(.72rem*var(--ks));letter-spacing:.06em;font-weight:400;white-space:nowrap}
 .spk{position:relative;flex:none;width:32px;height:32px;display:grid;place-items:center;color:var(--pencil);background:var(--sheet)}
-.spk::before{content:"";position:absolute;inset:0;border:1px solid var(--pencil);opacity:.4;pointer-events:none;filter:url(#pencil)}
+
 .spk svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:square}
 .spk:active{background:var(--soft)}
 .track{height:6px;border:1px solid color-mix(in srgb,var(--pencil) 45%,transparent);padding:1px}
@@ -158,7 +162,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 .sample{font-size:calc(1.2rem*var(--ks));padding:14px 0 2px;color:var(--ink)}
 
 /* study overlay */
-.ov{position:fixed;inset:0;z-index:30;background:var(--grain),radial-gradient(color-mix(in srgb,var(--pencil) 20%,transparent) .7px,transparent 1.2px) 0 0/22px 22px,var(--paper);display:flex;justify-content:center;overflow-y:auto;padding:calc(14px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.ov{position:fixed;inset:0;z-index:30;background:var(--grain),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Crect x='10.5' y='10.5' width='1.2' height='1.2' fill='%236C7883' fill-opacity='.28'/%3E%3C/svg%3E") 0 0/22px 22px,var(--paper);display:flex;justify-content:center;overflow-y:auto;padding:calc(14px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .ov-in{width:100%;max-width:520px;display:flex;flex-direction:column;gap:20px;min-height:100%}
 .ov-top{display:flex;align-items:center;gap:14px}
 .ov-top .track{flex:1}
@@ -202,7 +206,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 .fc-in{position:relative;width:100%;height:100%;transition:transform .5s cubic-bezier(.3,.7,.3,1);transform-style:preserve-3d}
 .fc.on .fc-in{transform:rotateY(180deg)}
 .fc-face{position:absolute;inset:0;display:flex;flex-direction:column;-webkit-backface-visibility:hidden;backface-visibility:hidden;background:linear-gradient(to right,transparent 14px,color-mix(in srgb,var(--peach-ink) 40%,transparent) 14px 15px,transparent 15px) 0 38px/100% calc(100% - 38px) no-repeat,repeating-linear-gradient(to bottom,transparent 0 23px,color-mix(in srgb,var(--sky) 55%,transparent) 23px 24px) 0 38px/100% calc(100% - 38px) no-repeat,var(--sheet)}
-.fc-face::before{content:"";position:absolute;inset:0;border:1px solid var(--pencil);opacity:.42;pointer-events:none;filter:url(#pencil)}
+
 .fc-back{transform:rotateY(180deg)}
 .fc-head{display:flex;justify-content:space-between;align-items:center;height:38px;padding:0 14px;border-bottom:1px solid color-mix(in srgb,var(--sage-ink) 55%,transparent);font-size:calc(.72rem*var(--ks));letter-spacing:.1em;color:var(--muted)}
 .fc-head .lat{--ks:1;font-size:.72rem}
@@ -217,7 +221,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 .dogear::after{content:"";position:absolute;top:-1px;right:-1px;width:20px;height:20px;pointer-events:none;background:linear-gradient(to bottom left,var(--paper) 0 50%,color-mix(in srgb,var(--pencil) 55%,transparent) 50% calc(50% + 1px),var(--soft) calc(50% + 1px))}
 /* result slip with dotted leaders */
 .slip{align-self:stretch;max-width:340px;margin:6px auto 0;width:100%;display:flex;flex-direction:column;gap:9px;padding:18px 20px;background:var(--sheet);position:relative}
-.slip::before{content:"";position:absolute;inset:0;border:1px solid var(--pencil);opacity:.42;pointer-events:none;filter:url(#pencil)}
+
 .slip-h{display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid color-mix(in srgb,var(--pencil) 45%,transparent)}
 .slip-h b{font-family:var(--lat);font-weight:300;font-size:1.35rem}
 .slip-r{display:flex;align-items:baseline;gap:8px;font-size:.86rem}
@@ -231,7 +235,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 @keyframes draw{to{stroke-dashoffset:0}}
 /* already-learned mark */
 .learned{display:inline-flex;align-items:center;gap:3px;margin-left:8px;font-size:calc(.66rem*var(--ks));color:var(--sage-ink);vertical-align:1px}
-.learned svg{width:11px;height:10px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:square;filter:url(#pencil)}
+.learned svg{width:11px;height:10px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:square}
 
 
 /* grammar */
@@ -1178,8 +1182,11 @@ function vLife(){
   <div class="row noprint"><span class="sub grow">주제 ${LIFE.length}개 · 단어 ${LIFE.reduce((n,c) => n + c.ws.length, 0)}개</span><button class="btn sm ghost" data-a="gopen">모두 펼치기</button></div>
   ${LIFE.map((c,i) => `<details class="card gram">
     <summary><span class="gno lat">C${String(i+1).padStart(2,'0')}</span><span class="grow"><span class="gt">${c.ko}</span> <span class="sub lat">${c.pt}</span></span><span class="sub lat">${c.ws.length}</span><span class="gx" aria-hidden="true"></span></summary>
-    <div class="gbody"><div class="list">${c.ws.map(w => wordRow(w)).join('')}</div>
-      <button class="btn ghost wide noprint" data-a="life" data-x="${c.k}">이 주제 연습 10문제</button></div></details>`).join('')}`;
+    <div class="gbody" data-lazy="l:${i}"></div></details>`).join('')}`;
+}
+function lifeBody(c){
+  return `<div class="list">${c.ws.map(w => wordRow(w)).join('')}</div>
+      <button class="btn ghost wide noprint" data-a="life" data-x="${c.k}">이 주제 연습 10문제</button>`;
 }
 function searchWords(q){
   q = q.trim().toLowerCase();
@@ -1245,17 +1252,21 @@ function vUnit(n){
   </div>`;
 }
 
-const gOrder = () => UNITS.flatMap(u => GRAMMAR.filter(g => g.u === u.n));
+let gOrd = null;
+const gOrder = () => gOrd || (gOrd = UNITS.flatMap(u => GRAMMAR.filter(g => g.u === u.n)));
 function gCard(g, open){
   const no = gOrder().indexOf(g) + 1;
   return `<details class="card gram"${open ? ' open' : ''}>
     <summary><span class="gno lat">G${String(no).padStart(2,'0')}</span><span class="grow"><span class="gt">${g.t}</span> <span class="sub lat">${g.pt}</span></span><span class="gx" aria-hidden="true"></span></summary>
-    <div class="gbody">
+    ${open ? gBody(g) : `<div class="gbody" data-lazy="g:${GRAMMAR.indexOf(g)}"></div>`}</details>`;
+}
+function gBody(g){
+  return `<div class="gbody">
       <p>${esc(g.d)}</p>
       <div class="gtable">${g.tb.map(r => `<div><span class="lat">${esc(r[0])}</span><span>${esc(r[1])}</span></div>`).join('')}</div>
       <div class="list">${g.ex.map(e => `<div class="sent">${spk(e[0])}<div class="grow"><span class="pt">${esc(e[0])}</span><span class="ko">${esc(e[1])}</span></div></div>`).join('')}</div>
       ${g.tip ? `<p class="tip">${esc(g.tip)}</p>` : ''}
-    </div></details>`;
+    </div>`;
 }
 function vGrammar(){
   const groups = UNITS.map(u => [u, GRAMMAR.filter(g => g.u === u.n)]).filter(x => x[1].length);
@@ -1493,6 +1504,14 @@ document.addEventListener('keydown', e => {
 
 document.addEventListener('input', e => { if (e.target.id === 'q'){ const el = $('#qres'); if (el) el.innerHTML = searchWords(e.target.value); } });
 document.addEventListener('change', e => { if (e.target.id === 'fontFile' && e.target.files && e.target.files[0]){ onFontFile(e.target.files[0]); e.target.value = ''; } });
+
+document.addEventListener('toggle', e => {
+  const d = e.target; if (!(d instanceof HTMLDetailsElement) || !d.open) return;
+  const box = d.querySelector('[data-lazy]'); if (!box) return;
+  const [t, i] = box.dataset.lazy.split(':');
+  if (t === 'g') box.outerHTML = gBody(GRAMMAR[+i]);
+  else { box.innerHTML = lifeBody(LIFE[+i]); box.removeAttribute('data-lazy'); }
+}, true);
 
 /* ---------- auto update (home-screen app) ---------- */
 // The build stamps window.APP_VERSION and writes version.json. On open and whenever the app
