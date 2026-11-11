@@ -41,7 +41,7 @@ p{margin:0}
 .card::before,.stat::before,.opt::before,.btn::before,.listen::before,.fc-face::before,.slip::before,.spk::before{content:"";position:absolute;inset:-3px;pointer-events:none;opacity:.62;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='4' viewBox='0 0 600 4' preserveAspectRatio='none'%3E%3Cfilter id='l' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2 .4' numOctaves='2' seed='3' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.3 1.65' result='m'/%3E%3CfeComposite in='SourceGraphic' in2='m' operator='in'/%3E%3C/filter%3E%3Cpath d='M0 2.2 C160 1.4 320 2.8 470 1.9 S590 2.4 600 2' stroke='%234A5560' stroke-width='1.5' fill='none' filter='url(%23l)'/%3E%3C/svg%3E") 0 3px/100% 3px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='4' viewBox='0 0 600 4' preserveAspectRatio='none'%3E%3Cfilter id='l' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2 .4' numOctaves='2' seed='7' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.3 1.65' result='m'/%3E%3CfeComposite in='SourceGraphic' in2='m' operator='in'/%3E%3C/filter%3E%3Cpath d='M0 1.8 C140 2.6 300 1.3 450 2.3 S585 1.7 600 2.1' stroke='%234A5560' stroke-width='1.5' fill='none' filter='url(%23l)'/%3E%3C/svg%3E") 0 calc(100% - 3px)/100% 3px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='600' viewBox='0 0 4 600' preserveAspectRatio='none'%3E%3Cfilter id='l' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.4 1.2' numOctaves='2' seed='5' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.3 1.65' result='m'/%3E%3CfeComposite in='SourceGraphic' in2='m' operator='in'/%3E%3C/filter%3E%3Cpath d='M2.1 0 C1.4 150 2.7 320 1.9 460 S2.4 590 2 600' stroke='%234A5560' stroke-width='1.5' fill='none' filter='url(%23l)'/%3E%3C/svg%3E") 3px 0/3px 100% no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='600' viewBox='0 0 4 600' preserveAspectRatio='none'%3E%3Cfilter id='l' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.4 1.2' numOctaves='2' seed='9' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.3 1.65' result='m'/%3E%3CfeComposite in='SourceGraphic' in2='m' operator='in'/%3E%3C/filter%3E%3Cpath d='M1.9 0 C2.6 170 1.3 330 2.2 470 S1.7 585 2.1 600' stroke='%234A5560' stroke-width='1.5' fill='none' filter='url(%23l)'/%3E%3C/svg%3E") calc(100% - 3px) 0/3px 100% no-repeat}
 
 /* typewriter for Portuguese; Korean glyphs fall through to the chosen Korean face */
-.lat,.pt,.big:not(.ko2),.conj .f,.stat b,.today .nums b,.brand b,.unit .no,.rule h3,.cnt,.bars span,.bars em,.sample .lat{font-family:var(--lat),var(--ko);font-weight:300;letter-spacing:-.01em;--ks:1}
+.art,.conj .p,.lat,.pt,.big:not(.ko2),.conj .f,.stat b,.today .nums b,.brand b,.unit .no,.rule h3,.cnt,.bars span,.bars em,.sample .lat{font-family:var(--lat),var(--ko);font-weight:300;letter-spacing:-.01em;--ks:1}
 
 .app{display:flex;min-height:100%}
 main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px calc(92px + env(safe-area-inset-bottom,0px))}
@@ -937,6 +937,13 @@ const INT = [0,1,2,4,7,15,30];
 
 /* ---------- helpers ---------- */
 const $ = s => document.querySelector(s);
+// Portuguese (Latin) runs inside Korean text get the Portuguese face so the two never mix
+const LAT_RE = /[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ0-9'’…-]*(?:[ .,!?·:]+[A-Za-zÀ-ÖØ-öø-ÿ(][A-Za-zÀ-ÖØ-öø-ÿ0-9'’…)-]*)*[.!?…]?/g;
+function mix(t){
+  t = String(t); let out = '', last = 0;
+  for (const m of t.matchAll(LAT_RE)){ out += esc(t.slice(last, m.index)) + '<span class="lat">' + esc(m[0]) + '</span>'; last = m.index + m[0].length; }
+  return out + esc(t.slice(last));
+}
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const shuffle = a => { a = a.slice(); for (let i = a.length-1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; };
 const full = w => (w.g ? ART[w.g]+' ' : '') + w.pt;
@@ -1138,7 +1145,7 @@ function vHome(){
   const s = pool[(dnum()) % pool.length];
   const done = !due && !nw;
   return `
-  <div class="hero"><span class="datefield"><span>DATA</span><span class="lat">${date}</span><span class="lat" style="letter-spacing:.04em;color:var(--muted)">${wd}</span></span><h1 class="title lat">${greet[0]}</h1><span class="sub">${greet[1]}</span></div>
+  <div class="hero"><span class="datefield"><span class="lat">DATA</span><span class="lat">${date}</span><span class="lat" style="letter-spacing:.04em;color:var(--muted)">${wd}</span></span><h1 class="title lat">${greet[0]}</h1><span class="sub">${greet[1]}</span></div>
   <section class="card today dogear margin">
     <div class="row"><span class="grow eyebrow">오늘의 학습</span><span class="row" style="gap:8px">${week()}<span class="sub">연속 ${streakNow()}일</span></span></div>
     ${done ? `<p>오늘 학습을 모두 마쳤어요. 내일 복습할 단어가 준비돼요.</p>
@@ -1154,12 +1161,12 @@ function vHome(){
   </a>
   <section class="card sent">
     ${spk(s[0])}
-    <div class="grow"><span class="eyebrow">오늘의 표현</span><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko">${esc(s[1])}</span></div>
+    <div class="grow"><span class="eyebrow">오늘의 표현</span><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko">${mix(s[1])}</span></div>
   </section>`;
 }
 
 function wordRow(w, tag){
-  return `<div class="row">${spk(full(w))}<span class="grow" style="display:flex;flex-direction:column"><span class="pt">${ptHTML(w)}</span>${S.set.pron ? `<span class="pron">${esc(w.pr)}</span>` : ''}</span><span class="ko" style="text-align:right;max-width:48%">${esc(w.ko)}${tag ? `<span class="sub" style="display:block;font-size:.72rem">${tag}</span>` : ''}</span></div>`;
+  return `<div class="row">${spk(full(w))}<span class="grow" style="display:flex;flex-direction:column"><span class="pt">${ptHTML(w)}</span>${S.set.pron ? `<span class="pron">${esc(w.pr)}</span>` : ''}</span><span class="ko" style="text-align:right;max-width:48%">${mix(w.ko)}${tag ? `<span class="sub" style="display:block;font-size:.72rem">${tag}</span>` : ''}</span></div>`;
 }
 function vLife(){
   const r = 'life';
@@ -1215,17 +1222,17 @@ function vUnit(n){
   if (u.rules){
     if (!S.seen0){ S.seen0 = true; save(); }
     return head + `<p class="sub">스피커를 눌러 예시 단어를 들어보세요. 한글 표기는 비슷한 소리일 뿐이니 꼭 소리로 확인하세요.</p>
-    <div class="grid2">${u.rules.map(r => `<section class="card rule"><h3>${esc(r.t)}</h3><p class="sub">${esc(r.d)}</p>
-      <div class="list">${r.ex.map(e => `<div class="ex">${spk(e[0])}<span class="grow"><span class="pt">${esc(e[0])}</span> <span class="pron">${esc(e[1])}</span></span><span class="ko">${esc(e[2])}</span></div>`).join('')}</div></section>`).join('')}</div>${gSection(u)}`;
+    <div class="grid2">${u.rules.map(r => `<section class="card rule"><h3>${esc(r.t)}</h3><p class="sub">${mix(r.d)}</p>
+      <div class="list">${r.ex.map(e => `<div class="ex">${spk(e[0])}<span class="grow"><span class="pt">${esc(e[0])}</span> <span class="pron">${mix(e[1])}</span></span><span class="ko">${mix(e[2])}</span></div>`).join('')}</div></section>`).join('')}</div>${gSection(u)}`;
   }
   const ws = ALL.filter(w => w.u === n), p = unitProg(u);
   const words = ws.map(w => {
     const b = S.w[w.id]?.b || 0;
     return `<div class="row">${spk(full(w))}<span class="grow" style="display:flex;flex-direction:column"><span class="pt">${ptHTML(w)}</span>${S.set.pron ? `<span class="pron">${esc(w.pr)}</span>` : ''}</span>
-      <span class="ko" style="text-align:right;max-width:45%">${esc(w.ko)}</span>
+      <span class="ko" style="text-align:right;max-width:45%">${mix(w.ko)}</span>
       <span class="dots" aria-label="숙련도 ${b}/6">${[1,2,3,4,5,6].map(i => `<i class="${i <= b ? 'on' : ''}"></i>`).join('')}</span></div>`;
   }).join('');
-  const sents = u.sents.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko">${esc(s[1])}${s[3] ? '<span class="learned"><svg viewBox="0 0 11 10"><path d="M1 5.5 L4 8.5 L10 1.5"/></svg>배운 표현</span>' : ''}</span></div></div>`).join('');
+  const sents = u.sents.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko">${mix(s[1])}${s[3] ? '<span class="learned"><svg viewBox="0 0 11 10"><path d="M1 5.5 L4 8.5 L10 1.5"/></svg>배운 표현</span>' : ''}</span></div></div>`).join('');
   return head + `<div class="row"><div class="track grow"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></div><span class="sub">학습 ${p.l} · 익힘 ${p.m} / ${p.n}</span></div>
   ${gSection(u)}
   <div class="grid2">
@@ -1245,15 +1252,15 @@ const gOrder = () => gOrd || (gOrd = UNITS.flatMap(u => GRAMMAR.filter(g => g.u 
 function gCard(g, open){
   const no = gOrder().indexOf(g) + 1;
   return `<details class="card gram"${open ? ' open' : ''}>
-    <summary><span class="gno lat">G${String(no).padStart(2,'0')}</span><span class="grow"><span class="gt">${g.t}</span> <span class="sub lat">${g.pt}</span></span><span class="gx" aria-hidden="true"></span></summary>
+    <summary><span class="gno lat">G${String(no).padStart(2,'0')}</span><span class="grow"><span class="gt">${mix(g.t)}</span> <span class="sub lat">${g.pt}</span></span><span class="gx" aria-hidden="true"></span></summary>
     ${open ? gBody(g) : `<div class="gbody" data-lazy="g:${GRAMMAR.indexOf(g)}"></div>`}</details>`;
 }
 function gBody(g){
   return `<div class="gbody">
-      <p>${esc(g.d)}</p>
-      <div class="gtable">${g.tb.map(r => `<div><span class="lat">${esc(r[0])}</span><span>${esc(r[1])}</span></div>`).join('')}</div>
-      <div class="list">${g.ex.map(e => `<div class="sent">${spk(e[0])}<div class="grow"><span class="pt">${esc(e[0])}</span><span class="ko">${esc(e[1])}</span></div></div>`).join('')}</div>
-      ${g.tip ? `<p class="tip">${esc(g.tip)}</p>` : ''}
+      <p>${mix(g.d)}</p>
+      <div class="gtable">${g.tb.map(r => `<div><span class="lat">${esc(r[0])}</span><span>${mix(r[1])}</span></div>`).join('')}</div>
+      <div class="list">${g.ex.map(e => `<div class="sent">${spk(e[0])}<div class="grow"><span class="pt">${esc(e[0])}</span><span class="ko">${mix(e[1])}</span></div></div>`).join('')}</div>
+      ${g.tip ? `<p class="tip">${mix(g.tip)}</p>` : ''}
     </div>`;
 }
 function vGrammar(){
@@ -1270,11 +1277,11 @@ function vVerbs(){
   <div class="seg noprint"><button class="${verbT === 'f' ? 'on' : ''}" data-a="tense" data-x="f">현재</button><button class="${verbT === 'p' ? 'on' : ''}" data-a="tense" data-x="p">과거</button></div>
   <div class="chips noprint">${VERBS.map((x,i) => `<button class="lat ${i === verbIdx ? 'on' : ''}" data-a="verb" data-x="${i}">${x.v}</button>`).join('')}</div>
   <section class="card dogear" style="display:flex;flex-direction:column;gap:12px">
-    <div class="row">${spk(v.v)}<div class="grow"><span class="pt" style="font-size:calc(1.6rem*var(--ks))">${v.v}</span> <span class="ko">${v.ko}</span><p class="sub">${v.note}</p></div></div>
+    <div class="row">${spk(v.v)}<div class="grow"><span class="pt" style="font-size:calc(1.6rem*var(--ks))">${v.v}</span> <span class="ko">${mix(v.ko)}</span><p class="sub">${mix(v.note)}</p></div></div>
     <div class="list">${fs.map((f,i) => `<div class="conj"><span class="p">${PRON[i]}</span><span class="f">${f}</span>${spk(PRON_SAY[i]+' '+f)}</div>`).join('')}</div>
-    <div class="sent" style="padding-top:4px">${spk(ex[0])}<div class="grow"><span class="pt">${esc(ex[0])}</span><span class="ko">${esc(ex[1])}</span></div></div>
+    <div class="sent" style="padding-top:4px">${spk(ex[0])}<div class="grow"><span class="pt">${esc(ex[0])}</span><span class="ko">${mix(ex[1])}</span></div></div>
   </section>
-  <p class="sub">브라질에서는 tu 대신 você를 주로 써서, você · ele · ela가 같은 형태를 써요.</p>
+  <p class="sub">${mix('브라질에서는 tu 대신 você를 주로 써서, você · ele · ela가 같은 형태를 써요.')}</p>
   <button class="btn wide noprint" data-a="verbq">${verbT === 'f' ? '현재형' : '과거형'} 활용 퀴즈 8문제</button>`;
 }
 function week(){
@@ -1367,7 +1374,7 @@ function options(it){
   const other = shuffle(ALL.filter(x => x.u !== w.u && x[key] !== w[key]));
   const picks = [];
   for (const x of same.concat(other)){ if (picks.length === 3) break; if (!picks.some(p => p[key] === x[key])) picks.push(x); }
-  return shuffle([w, ...picks].map(x => ({t: key === 'ko' ? x.ko : full(x), h: key === 'pt' ? '<span class="pt">' + ptHTML(x) + '</span>' : esc(x.ko), ok:x.id === w.id})));
+  return shuffle([w, ...picks].map(x => ({t: key === 'ko' ? x.ko : full(x), h: key === 'pt' ? '<span class="pt">' + ptHTML(x) + '</span>' : mix(x.ko), ok:x.id === w.id})));
 }
 function draw(){
   const it = Q.items[Q.i], n = Q.items.length;
@@ -1380,7 +1387,7 @@ function draw(){
     body = `<div class="stage">
       <div class="fc" data-a="flip" role="button" aria-label="카드 뒤집기"><div class="fc-in">
         <div class="fc-face">${head}<div class="fc-body"><span class="big">${ptHTML(w)}</span>${S.set.pron ? `<span class="pron">${esc(w.pr)}</span>` : ''}${spk(full(w))}</div></div>
-        <div class="fc-face fc-back">${head}<div class="fc-body"><span class="meaning">${esc(w.ko)}</span>
+        <div class="fc-face fc-back">${head}<div class="fc-body"><span class="meaning">${mix(w.ko)}</span>
           ${w.g ? `<span class="q">${w.g[0] === 'm' ? '남성 명사' : '여성 명사'}${w.g.length > 1 ? ' · 복수' : ''}</span>` : ''}<span class="pt sub">${ptHTML(w)}</span></div></div>
       </div></div>
       <p class="fb">카드를 눌러 뜻을 확인하세요</p>
@@ -1389,9 +1396,9 @@ function draw(){
   } else {
     Q.opts = options(it); Q.answered = false;
     let prompt;
-    if (it.k === 'verb'){ const v = VERBS[it.vi]; prompt = `<span class="q">알맞은 ${it.t === 'f' ? '현재형' : '과거형'}을 고르세요</span><span class="big">${PRON[it.pi].split(' · ')[0]} ___</span><span class="sub"><span class="lat">${v.v}</span> · ${v.ko}</span>`; }
+    if (it.k === 'verb'){ const v = VERBS[it.vi]; prompt = `<span class="q">알맞은 ${it.t === 'f' ? '현재형' : '과거형'}을 고르세요</span><span class="big">${PRON[it.pi].split(' · ')[0]} ___</span><span class="sub"><span class="lat">${v.v}</span> · ${mix(v.ko)}</span>`; }
     else if (it.m === 'pt'){ prompt = `<span class="q">뜻을 고르세요</span><span class="big">${ptHTML(it.w)}</span>${S.set.pron ? `<span class="pron">${esc(it.w.pr)}</span>` : ''}${spk(full(it.w))}`; setTimeout(() => say(full(it.w)), 120); }
-    else if (it.m === 'ko'){ prompt = `<span class="q">포르투갈어를 고르세요</span><span class="big ko2">${esc(it.w.ko)}</span>`; }
+    else if (it.m === 'ko'){ prompt = `<span class="q">포르투갈어를 고르세요</span><span class="big ko2">${mix(it.w.ko)}</span>`; }
     else { prompt = `<span class="q">들은 단어를 고르세요</span><button class="listen" data-a="say" data-x="${esc(full(it.w))}" aria-label="다시 듣기">${ICON.spk}</button>`; setTimeout(() => say(full(it.w)), 150); }
     body = `<div class="stage"><div class="prompt">${prompt}</div>
       <div class="opts">${Q.opts.map((o,i) => `<button class="opt" data-a="opt" data-x="${i}">${o.h || esc(o.t)}</button>`).join('')}</div>
@@ -1422,7 +1429,7 @@ function answer(i){
   const fb = $('#fb');
   if (ok){ fb.textContent = '정답'; setTimeout(() => { if (Q && Q.answered) next(); }, 900); }
   else {
-    fb.innerHTML = it.k === 'verb' ? `정답: <span class="lat">${PRON_SAY[it.pi]} ${VERBS[it.vi][it.t][it.pi]}</span>` : `${ptHTML(it.w)} = ${esc(it.w.ko)} · 마지막에 한 번 더 나와요`;
+    fb.innerHTML = it.k === 'verb' ? `정답: <span class="lat">${PRON_SAY[it.pi]} ${VERBS[it.vi][it.t][it.pi]}</span>` : `<span class="lat">${ptHTML(it.w)}</span> = ${mix(it.w.ko)} · 마지막에 한 번 더 나와요`;
     $('#nx').innerHTML = '<button class="btn wide" data-a="next">다음</button>';
   }
 }
@@ -1441,7 +1448,7 @@ function drawDone(){
         <div class="slip-r"><span class="k">날짜</span><i></i><span class="v">${dkey().split('-').reverse().join('/')}</span></div>
       </div></div>
     ${Q.mode === 'verb' ? '' : `<section class="card" style="display:flex;flex-direction:column;gap:10px"><span class="eyebrow">문장으로 마무리 · 뜻을 눌러 확인</span>
-      <div class="list">${ss.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko hide" data-a="reveal">${esc(s[1])}</span></div></div>`).join('')}</div></section>`}
+      <div class="list">${ss.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko hide" data-a="reveal">${mix(s[1])}</span></div></div>`).join('')}</div></section>`}
   </div><button class="btn wide" data-a="close">완료</button>`;
 }
 
