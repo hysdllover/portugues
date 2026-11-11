@@ -28,7 +28,7 @@ html{touch-action:manipulation}
 .gram{contain-intrinsic-size:auto 54px}
 html{font-size:12.5px}
 html,body{height:100%}
-body{background:var(--grain),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Crect x='10.5' y='10.5' width='1.2' height='1.2' fill='%236C7883' fill-opacity='.28'/%3E%3C/svg%3E") 0 0/22px 22px,var(--paper);color:var(--ink);font-family:var(--ko);font-weight:var(--kw);font-size:calc(1rem*var(--ks));line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+body{background:var(--grain),var(--paper);color:var(--ink);font-family:var(--ko);font-weight:var(--kw);font-size:calc(1rem*var(--ks));line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
 button,input{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0;border-radius:0}
 a{color:inherit;text-decoration:none}
 button:focus-visible,a:focus-visible,label:focus-within{outline:1px solid var(--pencil);outline-offset:3px}
@@ -52,8 +52,8 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;display:grid;grid-template-columns:repeat(5,1fr);background:var(--paper);border-top:1px solid var(--line);padding:8px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
 .tabs a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:calc(.72rem*var(--ks));letter-spacing:.04em;color:var(--faint)}
 .tabs a.on{color:var(--ink)}
-.tabs a span{padding-bottom:2px;border-bottom:1px solid transparent}
-.tabs a.on span{border-bottom-color:transparent;padding-bottom:4px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='4' viewBox='0 0 24 4'%3E%3Cpath d='M0 2.2 Q3 .6 6 2.2 T12 2.2 T18 2.2 T24 2.2' fill='none' stroke='%23353F48' stroke-width='1.1'/%3E%3C/svg%3E") 0 100%/24px 4px repeat-x}
+.tabs a span{padding-bottom:2px}
+.tabs a.on span{font-weight:400}
 .tabs svg,.side svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.2;stroke-linecap:square;stroke-linejoin:miter}
 @media (min-width:900px){
   .tabs{display:none}
@@ -71,7 +71,6 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 /* common */
 .eyebrow{font-size:calc(.72rem*var(--ks));color:var(--muted);letter-spacing:.12em;font-weight:400}
 .title{font-size:calc(1.75rem*var(--ks));line-height:1.15;align-self:flex-start;padding:0 6px 0 2px;position:relative;isolation:isolate}
-.title::before{content:"";position:absolute;left:0;right:0;top:64%;height:26%;z-index:-1;background:repeating-linear-gradient(-64deg,color-mix(in srgb,var(--sage) 85%,transparent) 0 1.6px,transparent 1.6px 3.4px)}
 .graphite,.title,.prompt .big,.fc .big,.stat b,.today .nums b,.conj .f{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 -1.5 .95'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23s)'/%3E%3C/svg%3E"),linear-gradient(var(--ink),var(--ink));-webkit-background-clip:text;background-clip:text;color:transparent}
 .sub{color:var(--muted);font-size:calc(.86rem*var(--ks))}
 .card{background:var(--grain),var(--sheet);padding:20px}
@@ -146,12 +145,12 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 .bars em{font-style:normal;font-size:calc(.68rem*var(--ks));color:var(--muted);font-variant-numeric:tabular-nums}
 .seg{display:inline-flex;gap:14px;flex-wrap:wrap}
 .seg button{height:30px;font-size:calc(.86rem*var(--ks));color:var(--faint);border-bottom:1px solid transparent}
-.seg button.on{color:var(--ink);font-weight:400;border-bottom-color:transparent;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='4' viewBox='0 0 24 4'%3E%3Cpath d='M0 2.2 Q3 .6 6 2.2 T12 2.2 T18 2.2 T24 2.2' fill='none' stroke='%23353F48' stroke-width='1.1'/%3E%3C/svg%3E") 0 100%/24px 4px repeat-x}
+.seg button.on{color:var(--ink);font-weight:400}
 .set{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .sample{font-size:calc(1.2rem*var(--ks));padding:14px 0 2px;color:var(--ink)}
 
 /* study overlay */
-.ov{position:fixed;inset:0;z-index:30;background:var(--grain),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Crect x='10.5' y='10.5' width='1.2' height='1.2' fill='%236C7883' fill-opacity='.28'/%3E%3C/svg%3E") 0 0/22px 22px,var(--paper);display:flex;justify-content:center;overflow-y:auto;padding:calc(14px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.ov{position:fixed;inset:0;z-index:30;background:var(--grain),var(--paper);display:flex;justify-content:center;overflow-y:auto;padding:calc(14px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .ov-in{width:100%;max-width:520px;display:flex;flex-direction:column;gap:20px;min-height:100%}
 .ov-top{display:flex;align-items:center;gap:14px}
 .ov-top .track{flex:1}
@@ -205,7 +204,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 @media (prefers-reduced-motion:reduce){.fc-in{transition:none}.check path{animation:none}}
 /* fill-in date line, like a notebook header */
 .datefield{display:flex;align-items:baseline;gap:10px;font-size:.72rem;letter-spacing:.14em;color:var(--muted)}
-.datefield .lat{color:var(--ink);letter-spacing:.08em;padding:0 6px 1px;border-bottom:1px solid color-mix(in srgb,var(--pencil) 60%,transparent)}
+.datefield .lat{color:var(--ink);letter-spacing:.08em;padding:0 6px 1px}
 /* folded corner */
 .dogear::after{content:"";position:absolute;top:-1px;right:-1px;width:20px;height:20px;pointer-events:none;background:linear-gradient(to bottom left,var(--paper) 0 50%,color-mix(in srgb,var(--pencil) 55%,transparent) 50% calc(50% + 1px),var(--soft) calc(50% + 1px))}
 /* result slip with dotted leaders */
@@ -253,7 +252,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 /* life vocabulary */
 .bk{width:100%;box-sizing:border-box;padding:10px;border:1px solid color-mix(in srgb,var(--pencil) 45%,transparent);background:var(--paper);color:var(--ink);font:300 .78rem/1.4 var(--lat);resize:vertical;border-radius:0;word-break:break-all}
 .seg a{display:inline-flex;align-items:center;height:30px;font-size:.86rem;color:var(--faint);border-bottom:1px solid transparent}
-.seg a.on{color:var(--ink);font-weight:400;border-bottom-color:transparent;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='4' viewBox='0 0 24 4'%3E%3Cpath d='M0 2.2 Q3 .6 6 2.2 T12 2.2 T18 2.2 T24 2.2' fill='none' stroke='%23353F48' stroke-width='1.1'/%3E%3C/svg%3E") 0 100%/24px 4px repeat-x}
+.seg a.on{color:var(--ink);font-weight:400}
 .search{display:flex;align-items:center;gap:10px;height:42px;padding:0 12px;background:var(--sheet);border:1px solid color-mix(in srgb,var(--pencil) 45%,transparent)}
 .search svg{width:16px;height:16px;flex:none;fill:none;stroke:var(--muted);stroke-width:1.4;stroke-linecap:square}
 .search input{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;font-family:var(--ko);font-size:16px;color:var(--ink)}
