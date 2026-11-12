@@ -996,7 +996,7 @@ let voice = null;
 const vTier = v => { const id = ((v.voiceURI || '') + ' ' + v.name).toLowerCase(); return /siri/.test(id) ? 3 : /premium|고품질/.test(id) ? 2 : /enhanced|향상/.test(id) ? 1 : 0; };
 const vLabel = v => ['', ' · 향상됨', ' · 고품질', ' · Siri'][vTier(v)];
 const ptVoices = () => { try{ return speechSynthesis.getVoices().filter(v => /^pt/i.test(v.lang)).sort((a,b) => (/BR/i.test(b.lang) - /BR/i.test(a.lang)) || (vTier(b) - vTier(a)) || a.name.localeCompare(b.name)); }catch(e){ return []; } };
-function pickVoice(){ let want = ''; try{ want = S.set.voice || ''; }catch(e){} try{ const vs = ptVoices(); voice = (want && vs.find(v => v.name === want)) || vs.find(v => /pt[-_]BR/i.test(v.lang)) || vs[0] || null; }catch(e){} }
+function pickVoice(){ let want = ''; try{ want = S.set.voice || ''; }catch(e){} try{ voice = want ? (ptVoices().find(v => v.name === want) || null) : null; }catch(e){ voice = null; } }
 if (canSpeak){ pickVoice(); speechSynthesis.addEventListener?.('voiceschanged', () => { pickVoice(); if (route() === 'record' && $('#ov').hidden) render(); }); }
 // iPhone notes: speech is silenced by the ring/silent switch unless the page's audio session is
 // "playback"; the first utterance must start inside a tap; cancel() followed at once by speak()
@@ -1021,26 +1021,36 @@ function playOnline(t){
   try{ player.playbackRate = S.set.rate < 0.8 ? 0.8 : 1; }catch(e){}
   player.play().catch(() => toast('소리를 재생하지 못했어요. 스피커 버튼을 한 번 더 눌러 주세요.'));
 }
+let voiceFails = false;   // the chosen voice did not start: use the system voice for this visit
 function say(t){
   unlockAudio();
   const mode = S.set.tts || 'auto';
   if (mode === 'online' || !canSpeak || (mode === 'auto' && deviceFails)) return playOnline(t);
-  try{
-    const synth = window.speechSynthesis;
-    if (!voice) pickVoice();
-    const u = new SpeechSynthesisUtterance(String(t).replace(/…|\.\.\./g, ''));
-    u.lang = 'pt-BR'; if (voice) try{ u.voice = voice; u.lang = voice.lang || 'pt-BR'; }catch(e){} u.rate = S.set.rate; u.volume = 1;
+  const text = String(t).replace(/…|\.\.\./g, '');
+  const synth = window.speechSynthesis;
+  pickVoice();
+  // attempt 1: the chosen voice · attempt 2: the system voice for pt-BR · then: online voice (auto)
+  const attempt = useChosen => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'pt-BR'; u.rate = S.set.rate; u.volume = 1;
+    if (useChosen && voice) try{ u.voice = voice; u.lang = voice.lang || 'pt-BR'; }catch(e){}
     let started = false;
     u.onstart = () => { started = true; };
-    u.onerror = e => { if (e.error === 'interrupted' || e.error === 'canceled') return; if (mode === 'auto'){ deviceFails = true; playOnline(t); } else speechHelp(); };
+    const fail = () => {
+      if (say.last !== u) return;
+      if (useChosen && voice){ voiceFails = true; try{ synth.cancel(); }catch(e){} setTimeout(() => attempt(false), 60); }
+      else if (mode === 'auto'){ deviceFails = true; try{ synth.cancel(); }catch(e){} playOnline(text); }
+      else speechHelp();
+    };
+    u.onerror = e => { if (e.error !== 'interrupted' && e.error !== 'canceled') fail(); };
     say.last = u;   // keep a reference so the utterance is not collected mid-speech
-    if (player) try{ player.pause(); }catch(e){}
     if (synth.paused) synth.resume();
     if (synth.speaking || synth.pending){ synth.cancel(); setTimeout(() => synth.speak(u), 80); }
     else synth.speak(u);
-    // the device voice never started: switch to the online voice for the rest of this visit
-    if (mode === 'auto') setTimeout(() => { if (!started && say.last === u){ deviceFails = true; try{ synth.cancel(); }catch(e){} playOnline(t); } }, 1100);
-  }catch(e){ if (mode === 'auto'){ deviceFails = true; playOnline(t); } else speechHelp(); }
+    setTimeout(() => { if (!started) fail(); }, 1100);
+  };
+  try{ if (player) player.pause(); }catch(e){}
+  try{ attempt(!voiceFails); }catch(e){ if (mode === 'auto'){ deviceFails = true; playOnline(text); } else speechHelp(); }
 }
 function speechHelp(noVoice){
   if (ttsWarned) return; ttsWarned = true;
@@ -1411,8 +1421,8 @@ function vRecord(){
     <div class="set"><span>한글 발음 표시</span>${seg('pron',[true,false],['켜기','끄기'])}</div>
     <div class="set"><span class="grow" style="display:flex;flex-direction:column"><span>음성</span><span class="sub">자동은 기기 음성이 안 나오면 온라인 음성으로 바꿔요</span></span>${seg('tts',['auto','device','online'],['자동','기기','온라인'])}</div>
     <div class="set"><span class="grow" style="display:flex;flex-direction:column"><span>기기 음성</span><span class="sub">${canSpeak && ptVoices().length ? '아이폰에 받은 포르투갈어 음성 중에서 골라요' : '포르투갈어 음성이 없어요 · 아래 안내대로 받아 주세요'}</span></span>
-      ${canSpeak && ptVoices().length ? `<select id="voiceSel" class="vsel lat">${['<option value="">자동</option>'].concat(ptVoices().map(v => `<option value="${esc(v.name)}"${S.set.voice === v.name ? ' selected' : ''}>${esc(v.name)} · ${esc(v.lang)}${vLabel(v)}</option>`)).join('')}</select>` : ''}</div>
-    <p class="sub">${mix('음성 추가·변경: 아이폰 설정 › 손쉬운 사용 › 읽기 및 말하기 › 음성 › 포르투갈어 › 포르투갈어(브라질)에서 받은 뒤 위에서 고르세요. 시리 목소리는 iOS가 웹앱에 열어 주지 않아서, 목록에 없으면 가장 비슷한 고품질(Premium) 음성을 받아 쓰세요.')}</p>
+      ${canSpeak && ptVoices().length ? `<select id="voiceSel" class="vsel lat">${['<option value="">아이폰 설정의 음성 (권장)</option>'].concat(ptVoices().map(v => `<option value="${esc(v.name)}"${S.set.voice === v.name ? ' selected' : ''}>${esc(v.name)} · ${esc(v.lang)}${vLabel(v)}</option>`)).join('')}</select>` : ''}</div>
+    <p class="sub">${mix('향상된 음성(Enhanced) 쓰기: 아이폰 설정 › 손쉬운 사용 › 읽기 및 말하기 › 음성 › 포르투갈어 › 포르투갈어(브라질)에서 향상된 음성을 받고 눌러서 체크하세요. 위 목록을 "아이폰 설정의 음성"으로 두면 그 음성으로 읽어요. 시리 목소리는 iOS가 웹앱에 열어 주지 않아요.')}</p>
     <div class="set"><span>말하기 속도</span>${seg('rate',[0.7,0.9,1],['천천히','보통','빠르게'])}</div>
     <div class="set"><span>하루 새 단어</span>${seg('newN',[5,10,15],['5개','10개','15개'])}</div>
     <div class="set"><span>저장</span><span class="sub">${sync === 'cloud' ? 'iPhone과 iPad에서 같은 기록을 써요' : '이 기기에만 저장돼요'}</span></div>
@@ -1647,7 +1657,7 @@ document.addEventListener('click', e => {
   else if (a === 'mPractice') startMine();
   else if (a === 'gopen'){ const ds = document.querySelectorAll('details.gram'), all = [...ds].every(d => d.open); ds.forEach(d => d.open = !all); b.textContent = all ? '모두 펼치기' : '모두 접기'; }
   else if (a === 'flip') b.classList.toggle('on');
-  else if (a === 'set'){ const k = b.dataset.k; S.set[k] = k === 'pron' ? x === 'true' : (k === 'font' || k === 'tts') ? x : +x; if (k === 'tts') deviceFails = false; if (k === 'font' || k === 'size') applyTypo(); save(); render(); if (k === 'rate' || k === 'tts') say('Muito bem!'); }
+  else if (a === 'set'){ const k = b.dataset.k; S.set[k] = k === 'pron' ? x === 'true' : (k === 'font' || k === 'tts') ? x : +x; if (k === 'tts'){ deviceFails = false; voiceFails = false; } if (k === 'font' || k === 'size') applyTypo(); save(); render(); if (k === 'rate' || k === 'tts') say('Muito bem!'); }
   else if (a === 'reset'){ resetAsk = true; render(); }
   else if (a === 'resetNo'){ resetAsk = false; render(); }
   else if (a === 'fontDel') removeFont();
@@ -1678,7 +1688,7 @@ document.addEventListener('keydown', e => {
 
 document.addEventListener('input', e => { if (e.target.id === 'q'){ const el = $('#qres'); if (el) el.innerHTML = searchWords(e.target.value); } });
 document.addEventListener('change', e => {
-  if (e.target.id === 'voiceSel'){ S.set.voice = e.target.value; pickVoice(); deviceFails = false; save(); say('Olá, tudo bem?'); return; } if (e.target.id === 'fontFile' && e.target.files && e.target.files[0]){ onFontFile(e.target.files[0]); e.target.value = ''; } });
+  if (e.target.id === 'voiceSel'){ S.set.voice = e.target.value; pickVoice(); deviceFails = false; voiceFails = false; save(); say('Olá, tudo bem?'); return; } if (e.target.id === 'fontFile' && e.target.files && e.target.files[0]){ onFontFile(e.target.files[0]); e.target.value = ''; } });
 
 document.addEventListener('toggle', e => {
   const d = e.target; if (!(d instanceof HTMLDetailsElement) || !d.open) return;
