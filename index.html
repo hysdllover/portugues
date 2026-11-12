@@ -17,7 +17,7 @@
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
-<script>window.APP_VERSION = '48d64f433d';</script>
+<script>window.APP_VERSION = '2d53779196';</script>
 <style>
 /* Layout: phone = single column + bottom tabs; iPad (>=900px) = left sidebar + wide content.
    Quiet analog notebook in muted blue-gray: one fine pencil line per object, square edges.
@@ -277,6 +277,19 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 
 #toast{position:fixed;left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:40;padding:12px 14px;background:var(--ink);color:var(--sheet);font-size:calc(.84rem*var(--ks));line-height:1.45}
 .vsel{max-width:58%;min-height:34px;padding:4px 10px;border:1px solid color-mix(in srgb,var(--pencil) 45%,transparent);border-radius:0;background:var(--sheet);color:var(--ink);font-size:16px;-webkit-appearance:none;appearance:none}
+/* pronunciation detail */
+.ptap{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;text-align:left;color:var(--muted);font-size:calc(.8rem*var(--ks));letter-spacing:.02em}
+.prompt .ptap,.fc-body .ptap{justify-content:center;text-align:center}
+.pst{font-size:.74rem;color:var(--faint);letter-spacing:.02em}
+.pst b{font-weight:400;color:var(--ink)}
+.ptips{display:flex;flex-direction:column;gap:6px;margin-top:6px;padding:10px 12px;background:color-mix(in srgb,var(--soft) 70%,transparent);text-align:left}
+.ptips .pst{font-size:.95rem;color:var(--muted)}
+.ptips ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px}
+.ptips li{font-size:calc(.82rem*var(--ks));line-height:1.5;color:var(--ink)}
+.ptips li b{font-weight:400;font-size:.78rem;color:var(--sage-ink);margin-right:4px}
+.list > .ptips{background:color-mix(in srgb,var(--soft) 70%,transparent);margin:0 0 8px;padding:10px 12px}
+.fc-body .ptips{margin-top:2px;font-size:.9em;max-height:46%;overflow:auto}
+
 /* life vocabulary */
 .bk{width:100%;box-sizing:border-box;padding:10px;border:1px solid color-mix(in srgb,var(--pencil) 45%,transparent);background:var(--paper);color:var(--ink);font:300 .78rem/1.4 var(--lat);resize:vertical;border-radius:0;word-break:break-all}
 .seg a{display:inline-flex;align-items:center;height:30px;font-size:.86rem;color:var(--faint);border-bottom:1px solid transparent}
@@ -1244,12 +1257,12 @@ function vHome(){
   </a>
   <section class="card sent">
     ${spk(s[0])}
-    <div class="grow"><span class="eyebrow">오늘의 표현</span><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko">${mix(s[1])}</span></div>
+    <div class="grow"><span class="eyebrow">오늘의 표현</span><span class="pt">${esc(s[0])}</span>${S.set.pron ? pronLine(s[2], s[0]) : ''}<span class="ko">${mix(s[1])}</span></div>
   </section>`;
 }
 
 function wordRow(w, tag){
-  return `<div class="row">${spk(full(w))}<span class="grow" style="display:flex;flex-direction:column"><span class="pt">${ptHTML(w)}</span>${S.set.pron ? `<span class="pron">${esc(w.pr)}</span>` : ''}</span><span class="ko" style="text-align:right;max-width:48%">${mix(w.ko)}${tag ? `<span class="sub" style="display:block;font-size:.72rem">${tag}</span>` : ''}</span></div>`;
+  return `<div class="row">${spk(full(w))}<span class="grow" style="display:flex;flex-direction:column"><span class="pt">${ptHTML(w)}</span>${S.set.pron ? pronLine(w.pr, full(w)) : ''}</span><span class="ko" style="text-align:right;max-width:48%">${mix(w.ko)}${tag ? `<span class="sub" style="display:block;font-size:.72rem">${tag}</span>` : ''}</span></div>`;
 }
 function vLife(){
   const r = 'life';
@@ -1313,11 +1326,11 @@ function vUnit(n){
   const ws = ALL.filter(w => w.u === n), p = unitProg(u);
   const words = ws.map(w => {
     const b = S.w[w.id]?.b || 0;
-    return `<div class="row">${spk(full(w))}<span class="grow" style="display:flex;flex-direction:column"><span class="pt">${ptHTML(w)}</span>${S.set.pron ? `<span class="pron">${esc(w.pr)}</span>` : ''}</span>
+    return `<div class="row">${spk(full(w))}<span class="grow" style="display:flex;flex-direction:column"><span class="pt">${ptHTML(w)}</span>${S.set.pron ? pronLine(w.pr, full(w)) : ''}</span>
       <span class="ko" style="text-align:right;max-width:45%">${mix(w.ko)}</span>
       <span class="dots" aria-label="숙련도 ${b}/6">${[1,2,3,4,5,6].map(i => `<i class="${i <= b ? 'on' : ''}"></i>`).join('')}</span></div>`;
   }).join('');
-  const sents = u.sents.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko">${mix(s[1])}${s[3] ? '<span class="learned"><svg viewBox="0 0 11 10"><path d="M1 5.5 L4 8.5 L10 1.5"/></svg>배운 표현</span>' : ''}</span></div></div>`).join('');
+  const sents = u.sents.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? pronLine(s[2], s[0]) : ''}<span class="ko">${mix(s[1])}${s[3] ? '<span class="learned"><svg viewBox="0 0 11 10"><path d="M1 5.5 L4 8.5 L10 1.5"/></svg>배운 표현</span>' : ''}</span></div></div>`).join('');
   return head + `<div class="row"><div class="track grow"><i style="width:${p.l/p.n*100}%;--c:var(--${u.c}-ink)"></i></div><span class="sub">학습 ${p.l} · 익힘 ${p.m} / ${p.n}</span></div>
   ${gSection(u)}
   <div class="grid2">
@@ -1543,9 +1556,9 @@ function draw(){
     const head = w.u === 'M' ? `<span class="fc-head"><span>내 단어장</span><span class="lat">${isSent(w) ? 'Frase' : 'Palavra'}</span></span>` : `<span class="fc-head"><span>새 단어</span><span class="lat">Nº ${String(ALL.indexOf(w)+1).padStart(3,'0')} · U${uno(u)}</span></span>`;
     body = `<div class="stage">
       <div class="fc" data-a="flip" role="button" aria-label="카드 뒤집기"><div class="fc-in">
-        <div class="fc-face">${head}<div class="fc-body"><span class="big${isSent(w) ? ' long' : ''}">${ptHTML(w)}</span>${S.set.pron ? `<span class="pron">${esc(w.pr)}</span>` : ''}${spk(full(w))}</div></div>
+        <div class="fc-face">${head}<div class="fc-body"><span class="big${isSent(w) ? ' long' : ''}">${ptHTML(w)}</span>${S.set.pron ? pronLine(w.pr, full(w)) : ''}${spk(full(w))}</div></div>
         <div class="fc-face fc-back">${head}<div class="fc-body"><span class="meaning">${mix(w.ko)}</span>
-          ${w.g ? `<span class="q">${w.g[0] === 'm' ? '남성 명사' : '여성 명사'}${w.g.length > 1 ? ' · 복수' : ''}</span>` : ''}<span class="pt sub">${ptHTML(w)}</span></div></div>
+          ${w.g ? `<span class="q">${w.g[0] === 'm' ? '남성 명사' : '여성 명사'}${w.g.length > 1 ? ' · 복수' : ''}</span>` : ''}<span class="pt sub">${ptHTML(w)}</span>${S.set.pron ? pronBox(full(w)) : ''}</div></div>
       </div></div>
       <p class="fb">카드를 눌러 뜻을 확인하세요</p>
     </div><button class="btn wide" data-a="next">다음</button>`;
@@ -1554,7 +1567,7 @@ function draw(){
     Q.opts = options(it); Q.answered = false;
     let prompt;
     if (it.k === 'verb'){ const v = VERBS[it.vi]; prompt = `<span class="q">알맞은 ${it.t === 'f' ? '현재형' : '과거형'}을 고르세요</span><span class="big">${PRON[it.pi].split(' · ')[0]} ___</span><span class="sub"><span class="lat">${v.v}</span> · ${mix(v.ko)}</span>`; }
-    else if (it.m === 'pt'){ prompt = `<span class="q">뜻을 고르세요</span><span class="big${isSent(it.w) ? ' long' : ''}">${ptHTML(it.w)}</span>${S.set.pron ? `<span class="pron">${esc(it.w.pr)}</span>` : ''}${spk(full(it.w))}`; setTimeout(() => say(full(it.w)), 120); }
+    else if (it.m === 'pt'){ prompt = `<span class="q">뜻을 고르세요</span><span class="big${isSent(it.w) ? ' long' : ''}">${ptHTML(it.w)}</span>${S.set.pron ? pronLine(it.w.pr, full(it.w)) : ''}${spk(full(it.w))}`; setTimeout(() => say(full(it.w)), 120); }
     else if (it.m === 'ko'){ prompt = `<span class="q">포르투갈어를 고르세요</span><span class="big ko2">${mix(it.w.ko)}</span>`; }
     else { prompt = `<span class="q">들은 단어를 고르세요</span><button class="listen" data-a="say" data-x="${esc(full(it.w))}" aria-label="다시 듣기">${ICON.spk}</button>`; setTimeout(() => say(full(it.w)), 150); }
     body = `<div class="stage"><div class="prompt">${prompt}</div>
@@ -1605,7 +1618,7 @@ function drawDone(){
         <div class="slip-r"><span class="k">날짜</span><i></i><span class="v">${dkey().split('-').reverse().join('/')}</span></div>
       </div></div>
     ${Q.mode === 'verb' ? '' : `<section class="card" style="display:flex;flex-direction:column;gap:10px"><span class="eyebrow">문장으로 마무리 · 뜻을 눌러 확인</span>
-      <div class="list">${ss.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? `<span class="pron">${esc(s[2])}</span>` : ''}<span class="ko hide" data-a="reveal">${mix(s[1])}</span></div></div>`).join('')}</div></section>`}
+      <div class="list">${ss.map(s => `<div class="sent">${spk(s[0])}<div class="grow"><span class="pt">${esc(s[0])}</span>${S.set.pron ? pronLine(s[2], s[0]) : ''}<span class="ko hide" data-a="reveal">${mix(s[1])}</span></div></div>`).join('')}</div></section>`}
   </div><button class="btn wide" data-a="close">완료</button>`;
 }
 
@@ -1624,6 +1637,14 @@ document.addEventListener('click', e => {
   else if (a === 'reveal') b.classList.remove('hide');
   else if (a === 'verb'){ verbIdx = +x; render(); }
   else if (a === 'tense'){ verbT = x; render(); }
+  else if (a === 'ptip'){
+    e.stopPropagation();
+    const host = b.closest('.sent .grow') || b.closest('.prompt') || b.closest('.row, .ex');
+    const open = host && (host.matches('.row, .ex') ? host.nextElementSibling : host.querySelector(':scope > .ptips'));
+    if (open && open.classList && open.classList.contains('ptips')) open.remove();
+    else if (host){ const box = document.createElement('div'); box.innerHTML = pronBox(x); const el = box.firstElementChild;
+      if (host.matches('.row, .ex')) host.after(el); else host.appendChild(el); }
+  }
   else if (a === 'life') startLife(x);
   else if (a === 'mT'){ keepDraft(); mineT = x; mineMsg = ''; render(); }
   else if (a === 'mG'){ keepDraft(); mineG = x; render(); }
@@ -1678,6 +1699,93 @@ document.addEventListener('toggle', e => {
   if (t === 'g') box.outerHTML = gBody(GRAMMAR[+i]);
   else { box.innerHTML = lifeBody(LIFE[+i]); box.removeAttribute('data-lazy'); }
 }, true);
+
+/* ---------- pronunciation detail: syllables, stress and the sound rules a word uses ---------- */
+const PV = 'aeiouáéíóúâêôãõàüy';
+const isV = c => !!c && PV.includes(c);
+function sylls(word){
+  const w = word, l = w.toLowerCase(), U = [];            // units: [text, isVowel]
+  for (let i = 0; i < l.length;){
+    const two = l.slice(i, i + 2);
+    if (['ch','lh','nh'].includes(two) || ((two === 'qu' || two === 'gu') && isV(l[i + 2] || ''))){ U.push([w.slice(i, i + 2), false]); i += 2; continue; }
+    U.push([w[i], isV(l[i])]); i++;
+  }
+  // vowel nuclei, joining falling diphthongs (ai, ei, oi, ui, au, eu, ou, iu, ão, ãe, õe)
+  const N = [];
+  for (let i = 0; i < U.length; i++){
+    if (!U[i][1]) continue;
+    const a = U[i][0].toLowerCase(), b = (U[i + 1] || [''])[0].toLowerCase(), after = (U[i + 2] || [''])[0].toLowerCase();
+    const glide = (b === 'i' || b === 'u') && U[i + 1][1] && after !== 'nh' && a !== b && (!isV(after) || (b === 'i' && 'aeo'.includes(a)));
+    const nasal = (a === 'ã' || a === 'õ') && (b === 'o' || b === 'e');
+    if (glide || nasal){ N.push([i, i + 1]); i++; } else N.push([i, i]);
+  }
+  if (N.length < 2) return [w];
+  const onsetOK = c => /^[bcdfgkptv][lr]$/.test(c.toLowerCase());
+  const cuts = [];
+  for (let k = 0; k < N.length - 1; k++){
+    const from = N[k][1] + 1, to = N[k + 1][0];          // consonant units between nuclei
+    const n = to - from;
+    if (n <= 1) cuts.push(from);
+    else { const lastTwo = U[to - 2][0] + U[to - 1][0]; cuts.push(onsetOK(lastTwo) ? to - 2 : to - 1); }
+  }
+  const out = []; let start = 0;
+  cuts.concat(U.length).forEach(c => { out.push(U.slice(start, c).map(x => x[0]).join('')); start = c; });
+  return out;
+}
+function stressIdx(sy){
+  const n = sy.length; if (n < 2) return 0;
+  for (let i = 0; i < n; i++) if (/[áéíóúâêô]/i.test(sy[i])) return i;
+  for (let i = 0; i < n; i++) if (/[ãõ]/i.test(sy[i])) return i;
+  const w = sy.join('').toLowerCase();
+  return /(a|e|o|as|es|os|am|em|ens)$/.test(w) ? n - 2 : n - 1;
+}
+function stressPattern(text){
+  return esc(text).replace(/[A-Za-zÀ-ÖØ-öø-ÿ]+/g, word => {
+    const sy = sylls(word); if (sy.length < 2) return word;
+    const st = stressIdx(sy);
+    return sy.map((x, i) => i === st ? `<b>${x.toUpperCase()}</b>` : x).join('·');
+  });
+}
+const PRULES = [
+  [/ão|ãe|õe|ã|õ/, 'ã · õ · ão', '코로 울리는 소리예요. ão는 "아웅", õe는 "옹이", ã는 "앙"처럼 끝을 닫지 않아요.'],
+  [/[aeiouéêóô][mn](?![aeiouáéíóúâêôãõh])/, '모음 + m · n', '모음 뒤 m, n은 입을 닫지 않고 코로 "ㅇ" 받침처럼 내요. bem은 "벵".'],
+  [/lh/, 'lh', '혀 가운데를 입천장에 붙인 "리" 소리. filho는 "필류".'],
+  [/nh/, 'nh', '"냐 · 녀 · 뇨"처럼 부드러운 ㄴ. vinho는 "빙뉴".'],
+  [/(^|[\s(])r|rr|[lns]r/, 'r → ㅎ', '단어 첫 r과 rr은 목에서 내는 "ㅎ". rio는 "히우", carro는 "까후".'],
+  [/[aeiouáéíóúâêô]r[aeiouáéíóúâêôãõ]/, '모음 사이 r', '혀끝을 한 번 튕기는 가벼운 "ㄹ". caro는 "까루".'],
+  [/[aeiouáéíóúâêôãõ]r(?=$|[\s.,!?…]|[^aeiouáéíóúâêôãõr\s])/, '음절 끝 r', '약하게 내요. 리우에선 "ㅎ", 상파울루에선 혀를 살짝 굴린 "ㄹ".'],
+  [/d(?:i|í|e(?=$|[\s.,!?…])|es(?=$|[\s.,!?…]))/, 'de · di → 지', '브라질에선 d가 "이" 소리 앞에서 "지"가 돼요. cidade는 "씨다지".'],
+  [/t(?:i|í|e(?=$|[\s.,!?…])|es(?=$|[\s.,!?…]))/, 'te · ti → 치', '브라질에선 t가 "이" 소리 앞에서 "치"가 돼요. leite는 "레이치".'],
+  [/[aeiouáéíóúâêô]l(?=$|[\s.,!?…]|[^aeiouáéíóúâêôãõh\s])/, '음절 끝 l → 우', '음절 끝의 l은 "우"처럼. Brasil은 "브라지우".'],
+  [/ç|c[eiéíê]/, 'ç · ce · ci → ㅆ', 'ç와 e, i 앞의 c는 "ㅆ". açúcar는 "아쑤까르".'],
+  [/[aeiouáéíóúâêôãõ]s[aeiouáéíóúâêôãõ]|z/, '모음 사이 s · z → ㅈ', '모음 사이의 s와 z는 "ㅈ"에 가까워요. casa는 "까자".'],
+  [/ch|x/, 'ch · x → 시', 'ch와 대부분의 x는 "시". chave는 "샤비".'],
+  [/g[eiéíê]|j/, 'ge · gi · j → ㅈ', '부드러운 "ㅈ". gente는 "젠치", janela는 "자넬라".'],
+  [/qu[eiéíê]|gu[eiéíê]/, 'que · qui · gue · gui', 'u는 소리 내지 않아요. queijo는 "께이주".'],
+  [/(^|[\s(])h/, 'h', '단어 첫 h는 소리 내지 않아요. hoje는 "오지".'],
+  [/[éó]/, 'é · ó', '입을 크게 벌린 열린 소리. avó는 "아버"에 가까워요.'],
+  [/[êô]/, 'ê · ô', '입을 작게 오므린 닫힌 소리. avô는 "아보".']
+];
+function pronTips(text){
+  const l = String(text).toLowerCase(), tips = PRULES.filter(r => r[0].test(l)).map(r => [r[1], r[2]]);
+  // unstressed final o / e in words of two or more syllables
+  let fo = false, fe = false;
+  (String(text).match(/[A-Za-zÀ-ÖØ-öø-ÿ]+/g) || []).forEach(word => {
+    const sy = sylls(word); if (sy.length < 2 || stressIdx(sy) === sy.length - 1) return;
+    const w = word.toLowerCase();
+    if (/os?$/.test(w)) fo = true; if (/es?$/.test(w) && !/[dt]es?$/.test(w)) fe = true;
+  });
+  if (fo) tips.push(['끝 o → 우', '강세 없는 끝 o는 "우"로 약하게. obrigado는 "오브리가두".']);
+  if (fe) tips.push(['끝 e → 이', '강세 없는 끝 e는 "이"로 약하게. nome는 "노미".']);
+  return tips;
+}
+function pronBox(text){
+  const tips = pronTips(text);
+  return `<div class="ptips"><span class="pst lat">${stressPattern(text)}</span><span class="sub">대문자 부분을 세게 읽어요</span>
+    ${tips.length ? `<ul>${tips.map(t => `<li><b class="lat">${esc(t[0])}</b> ${mix(t[1])}</li>`).join('')}</ul>` : '<span class="sub">특별한 규칙 없이 쓰인 대로 읽어요.</span>'}</div>`;
+}
+// tappable Korean pronunciation line: shows the stress pattern; tap for the full guide
+const pronLine = (pr, pt) => `<button class="pron ptap" data-a="ptip" data-x="${esc(pt)}"><span>${esc(pr)}</span><span class="pst lat">${stressPattern(pt)}</span></button>`;
 
 /* ---------- auto update (home-screen app) ---------- */
 // The build stamps window.APP_VERSION and writes version.json. On open and whenever the app

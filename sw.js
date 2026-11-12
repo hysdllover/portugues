@@ -1,5 +1,5 @@
 // Offline support: app shell from cache, page updated from network when online.
-const CORE = 'passo-core-48d64f433d', FONTS = 'passo-fonts-v1';
+const CORE = 'passo-core-2d53779196', FONTS = 'passo-fonts-v1';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/apple-touch-icon.png', './icons/icon-192.png', './icons/icon-512.png'];
 
 self.addEventListener('install', e => {
