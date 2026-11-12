@@ -27,6 +27,7 @@ head = '\n'.join([
     '<meta name="apple-mobile-web-app-status-bar-style" content="default">',
     '<meta name="apple-mobile-web-app-title" content="Passo">',
     '<meta name="theme-color" content="#EDF0F2">',
+    '<meta name="referrer" content="no-referrer">',
     '<link rel="manifest" href="manifest.webmanifest">',
     '<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">',
     '<link rel="icon" type="image/png" href="icons/icon-192.png">',

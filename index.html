@@ -8,6 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Passo">
 <meta name="theme-color" content="#EDF0F2">
+<meta name="referrer" content="no-referrer">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" href="icons/icon-192.png">
@@ -16,7 +17,7 @@
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
-<script>window.APP_VERSION = 'd2bc1d4e96';</script>
+<script>window.APP_VERSION = '83e24968f9';</script>
 <style>
 /* Layout: phone = single column + bottom tabs; iPad (>=900px) = left sidebar + wide content.
    Quiet analog notebook in muted blue-gray: one fine pencil line per object, square edges.
@@ -998,32 +999,50 @@ if (canSpeak){ pickVoice(); speechSynthesis.addEventListener?.('voiceschanged', 
 // "playback"; the first utterance must start inside a tap; cancel() followed at once by speak()
 // can drop the new utterance; the engine can stay paused after the app was in the background.
 const SILENT = 'data:audio/wav;base64,UklGRrQBAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YZABAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA';
-let audioReady = false, ttsWarned = false;
+let audioReady = false, ttsWarned = false, player = null, deviceFails = false;
+// One audio element, unlocked by the first tap, is reused for online speech so later plays
+// (including the automatic ones on flashcards) are allowed without a new tap.
 function unlockAudio(){
   if (audioReady) return; audioReady = true;
   try{ if (navigator.audioSession) navigator.audioSession.type = 'playback'; }catch(e){}
-  try{ const a = new Audio(SILENT); a.playsInline = true; a.volume = 0.01; a.play().catch(() => {}); }catch(e){}
+  try{ player = new Audio(); player.playsInline = true; player.preload = 'auto'; player.src = SILENT; player.play().catch(() => {}); }catch(e){}
+}
+function playOnline(t){
+  const text = String(t).replace(/…|\.\.\./g, '').trim().slice(0, 190);
+  if (!text) return;
+  if (!navigator.onLine){ toast('온라인 음성은 인터넷이 연결돼 있어야 들을 수 있어요.'); return; }
+  try{ speechSynthesis.cancel(); }catch(e){}
+  if (!player){ player = new Audio(); player.playsInline = true; }
+  player.onerror = () => toast('온라인 음성을 불러오지 못했어요. 잠시 뒤 다시 눌러 주세요.');
+  player.src = 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=pt-BR&q=' + encodeURIComponent(text);
+  try{ player.playbackRate = S.set.rate < 0.8 ? 0.8 : 1; }catch(e){}
+  player.play().catch(() => toast('소리를 재생하지 못했어요. 스피커 버튼을 한 번 더 눌러 주세요.'));
 }
 function say(t){
-  if (!canSpeak){ toast('이 기기에서는 음성 읽기를 쓸 수 없어요.'); return; }
   unlockAudio();
+  const mode = S.set.tts || 'auto';
+  if (mode === 'online' || !canSpeak || (mode === 'auto' && deviceFails)) return playOnline(t);
   try{
     const synth = window.speechSynthesis;
     if (!voice) pickVoice();
     const u = new SpeechSynthesisUtterance(String(t).replace(/…|\.\.\./g, ''));
     u.lang = 'pt-BR'; if (voice) u.voice = voice; u.rate = S.set.rate; u.volume = 1;
-    u.onerror = e => { if (e.error !== 'interrupted' && e.error !== 'canceled') speechHelp(); };
+    let started = false;
+    u.onstart = () => { started = true; };
+    u.onerror = e => { if (e.error === 'interrupted' || e.error === 'canceled') return; if (mode === 'auto'){ deviceFails = true; playOnline(t); } else speechHelp(); };
     say.last = u;   // keep a reference so the utterance is not collected mid-speech
+    if (player) try{ player.pause(); }catch(e){}
     if (synth.paused) synth.resume();
     if (synth.speaking || synth.pending){ synth.cancel(); setTimeout(() => synth.speak(u), 80); }
     else synth.speak(u);
-    if (!voice) setTimeout(() => { pickVoice(); if (!voice && speechSynthesis.getVoices().length) speechHelp(true); }, 600);
-  }catch(e){ speechHelp(); }
+    // the device voice never started: switch to the online voice for the rest of this visit
+    if (mode === 'auto') setTimeout(() => { if (!started && say.last === u){ deviceFails = true; try{ synth.cancel(); }catch(e){} playOnline(t); } }, 1100);
+  }catch(e){ if (mode === 'auto'){ deviceFails = true; playOnline(t); } else speechHelp(); }
 }
 function speechHelp(noVoice){
   if (ttsWarned) return; ttsWarned = true;
   toast(noVoice ? '포르투갈어 음성이 없어요. 설정 › 손쉬운 사용 › 읽기 및 말하기 › 음성에서 포르투갈어(브라질)를 받아 주세요.'
-                : '소리가 안 나면 무음 모드를 끄고 볼륨을 올려 주세요.');
+                : '기기 음성이 나오지 않아요. 기록 탭 › 음성에서 \'온라인\'을 골라 보세요.');
 }
 let toastT = null;
 function toast(msg){
@@ -1035,7 +1054,7 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden && ca
 
 /* ---------- state & storage ---------- */
 const LS = 'passo-a-passo-v1';
-const DEF = () => ({v:1, t:0, w:{}, days:{}, streak:0, last:null, seen0:false, mine:[], set:{pron:true, rate:0.9, newN:5, font:'basic', size:1, fontName:'', fontId:'', fontAsset:''}});
+const DEF = () => ({v:1, t:0, w:{}, days:{}, streak:0, last:null, seen0:false, mine:[], set:{tts:'auto', pron:true, rate:0.9, newN:5, font:'basic', size:1, fontName:'', fontId:'', fontAsset:''}});
 function norm(o){ const d = DEF(); o = o && typeof o === 'object' ? o : {}; return {...d, ...o, set:{...d.set, ...(o.set||{})}, w:o.w||{}, days:o.days||{}, mine:Array.isArray(o.mine) ? o.mine : []}; }
 let S = DEF();
 try{ S = norm(JSON.parse(localStorage.getItem(LS))); }catch(e){}
@@ -1387,6 +1406,7 @@ function vRecord(){
   </section>
   <section class="card list noprint">
     <div class="set"><span>한글 발음 표시</span>${seg('pron',[true,false],['켜기','끄기'])}</div>
+    <div class="set"><span class="grow" style="display:flex;flex-direction:column"><span>음성</span><span class="sub">자동은 기기 음성이 안 나오면 온라인 음성으로 바꿔요</span></span>${seg('tts',['auto','device','online'],['자동','기기','온라인'])}</div>
     <div class="set"><span>말하기 속도</span>${seg('rate',[0.7,0.9,1],['천천히','보통','빠르게'])}</div>
     <div class="set"><span>하루 새 단어</span>${seg('newN',[5,10,15],['5개','10개','15개'])}</div>
     <div class="set"><span>저장</span><span class="sub">${sync === 'cloud' ? 'iPhone과 iPad에서 같은 기록을 써요' : '이 기기에만 저장돼요'}</span></div>
@@ -1586,6 +1606,7 @@ function drawDone(){
 
 /* ---------- events ---------- */
 document.addEventListener('click', e => {
+  unlockAudio();
   const b = e.target.closest('[data-a]'); if (!b) return;
   const a = b.dataset.a, x = b.dataset.x;
   if (a === 'say'){ e.preventDefault(); say(x); }
@@ -1612,7 +1633,7 @@ document.addEventListener('click', e => {
   else if (a === 'mPractice') startMine();
   else if (a === 'gopen'){ const ds = document.querySelectorAll('details.gram'), all = [...ds].every(d => d.open); ds.forEach(d => d.open = !all); b.textContent = all ? '모두 펼치기' : '모두 접기'; }
   else if (a === 'flip') b.classList.toggle('on');
-  else if (a === 'set'){ const k = b.dataset.k; S.set[k] = k === 'pron' ? x === 'true' : k === 'font' ? x : +x; if (k === 'font' || k === 'size') applyTypo(); save(); render(); if (k === 'rate') say('Muito bem!'); }
+  else if (a === 'set'){ const k = b.dataset.k; S.set[k] = k === 'pron' ? x === 'true' : (k === 'font' || k === 'tts') ? x : +x; if (k === 'tts') deviceFails = false; if (k === 'font' || k === 'size') applyTypo(); save(); render(); if (k === 'rate' || k === 'tts') say('Muito bem!'); }
   else if (a === 'reset'){ resetAsk = true; render(); }
   else if (a === 'resetNo'){ resetAsk = false; render(); }
   else if (a === 'fontDel') removeFont();
