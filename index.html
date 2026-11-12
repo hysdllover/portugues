@@ -17,7 +17,7 @@
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
-<script>window.APP_VERSION = 'd9cc05f483';</script>
+<script>window.APP_VERSION = '22a598f489';</script>
 <style>
 /* Layout: phone = single column + bottom tabs; iPad (>=900px) = left sidebar + wide content.
    Quiet analog notebook in muted blue-gray: one fine pencil line per object, square edges.
@@ -1435,8 +1435,8 @@ function vRecord(){
   <section class="card list noprint">
     <div class="set"><span>한글 발음 표시</span>${seg('pron',[true,false],['켜기','끄기'])}</div>
     <div class="set"><span class="grow" style="display:flex;flex-direction:column"><span>음성</span><span class="sub">자동은 기기 음성이 안 나오면 온라인 음성으로 바꿔요</span></span>${seg('tts',['auto','device','online'],['자동','기기','온라인'])}</div>
-    <div class="set"><span class="grow" style="display:flex;flex-direction:column"><span>기기 음성</span><span class="sub">${canSpeak && ptVoices().length ? '아이폰에 받은 포르투갈어 음성 중에서 골라요' : '포르투갈어 음성이 없어요 · 아래 안내대로 받아 주세요'}</span></span>
-      ${canSpeak && ptVoices().length ? `<select id="voiceSel" class="vsel lat">${['<option value="">아이폰 설정의 음성 (권장)</option>'].concat(ptVoices().map(v => `<option value="${esc(v.name)}"${S.set.voice === v.name ? ' selected' : ''}>${esc(v.name)} · ${esc(v.lang)}${vLabel(v)}</option>`)).join('')}</select>` : ''}</div>
+    <div class="set" style="flex-direction:column;align-items:stretch;gap:8px"><span style="display:flex;flex-direction:column"><span>기기 음성</span><span class="sub">${!canSpeak ? '이 기기는 음성 읽기를 지원하지 않아요' : ptVoices().length ? `목록에 보이는 포르투갈어 음성 ${ptVoices().length}개` : '목록에 보이는 음성은 없지만, 아이폰 설정의 음성으로 읽을 수 있어요'}</span></span>
+      <span class="row" style="gap:8px">${canSpeak ? `<select id="voiceSel" class="vsel" style="flex:1;max-width:none">${['<option value="">아이폰 설정의 음성</option>'].concat(ptVoices().map(v => `<option value="${esc(v.name)}"${S.set.voice === v.name ? ' selected' : ''}>${esc(v.name)} · ${esc(v.lang)}${vLabel(v)}</option>`)).join('')}</select>` : ''}<button class="btn sm ghost" data-a="vTest">들어 보기</button></span></div>
     <p class="sub">${mix('향상된 음성(Enhanced) 쓰기: 아이폰 설정 › 손쉬운 사용 › 읽기 및 말하기 › 음성 › 포르투갈어 › 포르투갈어(브라질)에서 향상된 음성을 받고 눌러서 체크하세요. 위 목록을 "아이폰 설정의 음성"으로 두면 그 음성으로 읽어요. 시리 목소리는 iOS가 웹앱에 열어 주지 않아요.')}</p>
     <div class="set"><span>말하기 속도</span>${seg('rate',[0.7,0.9,1],['천천히','보통','빠르게'])}</div>
     <div class="set"><span>하루 새 단어</span>${seg('newN',[5,10,15],['5개','10개','15개'])}</div>
@@ -1658,6 +1658,7 @@ document.addEventListener('click', e => {
     else if (host){ const box = document.createElement('div'); box.innerHTML = pronBox(x); const el = box.firstElementChild;
       if (host.matches('.row, .ex')) host.after(el); else host.appendChild(el); }
   }
+  else if (a === 'vTest') say('Olá! Tudo bem? Eu estou aprendendo português.');
   else if (a === 'life') startLife(x);
   else if (a === 'mT'){ keepDraft(); mineT = x; mineMsg = ''; render(); }
   else if (a === 'mG'){ keepDraft(); mineG = x; render(); }
