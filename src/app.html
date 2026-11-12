@@ -260,6 +260,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 .mlink:active{color:var(--ink)}
 .big.long{font-size:calc(1.45rem*var(--ks)) !important;line-height:1.35}
 
+#toast{position:fixed;left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:40;padding:12px 14px;background:var(--ink);color:var(--sheet);font-size:calc(.84rem*var(--ks));line-height:1.45}
 /* life vocabulary */
 .bk{width:100%;box-sizing:border-box;padding:10px;border:1px solid color-mix(in srgb,var(--pencil) 45%,transparent);background:var(--paper);color:var(--ink);font:300 .78rem/1.4 var(--lat);resize:vertical;border-radius:0;word-break:break-all}
 .seg a{display:inline-flex;align-items:center;height:30px;font-size:.86rem;color:var(--faint);border-bottom:1px solid transparent}
@@ -979,15 +980,44 @@ const canSpeak = 'speechSynthesis' in window;
 let voice = null;
 function pickVoice(){ try{ const vs = speechSynthesis.getVoices(); voice = vs.find(v => /pt[-_]BR/i.test(v.lang)) || vs.find(v => /^pt/i.test(v.lang)) || null; }catch(e){} }
 if (canSpeak){ pickVoice(); speechSynthesis.addEventListener?.('voiceschanged', pickVoice); }
-function say(t){
-  if (!canSpeak) return;
-  try{
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(String(t).replace(/…|\.\.\./g,''));
-    u.lang = 'pt-BR'; if (voice) u.voice = voice; u.rate = S.set.rate;
-    speechSynthesis.speak(u);
-  }catch(e){}
+// iPhone notes: speech is silenced by the ring/silent switch unless the page's audio session is
+// "playback"; the first utterance must start inside a tap; cancel() followed at once by speak()
+// can drop the new utterance; the engine can stay paused after the app was in the background.
+const SILENT = 'data:audio/wav;base64,UklGRrQBAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YZABAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA';
+let audioReady = false, ttsWarned = false;
+function unlockAudio(){
+  if (audioReady) return; audioReady = true;
+  try{ if (navigator.audioSession) navigator.audioSession.type = 'playback'; }catch(e){}
+  try{ const a = new Audio(SILENT); a.playsInline = true; a.volume = 0.01; a.play().catch(() => {}); }catch(e){}
 }
+function say(t){
+  if (!canSpeak){ toast('이 기기에서는 음성 읽기를 쓸 수 없어요.'); return; }
+  unlockAudio();
+  try{
+    const synth = window.speechSynthesis;
+    if (!voice) pickVoice();
+    const u = new SpeechSynthesisUtterance(String(t).replace(/…|\.\.\./g, ''));
+    u.lang = 'pt-BR'; if (voice) u.voice = voice; u.rate = S.set.rate; u.volume = 1;
+    u.onerror = e => { if (e.error !== 'interrupted' && e.error !== 'canceled') speechHelp(); };
+    say.last = u;   // keep a reference so the utterance is not collected mid-speech
+    if (synth.paused) synth.resume();
+    if (synth.speaking || synth.pending){ synth.cancel(); setTimeout(() => synth.speak(u), 80); }
+    else synth.speak(u);
+    if (!voice) setTimeout(() => { pickVoice(); if (!voice && speechSynthesis.getVoices().length) speechHelp(true); }, 600);
+  }catch(e){ speechHelp(); }
+}
+function speechHelp(noVoice){
+  if (ttsWarned) return; ttsWarned = true;
+  toast(noVoice ? '포르투갈어 음성이 없어요. 설정 › 손쉬운 사용 › 읽기 및 말하기 › 음성에서 포르투갈어(브라질)를 받아 주세요.'
+                : '소리가 안 나면 무음 모드를 끄고 볼륨을 올려 주세요.');
+}
+let toastT = null;
+function toast(msg){
+  let el = $('#toast');
+  if (!el){ el = document.createElement('div'); el.id = 'toast'; el.setAttribute('role', 'status'); document.body.appendChild(el); }
+  el.textContent = msg; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { el.hidden = true; }, 4500);
+}
+document.addEventListener('visibilitychange', () => { if (!document.hidden && canSpeak){ try{ speechSynthesis.cancel(); }catch(e){} } });
 
 /* ---------- state & storage ---------- */
 const LS = 'passo-a-passo-v1';
