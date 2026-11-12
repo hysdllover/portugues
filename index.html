@@ -17,7 +17,7 @@
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
-<script>window.APP_VERSION = '83e24968f9';</script>
+<script>window.APP_VERSION = '48d64f433d';</script>
 <style>
 /* Layout: phone = single column + bottom tabs; iPad (>=900px) = left sidebar + wide content.
    Quiet analog notebook in muted blue-gray: one fine pencil line per object, square edges.
@@ -276,6 +276,7 @@ main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));pad
 .big.long{font-size:calc(1.45rem*var(--ks)) !important;line-height:1.35}
 
 #toast{position:fixed;left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:40;padding:12px 14px;background:var(--ink);color:var(--sheet);font-size:calc(.84rem*var(--ks));line-height:1.45}
+.vsel{max-width:58%;min-height:34px;padding:4px 10px;border:1px solid color-mix(in srgb,var(--pencil) 45%,transparent);border-radius:0;background:var(--sheet);color:var(--ink);font-size:16px;-webkit-appearance:none;appearance:none}
 /* life vocabulary */
 .bk{width:100%;box-sizing:border-box;padding:10px;border:1px solid color-mix(in srgb,var(--pencil) 45%,transparent);background:var(--paper);color:var(--ink);font:300 .78rem/1.4 var(--lat);resize:vertical;border-radius:0;word-break:break-all}
 .seg a{display:inline-flex;align-items:center;height:30px;font-size:.86rem;color:var(--faint);border-bottom:1px solid transparent}
@@ -993,8 +994,9 @@ const spk = t => canSpeak ? `<button class="spk" data-a="say" data-x="${esc(t)}"
 /* ---------- speech ---------- */
 const canSpeak = 'speechSynthesis' in window;
 let voice = null;
-function pickVoice(){ try{ const vs = speechSynthesis.getVoices(); voice = vs.find(v => /pt[-_]BR/i.test(v.lang)) || vs.find(v => /^pt/i.test(v.lang)) || null; }catch(e){} }
-if (canSpeak){ pickVoice(); speechSynthesis.addEventListener?.('voiceschanged', pickVoice); }
+const ptVoices = () => { try{ return speechSynthesis.getVoices().filter(v => /^pt/i.test(v.lang)).sort((a,b) => (/BR/i.test(b.lang) - /BR/i.test(a.lang)) || a.name.localeCompare(b.name)); }catch(e){ return []; } };
+function pickVoice(){ try{ const vs = ptVoices(), want = (typeof S !== 'undefined' && S.set && S.set.voice) || ''; voice = (want && vs.find(v => v.name === want)) || vs.find(v => /pt[-_]BR/i.test(v.lang)) || vs[0] || null; }catch(e){} }
+if (canSpeak){ pickVoice(); speechSynthesis.addEventListener?.('voiceschanged', () => { pickVoice(); if (route() === 'record' && $('#ov').hidden) render(); }); }
 // iPhone notes: speech is silenced by the ring/silent switch unless the page's audio session is
 // "playback"; the first utterance must start inside a tap; cancel() followed at once by speak()
 // can drop the new utterance; the engine can stay paused after the app was in the background.
@@ -1026,7 +1028,7 @@ function say(t){
     const synth = window.speechSynthesis;
     if (!voice) pickVoice();
     const u = new SpeechSynthesisUtterance(String(t).replace(/…|\.\.\./g, ''));
-    u.lang = 'pt-BR'; if (voice) u.voice = voice; u.rate = S.set.rate; u.volume = 1;
+    u.lang = 'pt-BR'; if (voice) try{ u.voice = voice; u.lang = voice.lang || 'pt-BR'; }catch(e){} u.rate = S.set.rate; u.volume = 1;
     let started = false;
     u.onstart = () => { started = true; };
     u.onerror = e => { if (e.error === 'interrupted' || e.error === 'canceled') return; if (mode === 'auto'){ deviceFails = true; playOnline(t); } else speechHelp(); };
@@ -1054,7 +1056,7 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden && ca
 
 /* ---------- state & storage ---------- */
 const LS = 'passo-a-passo-v1';
-const DEF = () => ({v:1, t:0, w:{}, days:{}, streak:0, last:null, seen0:false, mine:[], set:{tts:'auto', pron:true, rate:0.9, newN:5, font:'basic', size:1, fontName:'', fontId:'', fontAsset:''}});
+const DEF = () => ({v:1, t:0, w:{}, days:{}, streak:0, last:null, seen0:false, mine:[], set:{tts:'auto', voice:'', pron:true, rate:0.9, newN:5, font:'basic', size:1, fontName:'', fontId:'', fontAsset:''}});
 function norm(o){ const d = DEF(); o = o && typeof o === 'object' ? o : {}; return {...d, ...o, set:{...d.set, ...(o.set||{})}, w:o.w||{}, days:o.days||{}, mine:Array.isArray(o.mine) ? o.mine : []}; }
 let S = DEF();
 try{ S = norm(JSON.parse(localStorage.getItem(LS))); }catch(e){}
@@ -1407,6 +1409,9 @@ function vRecord(){
   <section class="card list noprint">
     <div class="set"><span>한글 발음 표시</span>${seg('pron',[true,false],['켜기','끄기'])}</div>
     <div class="set"><span class="grow" style="display:flex;flex-direction:column"><span>음성</span><span class="sub">자동은 기기 음성이 안 나오면 온라인 음성으로 바꿔요</span></span>${seg('tts',['auto','device','online'],['자동','기기','온라인'])}</div>
+    <div class="set"><span class="grow" style="display:flex;flex-direction:column"><span>기기 음성</span><span class="sub">${canSpeak && ptVoices().length ? '아이폰에 받은 포르투갈어 음성 중에서 골라요' : '포르투갈어 음성이 없어요 · 아래 안내대로 받아 주세요'}</span></span>
+      ${canSpeak && ptVoices().length ? `<select id="voiceSel" class="vsel lat">${['<option value="">자동</option>'].concat(ptVoices().map(v => `<option value="${esc(v.name)}"${S.set.voice === v.name ? ' selected' : ''}>${esc(v.name)} · ${esc(v.lang)}</option>`)).join('')}</select>` : ''}</div>
+    <p class="sub">${mix('음성 추가·변경: 아이폰 설정 › 손쉬운 사용 › 읽기 및 말하기 › 음성 › 포르투갈어 › 포르투갈어(브라질)에서 받은 뒤 위에서 고르세요.')}</p>
     <div class="set"><span>말하기 속도</span>${seg('rate',[0.7,0.9,1],['천천히','보통','빠르게'])}</div>
     <div class="set"><span>하루 새 단어</span>${seg('newN',[5,10,15],['5개','10개','15개'])}</div>
     <div class="set"><span>저장</span><span class="sub">${sync === 'cloud' ? 'iPhone과 iPad에서 같은 기록을 써요' : '이 기기에만 저장돼요'}</span></div>
@@ -1663,7 +1668,8 @@ document.addEventListener('keydown', e => {
 });
 
 document.addEventListener('input', e => { if (e.target.id === 'q'){ const el = $('#qres'); if (el) el.innerHTML = searchWords(e.target.value); } });
-document.addEventListener('change', e => { if (e.target.id === 'fontFile' && e.target.files && e.target.files[0]){ onFontFile(e.target.files[0]); e.target.value = ''; } });
+document.addEventListener('change', e => {
+  if (e.target.id === 'voiceSel'){ S.set.voice = e.target.value; pickVoice(); deviceFails = false; save(); say('Olá, tudo bem?'); return; } if (e.target.id === 'fontFile' && e.target.files && e.target.files[0]){ onFontFile(e.target.files[0]); e.target.value = ''; } });
 
 document.addEventListener('toggle', e => {
   const d = e.target; if (!(d instanceof HTMLDetailsElement) || !d.open) return;
